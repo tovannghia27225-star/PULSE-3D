@@ -4,220 +4,1163 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b1730">
-<title>PULSE 3D — Enterprise Digital Twin</title>
+<title>PULSE 3D — Enterprise Digital Ecosystem & Virtual Workplace</title>
 <style>
-:root{--bg:#f3f6fb;--panel:#fff;--ink:#14213d;--muted:#6c7890;--line:#e5ebf4;--blue:#2563eb;--cyan:#06b6d4;--green:#16a34a;--amber:#d97706;--red:#dc2626;--nav:#0b1730}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-button,input,select{font:inherit}button{cursor:pointer}
-.app{min-height:100vh;display:grid;grid-template-columns:245px 1fr}
-.sidebar{background:var(--nav);color:#dce7ff;padding:22px 16px;display:flex;flex-direction:column;gap:20px}
-.brand{display:flex;align-items:center;gap:11px;padding:0 8px}.brand-mark{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,#35c5f4,#3765ef);display:grid;place-items:center;color:white;font-weight:900;font-size:18px;box-shadow:0 8px 22px #1d4ed855}.brand strong{font-size:17px;letter-spacing:1.5px}.brand small{display:block;color:#91a6ca;font-size:10px;letter-spacing:1.4px}
-.company-switch{margin:0 4px;padding:12px;border:1px solid #ffffff20;border-radius:13px;background:#ffffff0b;color:#eaf1ff;text-align:left}.company-switch small{display:block;color:#9db0d2;font-size:10px;margin-bottom:4px}.company-switch b{font-size:12px}
-.nav-label{font-size:10px;letter-spacing:1.4px;color:#7890b8;padding:0 11px;margin:3px 0}.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;color:#aebdd8;text-align:left;padding:10px 12px;border-radius:10px;display:flex;gap:11px;align-items:center;font-size:13px}.nav button:hover,.nav button.active{background:#ffffff15;color:#fff}.nav button.active{box-shadow:inset 3px 0 #38bdf8}.nav .ico{width:19px;text-align:center;font-size:16px}.sidebar-foot{margin-top:auto;border-top:1px solid #ffffff1c;padding:14px 8px;color:#8da2c5;font-size:11px}
-.main{min-width:0}.topbar{height:70px;background:#ffffffd9;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}.crumb{font-weight:700}.crumb span{color:var(--muted);font-weight:500}.top-actions{display:flex;gap:10px;align-items:center}.pill{border:1px solid var(--line);background:white;padding:8px 11px;border-radius:10px;color:var(--muted);font-size:12px}.avatar{width:34px;height:34px;border-radius:50%;background:#dbeafe;color:#1d4ed8;display:grid;place-items:center;font-weight:800}
-.content{padding:24px 28px 40px;max-width:1700px;margin:auto}.heading{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:18px}.heading h1{margin:0;font-size:25px;letter-spacing:-.6px}.heading p{margin:5px 0 0;color:var(--muted)}.heading-actions{display:flex;gap:8px}.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 13px;font-weight:650;color:#34425d}.btn.primary{background:var(--blue);border-color:var(--blue);color:white}.btn:hover{filter:brightness(.97)}
-.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:16px}.kpi{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:15px 16px;box-shadow:0 3px 12px #1e3a8a06}.kpi-top{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}.kpi-icon{width:29px;height:29px;border-radius:9px;background:#eff6ff;display:grid;place-items:center}.kpi-value{font-size:24px;font-weight:800;letter-spacing:-.6px;margin:7px 0 3px}.kpi-foot{font-size:11px;color:var(--muted)}.positive{color:var(--green)}.warning{color:var(--amber)}
-.workspace{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,.8fr);gap:15px;align-items:stretch}.scene-card,.detail-card,.lower-card{background:white;border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 18px #1e3a8a08;overflow:hidden}.card-head{padding:15px 17px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.card-head h2{font-size:14px;margin:0}.card-head p{font-size:11px;color:var(--muted);margin:3px 0 0}.scene-tools{display:flex;gap:6px}.scene-tools button{border:1px solid var(--line);background:#fff;color:#64748b;border-radius:8px;padding:6px 9px;font-size:11px}.scene-wrap{height:490px;position:relative;background:radial-gradient(ellipse at 50% 45%,#e8f5ff 0,#dceafa 45%,#d2e2f5 100%);overflow:hidden}.scene-wrap canvas{display:block;width:100%;height:100%;outline:none}.scene-hint{position:absolute;left:14px;bottom:13px;padding:7px 10px;background:#ffffffd9;border:1px solid #ffffff;border-radius:9px;color:#60718d;font-size:10px;pointer-events:none}.scene-badge{position:absolute;top:13px;left:14px;padding:7px 10px;border-radius:9px;background:#ffffffd9;color:#29405f;font-size:10px;font-weight:700;pointer-events:none}.scene-loading{position:absolute;inset:0;display:grid;place-items:center;color:#58708f;font-size:12px;pointer-events:none}
-.detail-card{display:flex;flex-direction:column}.detail-body{padding:16px;display:grid;gap:14px}.selected-title{display:flex;align-items:center;gap:11px}.selected-icon{width:42px;height:42px;border-radius:13px;background:#eff6ff;display:grid;place-items:center;font-size:21px}.selected-title h3{margin:0;font-size:16px}.selected-title p{margin:3px 0 0;color:var(--muted);font-size:11px}.status{margin-left:auto;font-size:10px;padding:5px 8px;border-radius:20px;background:#dcfce7;color:#15803d;font-weight:700}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.mini{padding:11px;border:1px solid var(--line);border-radius:11px}.mini small{display:block;color:var(--muted);font-size:10px}.mini b{font-size:19px;display:block;margin-top:4px}.section-label{font-size:10px;color:#8390a5;font-weight:800;letter-spacing:1px;text-transform:uppercase}.progress-row{display:grid;gap:6px}.progress-meta{display:flex;justify-content:space-between;font-size:11px}.track{height:7px;border-radius:20px;background:#edf1f7;overflow:hidden}.fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#38bdf8,#2563eb)}.alert{display:flex;gap:9px;padding:10px;border-radius:10px;background:#fff7ed;color:#9a5412;font-size:11px}.alert.red{background:#fef2f2;color:#b91c1c}.quick-links{display:grid;grid-template-columns:1fr 1fr;gap:7px}.quick-links button{border:1px solid var(--line);background:#fafcff;padding:9px;border-radius:9px;text-align:left;color:#43516a;font-size:11px}.quick-links button:hover{border-color:#93c5fd;background:#eff6ff}
-.lower{display:grid;grid-template-columns:1.1fr .9fr;gap:15px;margin-top:15px}.lower-card{padding:16px}.lower-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.lower-head h3{font-size:13px;margin:0}.lower-head span{font-size:10px;color:var(--muted)}.module-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.module{padding:11px 9px;border:1px solid var(--line);border-radius:11px;background:#fff;text-align:left;min-height:75px}.module:hover{background:#f7fbff;border-color:#bfdbfe}.module .m-ico{font-size:17px}.module b{display:block;font-size:11px;margin-top:5px}.module small{font-size:9px;color:var(--muted)}.activity{display:grid;gap:11px}.activity-item{display:flex;gap:10px;align-items:flex-start;font-size:11px}.activity-dot{width:8px;height:8px;border-radius:50%;background:#38bdf8;margin-top:4px;flex:none}.activity-item small{display:block;color:var(--muted);margin-top:2px}
-.modal-backdrop{position:fixed;inset:0;background:#07152dcc;display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.modal-backdrop.show{display:flex}.modal{width:min(560px,100%);background:#fff;border-radius:18px;box-shadow:0 25px 80px #0004;overflow:hidden}.modal-head{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h3{margin:0;font-size:16px}.modal-body{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:grid;gap:5px}.field label{font-size:11px;color:#63718a;font-weight:650}.field input,.field select{width:100%;border:1px solid #dce4ef;border-radius:9px;padding:10px;color:#1e293b;background:white}.field.full{grid-column:1/-1}.modal-foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}.toast{position:fixed;bottom:22px;right:22px;background:#10213e;color:white;padding:11px 15px;border-radius:10px;box-shadow:0 8px 30px #0003;opacity:0;transform:translateY(10px);transition:.2s;z-index:30;font-size:12px}.toast.show{opacity:1;transform:translateY(0)}
-@media(max-width:1150px){.app{grid-template-columns:205px 1fr}.kpis{grid-template-columns:repeat(3,1fr)}.workspace{grid-template-columns:1fr}.detail-card{min-height:0}.scene-wrap{height:430px}}
-@media(max-width:760px){.app{grid-template-columns:1fr}.sidebar{display:none}.topbar{padding:0 15px}.content{padding:18px 13px}.heading{flex-direction:column}.kpis{grid-template-columns:repeat(2,1fr)}.kpi:last-child{grid-column:span 2}.scene-wrap{height:350px}.lower{grid-template-columns:1fr}.module-grid{grid-template-columns:repeat(2,1fr)}.top-actions .pill{display:none}}
+:root {
+  --bg: #090f1d;
+  --panel: #111a2e;
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --ink: #f0f4f8;
+  --muted: #8a99ad;
+  --line: #1c2a45;
+  --blue: #2563eb;
+  --blue-light: #38bdf8;
+  --cyan: #06b6d4;
+  --green: #10b981;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --purple: #8b5cf6;
+  --nav: #060b14;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; overflow-x: hidden; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+.app { min-height: 100vh; display: grid; grid-template-columns: 260px 1fr; }
+
+/* Sidebar Navigation */
+.sidebar { background: var(--nav); color: #dce7ff; padding: 20px 14px; display: flex; flex-direction: column; gap: 16px; border-right: 1px solid var(--panel-border); }
+.brand { display: flex; align-items: center; gap: 11px; padding: 0 6px; }
+.brand-mark { width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(135deg, #06b6d4, #2563eb); display: grid; place-items: center; color: white; font-weight: 900; font-size: 18px; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); }
+.brand strong { font-size: 16px; letter-spacing: 1px; color: #fff; }
+.brand small { display: block; color: var(--muted); font-size: 9px; letter-spacing: 1.2px; }
+.company-switch { margin: 0; padding: 10px 12px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; background: rgba(255, 255, 255, 0.03); color: #eaf1ff; text-align: left; transition: all 0.2s; }
+.company-switch:hover { background: rgba(255, 255, 255, 0.07); border-color: var(--blue-light); }
+.company-switch small { display: block; color: var(--muted); font-size: 9px; margin-bottom: 2px; }
+.company-switch b { font-size: 12px; color: #fff; display: flex; justify-content: space-between; align-items: center; }
+
+.nav-group { display: flex; flex-direction: column; gap: 4px; }
+.nav-label { font-size: 9px; letter-spacing: 1.2px; color: #5a6e8c; padding: 6px 10px 2px; font-weight: 700; text-transform: uppercase; }
+.nav { display: grid; gap: 2px; }
+.nav button { border: 0; background: transparent; color: #94a3b8; text-align: left; padding: 8px 10px; border-radius: 8px; display: flex; gap: 10px; align-items: center; font-size: 12px; font-weight: 500; transition: all 0.15s; }
+.nav button:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
+.nav button.active { background: linear-gradient(90deg, rgba(37, 99, 235, 0.25), transparent); color: #38bdf8; font-weight: 600; border-left: 3px solid #38bdf8; border-radius: 0 8px 8px 0; }
+.nav .ico { width: 18px; text-align: center; font-size: 14px; opacity: 0.8; }
+.sidebar-foot { margin-top: auto; border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 12px 6px 0; color: #5a6e8c; font-size: 10px; display: flex; justify-content: space-between; align-items: center; }
+
+/* Main Workspace */
+.main { min-width: 0; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; background: var(--bg); }
+.topbar { height: 60px; background: rgba(11, 23, 48, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--panel-border); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; position: sticky; top: 0; z-index: 20; }
+.crumb { font-weight: 700; font-size: 14px; color: #fff; display: flex; align-items: center; gap: 8px; }
+.crumb span { color: var(--muted); font-weight: 400; }
+.top-actions { display: flex; gap: 12px; align-items: center; }
+.pill { border: 1px solid var(--panel-border); background: rgba(255, 255, 255, 0.04); padding: 6px 12px; border-radius: 20px; color: #94a3b8; font-size: 11px; display: flex; align-items: center; gap: 6px; }
+.pill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+.avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #2563eb, #06b6d4); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+
+/* Content Views */
+.content { padding: 20px 24px 40px; max-width: 1800px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 20px; }
+.heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.heading h1 { margin: 0; font-size: 22px; letter-spacing: -0.5px; color: #fff; }
+.heading p { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
+.heading-actions { display: flex; gap: 8px; }
+.btn { border: 1px solid var(--panel-border); background: rgba(255,255,255,0.05); border-radius: 8px; padding: 8px 14px; font-weight: 600; color: #cbd5e1; font-size: 12px; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+.btn:hover { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2); }
+.btn.primary { background: var(--blue); border-color: var(--blue); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+.btn.primary:hover { background: #1d4ed8; }
+
+/* KPI Grid */
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.kpi { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+.kpi::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--blue); }
+.kpi-top { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; font-weight: 500; }
+.kpi-icon { width: 26px; height: 26px; border-radius: 8px; background: rgba(255,255,255,0.05); display: grid; place-items: center; color: var(--blue-light); }
+.kpi-value { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin: 8px 0 2px; color: #fff; }
+.kpi-foot { font-size: 10px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+
+/* 3D Scene Card */
+.workspace { display: grid; grid-template-columns: 1fr 340px; gap: 16px; align-items: stretch; }
+.scene-card { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+.card-head { padding: 12px 16px; border-bottom: 1px solid var(--panel-border); display: flex; align-items: center; justify-content: space-between; background: rgba(0, 0, 0, 0.2); }
+.card-head h2 { font-size: 13px; margin: 0; color: #fff; display: flex; align-items: center; gap: 8px; }
+.card-head p { font-size: 11px; color: var(--muted); margin: 2px 0 0; }
+.scene-tools { display: flex; gap: 6px; }
+.scene-tools button { border: 1px solid var(--panel-border); background: rgba(255,255,255,0.05); color: #94a3b8; border-radius: 6px; padding: 5px 9px; font-size: 11px; }
+.scene-tools button:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.scene-wrap { height: 500px; position: relative; background: #050a14; overflow: hidden; }
+.scene-wrap canvas { display: block; width: 100%; height: 100%; outline: none; }
+.scene-badge { position: absolute; top: 12px; left: 12px; padding: 6px 10px; border-radius: 8px; background: rgba(9, 15, 29, 0.85); border: 1px solid var(--panel-border); backdrop-filter: blur(8px); color: var(--blue-light); font-size: 10px; font-weight: 700; pointer-events: none; display: flex; align-items: center; gap: 6px; }
+.scene-hint { position: absolute; left: 12px; bottom: 12px; padding: 6px 10px; background: rgba(9, 15, 29, 0.85); border: 1px solid var(--panel-border); backdrop-filter: blur(8px); border-radius: 8px; color: var(--muted); font-size: 10px; pointer-events: none; }
+
+/* Detail Panel Sidebar */
+.detail-card { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 14px; display: flex; flex-direction: column; overflow: hidden; }
+.detail-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto; max-height: 540px; }
+.selected-title { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--panel-border); padding-bottom: 12px; }
+.selected-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(37, 99, 235, 0.15); border: 1px solid rgba(37, 99, 235, 0.3); display: grid; place-items: center; font-size: 20px; color: var(--blue-light); }
+.selected-title h3 { margin: 0; font-size: 15px; color: #fff; }
+.selected-title p { margin: 2px 0 0; color: var(--muted); font-size: 11px; }
+.status-pill { font-size: 9px; padding: 3px 8px; border-radius: 12px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700; text-transform: uppercase; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mini-card { padding: 10px; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(0,0,0,0.2); }
+.mini-card small { display: block; color: var(--muted); font-size: 9px; text-transform: uppercase; }
+.mini-card b { font-size: 16px; display: block; margin-top: 2px; color: #fff; }
+.section-label { font-size: 10px; color: #5a6e8c; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+.progress-row { display: flex; flex-direction: column; gap: 4px; }
+.progress-meta { display: flex; justify-content: space-between; font-size: 11px; color: #cbd5e1; }
+.track { height: 6px; border-radius: 10px; background: rgba(255,255,255,0.08); overflow: hidden; }
+.fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--cyan), var(--blue)); }
+.alert-box { display: flex; gap: 10px; padding: 10px; border-radius: 8px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); color: #fbbf24; font-size: 11px; }
+
+/* Dynamic View Container (For Other Modules) */
+.module-view { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--panel-border); border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
+th { background: rgba(0,0,0,0.3); color: var(--muted); padding: 10px 14px; font-weight: 600; border-bottom: 1px solid var(--panel-border); }
+td { padding: 10px 14px; border-bottom: 1px solid var(--panel-border); color: #cbd5e1; }
+tr:last-child td { border-bottom: 0; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* Modals & Toast */
+.modal-backdrop { position: fixed; inset: 0; background: rgba(4, 9, 20, 0.85); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 100; }
+.modal-backdrop.show { display: flex; }
+.modal { width: min(600px, 100%); background: var(--panel); border: 1px solid var(--panel-border); border-radius: 14px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); overflow: hidden; }
+.modal-head { padding: 14px 18px; border-bottom: 1px solid var(--panel-border); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); }
+.modal-head h3 { margin: 0; font-size: 15px; color: #fff; }
+.modal-body { padding: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label { font-size: 11px; color: var(--muted); font-weight: 600; }
+.field input, .field select, .field textarea { width: 100%; border: 1px solid var(--panel-border); border-radius: 6px; padding: 8px 10px; color: #fff; background: rgba(0,0,0,0.3); font-size: 12px; }
+.field input:focus, .field select:focus { outline: none; border-color: var(--blue-light); }
+.field.full { grid-column: 1 / -1; }
+.modal-foot { padding: 12px 18px; border-top: 1px solid var(--panel-border); display: flex; justify-content: flex-end; gap: 8px; background: rgba(0,0,0,0.2); }
+.toast { position: fixed; bottom: 20px; right: 20px; background: #1e293b; color: #fff; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--panel-border); box-shadow: 0 10px 25px rgba(0,0,0,0.5); opacity: 0; transform: translateY(10px); transition: all 0.2s; z-index: 200; font-size: 12px; display: flex; align-items: center; gap: 8px; }
+.toast.show { opacity: 1; transform: translateY(0); }
 </style>
 <script type="importmap">
-{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"}}
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+  }
+}
 </script>
 </head>
 <body>
 <div class="app">
-<aside class="sidebar">
-  <div class="brand"><div class="brand-mark">P</div><div><strong>PULSE 3D</strong><small>BUSINESS DIGITAL TWIN</small></div></div>
-  <button class="company-switch"><small>DOANH NGHIỆP ĐANG XEM</small><b>◈ Công ty Demo Việt Nam ▾</b></button>
-  <div><div class="nav-label">TỔNG QUAN</div><nav class="nav">
-    <button class="active" data-page="Tổng quan"><span class="ico">◫</span>Tổng quan 3D</button>
-    <button data-page="Bản đồ doanh nghiệp"><span class="ico">▦</span>Bản đồ doanh nghiệp</button>
-    <button data-page="Hiệu suất"><span class="ico">↗</span>Hiệu suất & KPI</button>
-    <button data-page="Quản trị rủi ro"><span class="ico">◉</span>Quản trị rủi ro</button>
-  </nav></div>
-  <div><div class="nav-label">QUẢN TRỊ NGHIỆP VỤ</div><nav class="nav">
-    <button data-page="Nhân sự HRM"><span class="ico">♙</span>Nhân sự HRM</button>
-    <button data-page="Tiền lương C&B"><span class="ico">₫</span>Tiền lương C&B</button>
-    <button data-page="Thuế & Bảo hiểm"><span class="ico">▤</span>Thuế & Bảo hiểm</button>
-    <button data-page="Tài chính & Kế toán"><span class="ico">▧</span>Tài chính & Kế toán</button>
-    <button data-page="Vận hành"><span class="ico">⚙</span>Vận hành</button>
-  </nav></div>
-  <div><div class="nav-label">QUẢN TRỊ HỆ THỐNG</div><nav class="nav">
-    <button data-page="Pháp luật Việt Nam"><span class="ico">§</span>Pháp luật Việt Nam</button>
-    <button data-page="Báo cáo & Phân tích"><span class="ico">▥</span>Báo cáo & Phân tích</button>
-    <button data-page="Cài đặt"><span class="ico">⚙</span>Cài đặt</button>
-  </nav></div>
-  <div class="sidebar-foot">Prototype v0.1 · Demo mode<br>Chưa kết nối dữ liệu thật</div>
-</aside>
-<main class="main">
-<header class="topbar"><div class="crumb">PULSE 3D <span>/ Tổng quan doanh nghiệp</span></div><div class="top-actions"><span class="pill">● DEMO DATA</span><span class="pill">◷ 03/11/2026</span><div class="avatar">AD</div></div></header>
-<div class="content">
-  <div class="heading"><div><h1>Trung tâm điều hành doanh nghiệp</h1><p>Khám phá doanh nghiệp của bạn trong không gian 3D tương tác.</p></div><div class="heading-actions"><button class="btn" id="resetBtn">↺ Khôi phục demo</button><button class="btn primary" id="editBtn">＋ Cập nhật dữ liệu</button></div></div>
-  <section class="kpis">
-    <div class="kpi"><div class="kpi-top"><span>Nhân sự</span><span class="kpi-icon">♙</span></div><div class="kpi-value" id="kpiEmployees">500</div><div class="kpi-foot"><span class="positive">●</span> Tổng nhân viên</div></div>
-    <div class="kpi"><div class="kpi-top"><span>Doanh thu</span><span class="kpi-icon">↗</span></div><div class="kpi-value" id="kpiRevenue">12,5 tỷ</div><div class="kpi-foot">Doanh thu kỳ hiện tại</div></div>
-    <div class="kpi"><div class="kpi-top"><span>Lợi nhuận</span><span class="kpi-icon">◈</span></div><div class="kpi-value" id="kpiProfit">2,8 tỷ</div><div class="kpi-foot">Sau chi phí vận hành</div></div>
-    <div class="kpi"><div class="kpi-top"><span>Quỹ lương</span><span class="kpi-icon">₫</span></div><div class="kpi-value" id="kpiPayroll">3,2 tỷ</div><div class="kpi-foot">Tổng ngân sách lương</div></div>
-    <div class="kpi"><div class="kpi-top"><span>Rủi ro cần chú ý</span><span class="kpi-icon">⚠</span></div><div class="kpi-value" id="kpiRisks">4</div><div class="kpi-foot"><span class="warning">●</span> Cảnh báo mô phỏng</div></div>
-  </section>
-  <section class="workspace">
-    <div class="scene-card">
-      <div class="card-head"><div><h2>◈ Enterprise Digital Twin</h2><p>Nhấn vào công trình hoặc nhân vật để xem dữ liệu liên quan</p></div><div class="scene-tools"><button id="homeView">⌂ Góc nhìn</button><button id="rotateBtn">⟳ Xoay: Bật</button></div></div>
-      <div class="scene-wrap" id="sceneWrap"><div class="scene-badge">● LIVE SIMULATION · DOANH NGHIỆP DEMO</div><div class="scene-loading" id="sceneLoading">Đang tải không gian 3D...</div><div class="scene-hint">🖱 Kéo để xoay · Cuộn để zoom · Nhấn đối tượng để xem chi tiết</div></div>
-    </div>
-    <aside class="detail-card">
-      <div class="card-head"><div><h2>Thông tin đối tượng</h2><p>Dữ liệu liên kết với mô hình 3D</p></div><span class="status">ĐANG HOẠT ĐỘNG</span></div>
-      <div class="detail-body" id="detailBody">
-        <div class="selected-title"><div class="selected-icon">🏢</div><div><h3>Tổng quan doanh nghiệp</h3><p>Toàn cảnh Công ty Demo Việt Nam</p></div></div>
-        <div class="detail-grid"><div class="mini"><small>Nhân sự</small><b id="dEmployees">500</b></div><div class="mini"><small>Phòng ban</small><b>8</b></div><div class="mini"><small>Doanh thu</small><b id="dRevenue">12,5 tỷ</b></div><div class="mini"><small>Rủi ro mở</small><b id="dRisks">4</b></div></div>
-        <div class="section-label">Chỉ số vận hành</div>
-        <div class="progress-row"><div class="progress-meta"><span>Hiệu suất mục tiêu</span><b>86%</b></div><div class="track"><div class="fill" style="width:86%"></div></div></div>
-        <div class="progress-row"><div class="progress-meta"><span>Tuân thủ nội bộ</span><b>94%</b></div><div class="track"><div class="fill" style="width:94%;background:linear-gradient(90deg,#34d399,#059669)"></div></div></div>
-        <div class="alert">⚠ <span><b>Nhắc nhở:</b> Có 4 cảnh báo demo cần được người phụ trách kiểm tra.</span></div>
-        <div class="section-label">Truy cập nhanh</div>
-        <div class="quick-links"><button data-open="Nhân sự HRM">♙ Hồ sơ nhân sự</button><button data-open="Tiền lương C&B">₫ Bảng lương</button><button data-open="Thuế & Bảo hiểm">▤ Thuế & BHXH</button><button data-open="Quản trị rủi ro">◉ Sổ đăng ký rủi ro</button></div>
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">P</div>
+      <div>
+        <strong>PULSE 3D</strong>
+        <small>ENTERPRISE ECOSYSTEM</small>
       </div>
-    </aside>
-  </section>
-  <section class="lower">
-    <div class="lower-card"><div class="lower-head"><h3>Phân hệ quản trị</h3><span>Chọn để mở phân hệ</span></div><div class="module-grid">
-      <button class="module" data-open="Nhân sự HRM"><span class="m-ico">♙</span><b>HRM</b><small>Hồ sơ · Hợp đồng</small></button>
-      <button class="module" data-open="Tiền lương C&B"><span class="m-ico">₫</span><b>Payroll & C&B</b><small>Lương · Phụ cấp</small></button>
-      <button class="module" data-open="Thuế & Bảo hiểm"><span class="m-ico">▤</span><b>Thuế & BHXH</b><small>Nghĩa vụ · Đối chiếu</small></button>
-      <button class="module" data-open="Tài chính & Kế toán"><span class="m-ico">▧</span><b>Finance</b><small>Thu · Chi · Lãi lỗ</small></button>
-      <button class="module" data-open="Hiệu suất"><span class="m-ico">↗</span><b>EPM</b><small>KPI · OKR · BSC</small></button>
-      <button class="module" data-open="Quản trị rủi ro"><span class="m-ico">◉</span><b>ERM</b><small>KRI · Kiểm soát</small></button>
-      <button class="module" data-open="Pháp luật Việt Nam"><span class="m-ico">§</span><b>Legal Engine</b><small>Luật · Hiệu lực</small></button>
-      <button class="module" data-open="Báo cáo & Phân tích"><span class="m-ico">▥</span><b>Analytics</b><small>Phân tích · Dự báo</small></button>
-    </div></div>
-    <div class="lower-card"><div class="lower-head"><h3>Hoạt động hệ thống</h3><span>Nhật ký minh họa</span></div><div class="activity" id="activity">
-      <div class="activity-item"><i class="activity-dot"></i><div><b>Digital Twin đã khởi tạo</b><small>Không gian doanh nghiệp demo · Vừa xong</small></div></div>
-      <div class="activity-item"><i class="activity-dot" style="background:#22c55e"></i><div><b>Dữ liệu HRM đã đồng bộ</b><small>500 hồ sơ nhân sự mô phỏng</small></div></div>
-      <div class="activity-item"><i class="activity-dot" style="background:#f59e0b"></i><div><b>4 cảnh báo rủi ro đang mở</b><small>Cần xác minh bởi người phụ trách</small></div></div>
-    </div></div>
-  </section>
-</div>
-</main>
+    </div>
+    
+    <button class="company-switch" id="companySwitchBtn">
+      <small>CÔNG TY ĐANG CHỌN</small>
+      <b><span id="currentCompanyLabel">◈ Tập đoàn PULSE Group</span> ▾</b>
+    </button>
+    
+    <div class="nav-group">
+      <div class="nav-label">TỔNG QUAN DIGITAL TWIN</div>
+      <nav class="nav">
+        <button class="active" data-page="Tổng quan"><span class="ico">◫</span>Tổng quan 3D World</button>
+        <button data-page="Bản đồ doanh nghiệp"><span class="ico">▦</span>Sơ đồ công ty & Tầng</button>
+        <button data-page="Hiệu suất"><span class="ico">↗</span>Performance (EPM)</button>
+        <button data-page="Quản trị rủi ro"><span class="ico">◉</span>Quản trị rủi ro (ERM)</button>
+      </nav>
+    </div>
+
+    <!-- NEW VIRTUAL WORKPLACE MODULE -->
+    <div class="nav-group">
+      <div class="nav-label">VIRTUAL WORKPLACE 3D</div>
+      <nav class="nav">
+        <button data-page="Virtual Headquarters"><span class="ico">🏢</span>Virtual Headquarters</button>
+        <button data-page="Explore Office"><span class="ico">🗺️</span>Explore Office & Rooms</button>
+        <button data-page="My Avatar"><span class="ico">👤</span>My Avatar Studio</button>
+        <button data-page="Meeting Rooms"><span class="ico">🎙️</span>Meeting & Voice Rooms</button>
+        <button data-page="Social Lounge"><span class="ico">☕</span>Social Lounge & Chat</button>
+        <button data-page="Virtual Admin"><span class="ico">⚙️</span>Virtual Administration</button>
+      </nav>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">PHÂN HỆ NGHIỆP VỤ</div>
+      <nav class="nav">
+        <button data-page="Nhân sự HRM"><span class="ico">♙</span>Nhân sự HRM</button>
+        <button data-page="Tiền lương C&B"><span class="ico">₫</span>Tiền lương & C&B</button>
+        <button data-page="Thuế & Bảo hiểm"><span class="ico">▤</span>Thuế & BHXH Engine</button>
+        <button data-page="Tài chính & Kế toán"><span class="ico">▧</span>Tài chính & Kế toán</button>
+        <button data-page="Vận hành"><span class="ico">⚙</span>Kho & Operations</button>
+      </nav>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">HỆ THỐNG & PHÁP LÝ</div>
+      <nav class="nav">
+        <button data-page="Pháp luật Việt Nam"><span class="ico">§</span>Legal Engine (VN Law)</button>
+        <button data-page="Báo cáo & Phân tích"><span class="ico">▥</span>Báo cáo & BI Analytics</button>
+        <button data-page="Phân quyền"><span class="ico">🛡</span>User & Roles (RLS)</button>
+        <button data-page="Audit Logs"><span class="ico">📜</span>Nhật ký Audit Logs</button>
+        <button data-page="Cài đặt"><span class="ico">⚙</span>Cài đặt Digital Twin</button>
+      </nav>
+    </div>
+
+    <div class="sidebar-foot">
+      <span>PULSE Twin Engine v2.8</span>
+      <span style="color:var(--green)">● Supabase Sync</span>
+    </div>
+  </aside>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="main">
+    <header class="topbar">
+      <div class="crumb">PULSE 3D <span>/</span> <span id="crumbCurrent">Tổng quan doanh nghiệp</span></div>
+      <div class="top-actions">
+        <span class="pill"><i class="pill-dot"></i> REALTIME SIMULATION ACTIVE</span>
+        <span class="pill">◷ <span id="clockDisplay">03/11/2026</span></span>
+        <div class="avatar" title="Tô Văn Nghĩa (System Admin)">TN</div>
+      </div>
+    </header>
+
+    <div class="content" id="mainContent">
+      <!-- Dynamic views rendered here -->
+    </div>
+  </main>
 </div>
 
+<!-- MODAL EDITOR -->
 <div class="modal-backdrop" id="editModal">
   <div class="modal">
-    <div class="modal-head"><h3>✎ Cập nhật dữ liệu doanh nghiệp demo</h3><button class="btn" id="closeModal">✕</button></div>
-    <div class="modal-body">
-      <div class="field"><label for="inEmployees">Số lượng nhân viên</label><input id="inEmployees" type="number" min="0" max="1000000"></div>
-      <div class="field"><label for="inRisks">Số cảnh báo rủi ro</label><input id="inRisks" type="number" min="0" max="9999"></div>
-      <div class="field"><label for="inRevenue">Doanh thu (tỷ VNĐ)</label><input id="inRevenue" type="number" min="0" step=".1"></div>
-      <div class="field"><label for="inProfit">Lợi nhuận (tỷ VNĐ)</label><input id="inProfit" type="number" step=".1"></div>
-      <div class="field"><label for="inPayroll">Quỹ lương (tỷ VNĐ)</label><input id="inPayroll" type="number" min="0" step=".1"></div>
-      <div class="field"><label for="inDepartments">Số phòng ban</label><input id="inDepartments" type="number" min="1" max="1000"></div>
-      <div class="field full"><label>Ghi chú</label><input id="inNote" type="text" placeholder="Ví dụ: Cập nhật dữ liệu tháng 11/2026"></div>
+    <div class="modal-head">
+      <h3 id="modalTitle">✎ Cập nhật dữ liệu mô phỏng doanh nghiệp</h3>
+      <button class="btn" id="closeModal">✕</button>
     </div>
-    <div class="modal-foot"><button class="btn" id="cancelEdit">Hủy</button><button class="btn primary" id="saveData">Lưu và cập nhật mô hình</button></div>
+    <div class="modal-body" id="modalBody">
+      <!-- Dynamic form content -->
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="cancelEdit">Hủy</button>
+      <button class="btn primary" id="saveData">Lưu thay đổi & Cập nhật Twin</button>
+    </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+
+<div class="toast" id="toast"><span id="toastMsg">Thao tác thành công</span></div>
 
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
-const $ = id => document.getElementById(id);
-const initial = {employees:500,risks:4,revenue:12.5,profit:2.8,payroll:3.2,departments:8};
-let data = {...initial}, selected = 'company', rotate = true, scene, camera, renderer, controls, raycaster, pointer, clickable=[];
-let sceneObjects = {};
-const fmt = n => Number(n).toLocaleString('vi-VN');
-const money = n => `${Number(n).toLocaleString('vi-VN',{maximumFractionDigits:1})} tỷ`;
-function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
-function addActivity(title,sub){const row=document.createElement('div');row.className='activity-item';row.innerHTML=`<i class="activity-dot"></i><div><b></b><small></small></div>`;row.querySelector('b').textContent=title;row.querySelector('small').textContent=sub; $('activity').prepend(row);while($('activity').children.length>5)$('activity').lastElementChild.remove()}
-function updateUI(){
- $('kpiEmployees').textContent=fmt(data.employees);$('kpiRevenue').textContent=money(data.revenue);$('kpiProfit').textContent=money(data.profit);$('kpiPayroll').textContent=money(data.payroll);$('kpiRisks').textContent=fmt(data.risks);
- $('dEmployees').textContent=fmt(data.employees);$('dRevenue').textContent=money(data.revenue);$('dRisks').textContent=fmt(data.risks);
- const size = Math.max(.75,Math.min(1.8,.75+data.employees/1000));
- if(sceneObjects.hr){sceneObjects.hr.scale.set(size,1,size);sceneObjects.hr.userData.subtitle=`${fmt(data.employees)} nhân viên · ${data.departments} phòng ban`;}
- if(sceneObjects.risk){const hot=data.risks>=7;sceneObjects.risk.material.color.set(hot?0xef4444:data.risks>=4?0xf59e0b:0x22c55e);sceneObjects.risk.material.emissive.set(hot?0x5c1010:0x000000);}
- if(sceneObjects.finance){const h=Math.max(.6,Math.min(2.3,.6+data.profit/3));sceneObjects.finance.scale.y=h;sceneObjects.finance.position.y=.15+h*.5;}
- if(selected!=='company')renderDetail(selected);else renderDetail('company');
-}
-function roundedBox(w,h,d,r,color){const mesh=new THREE.Mesh(new RoundedBoxGeometry(w,h,d,4,r),new THREE.MeshStandardMaterial({color,roughness:.78}));return mesh}
-function addLabel(text,x,y,z,color='#1e3a5f'){
- const canvas=document.createElement('canvas');canvas.width=512;canvas.height=128;const ctx=canvas.getContext('2d');ctx.fillStyle='rgba(255,255,255,.88)';ctx.roundRect(8,8,496,112,22);ctx.fill();ctx.font='bold 42px Arial';ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,256,64);
- const tex=new THREE.CanvasTexture(canvas);const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));sprite.scale.set(3.1,.78,1);sprite.position.set(x,y,z);scene.add(sprite);return sprite;
-}
-function makeBuilding(name,x,z,color,kind,scale=1){
- const group=new THREE.Group();group.position.set(x,0,z);group.userData={id:kind,title:name};
- const base=roundedBox(2.65,.28,2.2,.12,0x9bb5cf);base.position.y=.14;group.add(base);
- const h=kind==='finance'?2.4:kind==='hr'?1.9:kind==='factory'?1.35:1.65;
- const body=roundedBox(1.8,h,1.55,.12,color);body.position.y=.28+h/2;group.add(body);
- const roof=roundedBox(1.95,.18,1.7,.08,0xeff6ff);roof.position.y=.28+h+.08;group.add(roof);
- for(let row=0;row<Math.max(2,Math.floor(h/.42));row++)for(let col=0;col<3;col++){
-  const win=roundedBox(.28,.22,.035,.025,0x9be4f5);win.position.set(-.58+col*.58,.52+row*.42,.79);group.add(win);
- }
- const door=roundedBox(.36,.7,.06,.04,0x24466e);door.position.set(0,.63,.8);group.add(door);
- const label=makeLabel(name,x, h+1.15,z);
- scene.add(group);clickable.push(group);sceneObjects[kind]=group;return group;
-}
-function makeLabel(name,x,y,z){return addLabel(name,x,y,z)}
-function makeCharacter(x,z,shirt,role){
- const g=new THREE.Group();g.position.set(x,0,z);g.userData={id:'person',title:role,subtitle:'Nhân vật đại diện trong mô hình 3D'};
- const skin=new THREE.MeshStandardMaterial({color:0xf1c7a5,roughness:.9}), cloth=new THREE.MeshStandardMaterial({color:shirt,roughness:.85}), dark=new THREE.MeshStandardMaterial({color:0x26354b});
- const head=new THREE.Mesh(new THREE.SphereGeometry(.23,20,16),skin);head.position.y=1.18;g.add(head);
- const hair=new THREE.Mesh(new THREE.SphereGeometry(.235,16,10,0,Math.PI*2,0,Math.PI*.55),dark);hair.position.y=1.25;g.add(hair);
- const body=roundedBox(.43,.52,.3,.11,shirt);body.position.y=.72;g.add(body);
- const arm1=roundedBox(.14,.43,.14,.06,shirt),arm2=arm1.clone();arm1.position.set(-.3,.74,0);arm2.position.set(.3,.74,0);g.add(arm1,arm2);
- const leg1=roundedBox(.16,.42,.18,.06,0x334b70),leg2=leg1.clone();leg1.position.set(-.12,.24,0);leg2.position.set(.12,.24,0);g.add(leg1,leg2);
- const eyeMat=new THREE.MeshBasicMaterial({color:0x243247});for(const ex of [-.075,.075]){const eye=new THREE.Mesh(new THREE.SphereGeometry(.022,8,8),eyeMat);eye.position.set(ex,1.19,.205);g.add(eye);}
- scene.add(g);clickable.push(g);return g;
-}
-function makeTree(x,z){const trunk=roundedBox(.18,.55,.18,.07,0x98704c);trunk.position.set(x,.28,z);scene.add(trunk);const top=new THREE.Mesh(new THREE.SphereGeometry(.48,12,10),new THREE.MeshStandardMaterial({color:0x70b88a,roughness:1}));top.position.set(x,.85,z);scene.add(top)}
-function buildScene(){
- const wrap=$('sceneWrap');scene=new THREE.Scene();scene.background=new THREE.Color(0xdceafa);scene.fog=new THREE.Fog(0xdceafa,18,38);
- camera=new THREE.PerspectiveCamera(42,wrap.clientWidth/wrap.clientHeight,.1,100);camera.position.set(11,10,13);
- renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(wrap.clientWidth,wrap.clientHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;wrap.insertBefore(renderer.domElement,wrap.firstChild);
- controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.target.set(0,0,0);controls.maxPolarAngle=Math.PI*.48;controls.minDistance=7;controls.maxDistance=24;
- scene.add(new THREE.HemisphereLight(0xffffff,0x91a7c2,2.1));const sun=new THREE.DirectionalLight(0xffffff,2.1);sun.position.set(7,14,8);sun.castShadow=true;scene.add(sun);
- const ground=new THREE.Mesh(new THREE.PlaneGeometry(40,32),new THREE.MeshStandardMaterial({color:0xd8e8dc,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-.04;ground.receiveShadow=true;scene.add(ground);
- const roadMat=new THREE.MeshStandardMaterial({color:0xb9c9d7,roughness:1});const road=new THREE.Mesh(new THREE.BoxGeometry(23,.035,1.25),roadMat);road.position.set(0,.01,0);scene.add(road);const cross=new THREE.Mesh(new THREE.BoxGeometry(1.25,.04,17),roadMat);cross.position.set(0,.015,0);scene.add(cross);
- const park=new THREE.Mesh(new THREE.CircleGeometry(2.5,32),new THREE.MeshStandardMaterial({color:0xb8d9b9,roughness:1}));park.rotation.x=-Math.PI/2;park.position.set(0,.01,0);scene.add(park);
- makeBuilding('NHÂN SỰ',-5,-3,0x75a9df,'hr');makeBuilding('TÀI CHÍNH',0,-5,0x4f83d8,'finance');makeBuilding('VẬN HÀNH',5,-3,0x72b99b,'factory');makeBuilding('PHÁP CHẾ',-5,4,0x9c91d6,'legal');makeBuilding('KHO & LOGISTICS',5,4,0xe5b66d,'warehouse');
- const hub=roundedBox(2.1,.45,2.1,.18,0x315c91);hub.position.set(0,.24,4);hub.userData={id:'company',title:'TRUNG TÂM DOANH NGHIỆP'};scene.add(hub);clickable.push(hub);sceneObjects.hub=hub;addLabel('PULSE HQ',0,1.4,4);
- makeCharacter(-3.5,1,0x3978c8,'Nhân viên HR');makeCharacter(-2.5,1.5,0x1d9a8a,'Chuyên viên C&B');makeCharacter(2.7,1.5,0xe29a45,'Nhân viên vận hành');makeCharacter(3.6,2,0x8b78c9,'Quản lý bộ phận');
- for(const [x,z] of [[-8,-7],[8,-7],[-8,7],[8,7],[-1,-9],[1,9]])makeTree(x,z);
- raycaster=new THREE.Raycaster();pointer=new THREE.Vector2();renderer.domElement.addEventListener('pointerdown',onSceneClick);
- $('sceneLoading').style.display='none';
- window.addEventListener('resize',resizeScene);animate();
-}
-function resizeScene(){if(!renderer)return;const w=$('sceneWrap').clientWidth,h=$('sceneWrap').clientHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h)}
-function animate(){requestAnimationFrame(animate);if(rotate&&controls&&!controls.enabled===false)scene.rotation.y+=0;controls.update();renderer.render(scene,camera)}
-function onSceneClick(e){const rect=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-rect.left)/rect.width)*2-1;pointer.y=-((e.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(clickable,true);if(!hits.length)return;let obj=hits[0].object;while(obj&&!obj.userData.id)obj=obj.parent;if(obj){selected=obj.userData.id;renderDetail(selected);}}
-const detailMap={
- company:{icon:'🏢',title:'Tổng quan doanh nghiệp',sub:'Toàn cảnh Công ty Demo Việt Nam',metrics:()=>[['Nhân sự',fmt(data.employees)],['Phòng ban',data.departments],['Doanh thu',money(data.revenue)],['Rủi ro mở',data.risks]],desc:'Mô hình doanh nghiệp tổng thể đang liên kết với các phân hệ quản trị.'},
- hr:{icon:'♙',title:'Khối Nhân sự HRM',sub:()=>`${fmt(data.employees)} nhân viên · ${data.departments} phòng ban`,metrics:()=>[['Nhân viên',fmt(data.employees)],['Phòng ban',data.departments],['Quỹ lương',money(data.payroll)],['Cảnh báo HR',Math.max(0,Math.round(data.risks/2))]],desc:'Hồ sơ, hợp đồng, chấm công, C&B, tuyển dụng và vòng đời nhân viên.'},
- finance:{icon:'▧',title:'Khối Tài chính',sub:'Theo dõi kết quả tài chính mô phỏng',metrics:()=>[['Doanh thu',money(data.revenue)],['Lợi nhuận',money(data.profit)],['Quỹ lương',money(data.payroll)],['Biên lợi nhuận',`${data.revenue?Math.round(data.profit/data.revenue*100):0}%`]],desc:'Doanh thu, chi phí, lợi nhuận, dòng tiền và ngân sách.'},
- factory:{icon:'⚙',title:'Khối Vận hành',sub:'Nhà máy · quy trình · năng suất',metrics:()=>[['Nhân sự',fmt(data.employees)],['Hiệu suất','86%'],['Cảnh báo',data.risks],['Trạng thái','Hoạt động']],desc:'Theo dõi hoạt động, nguồn lực, năng suất và điểm nghẽn vận hành.'},
- legal:{icon:'§',title:'Khối Pháp chế & Tuân thủ',sub:'Vietnam Legal Compliance',metrics:()=>[['Cảnh báo',data.risks],['Tuân thủ','94%'],['Bộ quy tắc','Demo'],['Hiệu lực','Cần xác minh']],desc:'Kho văn bản, phiên bản hiệu lực, đối tượng áp dụng và kiểm tra tuân thủ. Chưa phải công cụ tư vấn pháp lý.'},
- warehouse:{icon:'▦',title:'Kho & Logistics',sub:'Quản trị hàng hóa và chuỗi cung ứng',metrics:()=>[['Đơn vị','Demo'],['Vận hành','Ổn định'],['Cảnh báo',Math.max(0,Math.round(data.risks/3))],['Kết nối','Chưa có']],desc:'Kho, hàng tồn, vận chuyển và quy trình cung ứng sẽ được tích hợp ở giai đoạn sau.'},
- person:{icon:'🧑‍💼',title:'Nhân vật doanh nghiệp',sub:'Nhân vật đại diện trong Digital Twin',metrics:()=>[['Vai trò','Nhân sự'],['Hồ sơ','Demo'],['Phân quyền','Theo vai trò'],['Trạng thái','Mô phỏng']],desc:'Bản triển khai thật sẽ liên kết nhân vật với hồ sơ nhân viên và quyền xem dữ liệu.'}
+// ==========================================
+// 1. GLOBAL STATE & ENTERPRISE DATA MODEL
+// ==========================================
+const state = {
+  currentCompany: 'COMP-001',
+  activeView: 'Tổng quan',
+  companies: [
+    { id: 'COMP-001', name: 'Tập đoàn PULSE Group (HQ)', employees: 540, revenue: 45.8, profit: 11.2, payroll: 8.5, risks: 3, compliance: 96 },
+    { id: 'COMP-002', name: 'PULSE Technology Solutions', employees: 180, revenue: 18.5, profit: 4.6, payroll: 3.8, risks: 1, compliance: 98 },
+    { id: 'COMP-003', name: 'PULSE Logistics & Warehouse', employees: 220, revenue: 22.1, profit: 3.9, payroll: 3.1, risks: 5, compliance: 92 }
+  ],
+  employees: [
+    { id: 'EMP-101', name: 'Tô Văn Nghĩa', role: 'Principal Architect', dept: 'HR & Tech', salary: 45000000, perf: 98, status: 'Làm việc tại bàn', company: 'COMP-001', pos: { x: -3.5, z: -2 } },
+    { id: 'EMP-102', name: 'Nguyễn Văn An', role: 'C&B Specialist', dept: 'HRM', salary: 22000000, perf: 92, status: 'Đang di chuyển', company: 'COMP-001', pos: { x: -2.0, z: 1 } },
+    { id: 'EMP-103', name: 'Trần Thị Mai', role: 'Chief Accountant', dept: 'Finance', salary: 35000000, perf: 95, status: 'Họp ban giám đốc', company: 'COMP-001', pos: { x: 0.5, z: -4 } },
+    { id: 'EMP-104', name: 'Lê Hoàng Nam', role: 'Operations Manager', dept: 'Operations', salary: 28000000, perf: 88, status: 'Kiểm tra kho hàng', company: 'COMP-001', pos: { x: 4.2, z: -2 } },
+    { id: 'EMP-105', name: 'Phạm Minh Khoa', role: 'Legal Lead', dept: 'Legal', salary: 30000000, perf: 91, status: 'Đối soát hợp đồng', company: 'COMP-001', pos: { x: -4.5, z: 3.5 } }
+  ],
+  legalRules: [
+    { code: 'BLLĐ-2019', name: 'Bộ luật Lao động 2019', source: 'Quốc hội XIII', activeDate: '01/01/2021', status: 'Đang hiệu lực' },
+    { code: 'NĐ-145/2020', name: 'Nghị định 145/2020/NĐ-CP Hướng dẫn BLLĐ', source: 'Chính phủ', activeDate: '01/02/2021', status: 'Đang hiệu lực' },
+    { code: 'TB-2026/BHXH', name: 'Mức đóng BHXH 10.5% NLĐ & 21.5% NSDLĐ', source: 'BHXH Việt Nam', activeDate: '01/01/2026', status: 'Đang áp dụng' }
+  ],
+  risks: [
+    { id: 'RSK-01', title: 'Nợ BHXH chậm đóng quá 15 ngày tại Chi nhánh 2', level: 'Cao', dept: 'C&B', status: 'Đang xử lý' },
+    { id: 'RSK-02', title: 'Vượt ngân sách OT khối Sản xuất tháng 10', level: 'Trung bình', dept: 'Operations', status: 'Cảnh báo' },
+    { id: 'RSK-03', title: 'Hợp đồng lao động hết hạn chưa gia hạn (12 nhân sự)', level: 'Cao', dept: 'HRM', status: 'Chờ duyệt' }
+  ],
+  auditLogs: [
+    { time: '17:28:10', user: 'Tô Văn Nghĩa', action: 'Cập nhật bảng lương C&B Tháng 11/2026', module: 'Payroll' },
+    { time: '16:45:22', user: 'System Worker', action: 'Đồng bộ Realtime State 3D Characters', module: '3D Simulation' },
+    { time: '14:12:05', user: 'Trần Thị Mai', action: 'Phê duyệt chứng từ chi ngân sách vận hành', module: 'Finance' }
+  ],
+  myAvatar: {
+    hairStyle: 'Modern Undercut',
+    shirtColor: '#2563eb',
+    pantColor: '#1e293b',
+    accessories: 'Smart Glasses',
+    statusMessage: 'Đang tập trung làm việc tại Virtual HQ'
+  }
 };
-function renderDetail(id){const d=detailMap[id]||detailMap.company;const m=typeof d.metrics==='function'?d.metrics():d.metrics;const sub=typeof d.sub==='function'?d.sub():d.sub;$('detailBody').innerHTML=`
- <div class="selected-title"><div class="selected-icon">${d.icon}</div><div><h3>${d.title}</h3><p>${sub}</p></div><span class="status">DEMO</span></div>
- <div class="detail-grid">${m.map(([a,b])=>`<div class="mini"><small>${a}</small><b>${b}</b></div>`).join('')}</div>
- <div class="section-label">Thông tin nghiệp vụ</div><div style="font-size:11px;color:#64748b;line-height:1.7">${d.desc}</div>
- <div class="alert ${data.risks>=7?'red':''}">⚠ <span><b>Lưu ý:</b> Số liệu hiện tại là dữ liệu minh họa, chưa phải số liệu kế toán, lương hoặc nghĩa vụ pháp lý đã xác nhận.</span></div>
- <div class="section-label">Mở phân hệ liên quan</div><div class="quick-links"><button data-open="Nhân sự HRM">♙ Nhân sự HRM</button><button data-open="Tiền lương C&B">₫ Payroll & C&B</button><button data-open="Thuế & Bảo hiểm">▤ Thuế & BHXH</button><button data-open="Quản trị rủi ro">◉ Quản trị rủi ro</button></div>`;}
-function openEditor(){for(const [id,key] of [['inEmployees','employees'],['inRisks','risks'],['inRevenue','revenue'],['inProfit','profit'],['inPayroll','payroll'],['inDepartments','departments']])$(id).value=data[key];$('editModal').classList.add('show')}
-function closeEditor(){$('editModal').classList.remove('show')}
-$('editBtn').onclick=openEditor;$('closeModal').onclick=closeEditor;$('cancelEdit').onclick=closeEditor;
-$('saveData').onclick=()=>{const next={employees:+$('inEmployees').value,risks:+$('inRisks').value,revenue:+$('inRevenue').value,profit:+$('inProfit').value,payroll:+$('inPayroll').value,departments:+$('inDepartments').value};if(Object.values(next).some(v=>!Number.isFinite(v)||v<0)||next.departments<1){toast('Vui lòng nhập dữ liệu hợp lệ.');return;}data=next;updateUI();closeEditor();const note=$('inNote').value.trim()||'Người dùng cập nhật dữ liệu demo';addActivity('Dữ liệu doanh nghiệp vừa được cập nhật',note);toast('Đã cập nhật KPI và mô hình 3D.');};
-$('resetBtn').onclick=()=>{data={...initial};updateUI();addActivity('Khôi phục dữ liệu demo','Đã nạp lại bộ dữ liệu ban đầu');toast('Đã khôi phục dữ liệu demo.');};
-$('homeView').onclick=()=>{camera.position.set(11,10,13);controls.target.set(0,0,0);controls.update();};
-$('rotateBtn').onclick=()=>{rotate=!rotate;$('rotateBtn').textContent=`⟳ Xoay: ${rotate?'Bật':'Tắt'}`;};
-document.addEventListener('click',e=>{const btn=e.target.closest('[data-open]');if(btn){const name=btn.dataset.open;document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===name));toast(`Phân hệ "${name}" sẽ được triển khai ở bước tiếp theo.`);}const nav=e.target.closest('[data-page]');if(nav){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b===nav));toast(`Đã chọn: ${nav.dataset.page} · Prototype đang ở màn hình tổng quan.`);}});
-buildScene();updateUI();
+
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n).toLocaleString('vi-VN');
+const moneyB = n => `${Number(n).toLocaleString('vi-VN', { maximumFractionDigits: 1 })} tỷ VNĐ`;
+const moneyVND = n => `${Number(n).toLocaleString('vi-VN')} VNĐ`;
+
+function toast(msg) {
+  const t = $('toast');
+  $('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// ==========================================
+// 2. 3D PHYSICAL & SIMULATION ENGINE
+// ==========================================
+let scene, camera, renderer, controls, raycaster, pointer;
+let clickableObjects = [];
+let characterMeshes = [];
+let clock = new THREE.Clock();
+
+function init3DScene(containerId) {
+  const container = $(containerId);
+  if (!container) return;
+
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x050a14);
+  scene.fog = new THREE.FogExp2(0x050a14, 0.035);
+
+  camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+  camera.position.set(14, 12, 16);
+
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  
+  container.innerHTML = '';
+  container.appendChild(renderer.domElement);
+
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  controls.maxPolarAngle = Math.PI * 0.48;
+  controls.minDistance = 6;
+  controls.maxDistance = 35;
+  controls.target.set(0, 0, 0);
+
+  // Lighting Infrastructure
+  const ambient = new THREE.HemisphereLight(0xddeeff, 0x0f172a, 1.8);
+  scene.add(ambient);
+
+  const dirLight = new THREE.DirectionalLight(0x38bdf8, 2.2);
+  dirLight.position.set(12, 20, 10);
+  dirLight.castShadow = true;
+  dirLight.shadow.mapSize.width = 2048;
+  dirLight.shadow.mapSize.height = 2048;
+  scene.add(dirLight);
+
+  // Grid Ground & World Layout
+  const groundGeom = new THREE.PlaneGeometry(50, 50);
+  const groundMat = new THREE.MeshStandardMaterial({ color: 0x091122, roughness: 0.9, metalness: 0.1 });
+  const ground = new THREE.Mesh(groundGeom, groundMat);
+  ground.rotation.x = -Math.PI / 2;
+  ground.receiveShadow = true;
+  scene.add(ground);
+
+  const grid = new THREE.GridHelper(50, 50, 0x1e3a8a, 0x1c2a45);
+  grid.position.y = 0.01;
+  scene.add(grid);
+
+  // Build Campus Infrastructure (Buildings & Zone)
+  build3DCampus();
+
+  // Raycaster for Picking
+  raycaster = new THREE.Raycaster();
+  pointer = new THREE.Vector2();
+  renderer.domElement.addEventListener('pointerdown', onDocumentPointerDown);
+
+  window.addEventListener('resize', () => {
+    if (!renderer || !container) return;
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+  });
+
+  animate3D();
+}
+
+function createRoundedBuilding(w, h, d, color, name, x, z, type) {
+  const group = new THREE.Group();
+  group.position.set(x, 0, z);
+  group.userData = { type: 'building', id: type, title: name };
+
+  const mat = new THREE.MeshStandardMaterial({ color: color, roughness: 0.4, metalness: 0.2 });
+  const glassMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.1, metalness: 0.9, transparent: true, opacity: 0.7 });
+
+  const body = new THREE.Mesh(new RoundedBoxGeometry(w, h, d, 4, 0.15), mat);
+  body.position.y = h / 2;
+  body.castShadow = true;
+  body.receiveShadow = true;
+  group.add(body);
+
+  const floors = Math.floor(h / 0.8);
+  for (let i = 1; i < floors; i++) {
+    const glass = new THREE.Mesh(new THREE.BoxGeometry(w + 0.04, 0.35, d + 0.04), glassMat);
+    glass.position.y = i * 0.8;
+    group.add(glass);
+  }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 256; canvas.height = 64;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+  ctx.roundRect(4, 4, 248, 56, 12); ctx.fill();
+  ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.font = 'bold 22px sans-serif'; ctx.fillStyle = '#ffffff';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(name, 128, 32);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true }));
+  sprite.scale.set(4, 1, 1);
+  sprite.position.set(0, h + 0.8, 0);
+  group.add(sprite);
+
+  scene.add(group);
+  clickableObjects.push(body);
+  body.userData = group.userData;
+  return group;
+}
+
+function build3DCampus() {
+  clickableObjects = [];
+  characterMeshes = [];
+
+  createRoundedBuilding(3.5, 5.0, 3.5, 0x1e40af, 'KHỐI NHÂN SỰ (HRM)', -6, -4, 'hr');
+  createRoundedBuilding(4.0, 6.5, 4.0, 0x0369a1, 'TÀI CHÍNH & KẾ TOÁN', 0, -6, 'finance');
+  createRoundedBuilding(4.5, 3.5, 4.0, 0x047857, 'KHO & VẬN HÀNH', 6, -3, 'warehouse');
+  createRoundedBuilding(3.2, 4.0, 3.2, 0x6b21a8, 'PHÁP CHẾ & COMPLIANCE', -6, 4, 'legal');
+  createRoundedBuilding(4.5, 8.0, 4.5, 0x1d4ed8, 'TRỤ SỞ CHÍNH PULSE HQ', 0, 4, 'hq');
+
+  state.employees.forEach(emp => {
+    const charGroup = create3DCharacter(emp);
+    scene.add(charGroup);
+    characterMeshes.push(charGroup);
+  });
+}
+
+function create3DCharacter(emp) {
+  const group = new THREE.Group();
+  group.position.set(emp.pos.x, 0, emp.pos.z);
+  group.userData = { type: 'employee', id: emp.id, data: emp, title: emp.name };
+
+  const bodyMat = new THREE.MeshStandardMaterial({ color: state.myAvatar.shirtColor, roughness: 0.5 });
+  const headMat = new THREE.MeshStandardMaterial({ color: 0xfde047, roughness: 0.8 });
+
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.25, 0.9, 12), bodyMat);
+  body.position.y = 0.45;
+  body.castShadow = true;
+  group.add(body);
+
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 16), headMat);
+  head.position.y = 1.1;
+  head.castShadow = true;
+  group.add(head);
+
+  const doc = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.05, 0.35), new THREE.MeshStandardMaterial({ color: 0xffffff }));
+  doc.position.set(0.18, 0.5, 0.15);
+  group.add(doc);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 180; canvas.height = 48;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgba(6, 182, 212, 0.9)'; ctx.roundRect(0, 0, 180, 48, 8); ctx.fill();
+  ctx.font = 'bold 16px sans-serif'; ctx.fillStyle = '#000'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(emp.name, 90, 24);
+  
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(canvas), transparent: true }));
+  sprite.scale.set(2, 0.55, 1);
+  sprite.position.set(0, 1.55, 0);
+  group.add(sprite);
+
+  body.userData = group.userData;
+  head.userData = group.userData;
+  clickableObjects.push(body, head);
+
+  return group;
+}
+
+function onDocumentPointerDown(event) {
+  const rect = renderer.domElement.getBoundingClientRect();
+  pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+  raycaster.setFromCamera(pointer, camera);
+  const intersects = raycaster.intersectObjects(clickableObjects, false);
+
+  if (intersects.length > 0) {
+    const hit = intersects[0].object;
+    if (hit.userData) {
+      updateDetailSidebar(hit.userData);
+      toast(`Đã chọn đối tượng 3D: ${hit.userData.title}`);
+    }
+  }
+}
+
+function animate3D() {
+  requestAnimationFrame(animate3D);
+  characterMeshes.forEach((char, idx) => {
+    char.position.x += Math.sin(Date.now() * 0.001 + idx) * 0.003;
+    char.position.z += Math.cos(Date.now() * 0.0015 + idx) * 0.003;
+  });
+
+  if (controls) controls.update();
+  if (renderer && scene && camera) renderer.render(scene, camera);
+}
+
+// ==========================================
+// 3. UI VIEW RENDERERS & CONTROLLERS
+// ==========================================
+function getCurrentCompanyData() {
+  return state.companies.find(c => c.id === state.currentCompany) || state.companies[0];
+}
+
+function renderMainView() {
+  const comp = getCurrentCompanyData();
+  const content = $('mainContent');
+
+  if (state.activeView === 'Tổng quan') {
+    content.innerHTML = `
+      <div class="heading">
+        <div>
+          <h1>Trung tâm Điều hành Digital Twin — ${comp.name}</h1>
+          <p>Mô phỏng 3D thời gian thực, liên kết trực tiếp dữ liệu HRM, Payroll, Finance & Operational KPIs</p>
+        </div>
+        <div class="heading-actions">
+          <button class="btn" id="refreshBtn">↺ Đồng bộ Supabase</button>
+          <button class="btn primary" id="editDataBtn">＋ Cập nhật chỉ số Twin</button>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi">
+          <div class="kpi-top"><span>Tổng Nhân sự</span><span class="kpi-icon">♙</span></div>
+          <div class="kpi-value">${fmt(comp.employees)}</div>
+          <div class="kpi-foot"><span style="color:var(--green)">●</span> 100% hồ sơ định danh 3D</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><span>Doanh thu Kỳ</span><span class="kpi-icon">↗</span></div>
+          <div class="kpi-value">${moneyB(comp.revenue)}</div>
+          <div class="kpi-foot"><span style="color:var(--cyan)">↑ 12.4%</span> so với kỳ trước</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><span>Lợi nhuận ròng</span><span class="kpi-icon">◈</span></div>
+          <div class="kpi-value">${moneyB(comp.profit)}</div>
+          <div class="kpi-foot">Biên lợi nhuận: ${Math.round((comp.profit/comp.revenue)*100)}%</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><span>Quỹ Lương (C&B)</span><span class="kpi-icon">₫</span></div>
+          <div class="kpi-value">${moneyB(comp.payroll)}</div>
+          <div class="kpi-foot">Đã bao gồm BHXH & Thuế</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><span>Cảnh báo Rủi ro</span><span class="kpi-icon">⚠</span></div>
+          <div class="kpi-value" style="color:${comp.risks > 3 ? 'var(--red)' : 'var(--amber)'}">${comp.risks}</div>
+          <div class="kpi-foot"><span style="color:var(--amber)">●</span> Cần kiểm soát ngay</div>
+        </div>
+      </div>
+
+      <div class="workspace">
+        <div class="scene-card">
+          <div class="card-head">
+            <h2>◈ Enterprise 3D World Scene</h2>
+            <div class="scene-tools">
+              <button id="btnResetCam">⌂ Reset Góc nhìn</button>
+              <button id="btnToggleAnim">⟳ Mode: Realtime Active</button>
+            </div>
+          </div>
+          <div class="scene-wrap" id="sceneWrap">
+            <div class="scene-badge"><i class="pill-dot"></i> LIVE SIMULATION · MULTI-COMPANY ISOLATION</div>
+            <div class="scene-hint">🖱 Kéo chuột trái để xoay · Cuộn để Zoom · Nhấn vào Nhân viên / Tòa nhà để xem Twin Data</div>
+          </div>
+        </div>
+
+        <aside class="detail-card">
+          <div class="card-head">
+            <h2>Thông tin Digital Twin</h2>
+            <span class="status-pill">REALTIME SYNC</span>
+          </div>
+          <div class="detail-body" id="detailBody"></div>
+        </aside>
+      </div>
+    `;
+
+    setTimeout(() => {
+      init3DScene('sceneWrap');
+      updateDetailSidebar(null);
+      bindOverviewEvents();
+    }, 50);
+
+  } else if (state.activeView === 'Virtual Headquarters' || state.activeView === 'Explore Office') {
+    renderVirtualHQModule(content);
+  } else if (state.activeView === 'My Avatar') {
+    renderMyAvatarModule(content);
+  } else if (state.activeView === 'Meeting Rooms') {
+    renderMeetingRoomsModule(content);
+  } else if (state.activeView === 'Social Lounge') {
+    renderSocialLoungeModule(content);
+  } else if (state.activeView === 'Virtual Admin') {
+    renderVirtualAdminModule(content);
+  } else if (state.activeView === 'Nhân sự HRM') {
+    renderHRMModule(content);
+  } else if (state.activeView === 'Tiền lương C&B') {
+    renderPayrollModule(content);
+  } else if (state.activeView === 'Thuế & Bảo hiểm') {
+    renderTaxInsuranceModule(content);
+  } else if (state.activeView === 'Pháp luật Việt Nam') {
+    renderLegalModule(content);
+  } else if (state.activeView === 'Quản trị rủi ro') {
+    renderRiskModule(content);
+  } else if (state.activeView === 'Audit Logs') {
+    renderAuditLogsModule(content);
+  } else {
+    renderGenericModule(content, state.activeView);
+  }
+}
+
+function updateDetailSidebar(userData) {
+  const container = $('detailBody');
+  if (!container) return;
+
+  const comp = getCurrentCompanyData();
+
+  if (!userData || userData.type === 'building') {
+    container.innerHTML = `
+      <div class="selected-title">
+        <div class="selected-icon">🏢</div>
+        <div>
+          <h3>${userData ? userData.title : comp.name}</h3>
+          <p>Mô hình Digital Twin Doanh nghiệp</p>
+        </div>
+      </div>
+      <div class="detail-grid">
+        <div class="mini-card"><small>Tổng nhân sự</small><b>${fmt(comp.employees)}</b></div>
+        <div class="mini-card"><small>Độ tuân thủ</small><b>${comp.compliance}%</b></div>
+        <div class="mini-card"><small>Doanh thu</small><b>${moneyB(comp.revenue)}</b></div>
+        <div class="mini-card"><small>Rủi ro mở</small><b style="color:var(--amber)">${comp.risks}</b></div>
+      </div>
+      <div class="section-label">Chỉ số vận hành cốt lõi</div>
+      <div class="progress-row">
+        <div class="progress-meta"><span>Năng suất làm việc (EPM)</span><b>94%</b></div>
+        <div class="track"><div class="fill" style="width: 94%;"></div></div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-meta"><span>Tỷ lệ hoàn thành Workflow</span><b>88%</b></div>
+        <div class="track"><div class="fill" style="width: 88%; background: linear-gradient(90deg, #10b981, #059669)"></div></div>
+      </div>
+      <div class="alert-box">
+        ⚠ <span><b>Ghi chú RLS:</b> Dữ liệu hiển thị thuộc quyền quản trị tối cao của Tập đoàn.</span>
+      </div>
+    `;
+  } else if (userData.type === 'employee') {
+    const emp = userData.data;
+    container.innerHTML = `
+      <div class="selected-title">
+        <div class="selected-icon">🧑‍💼</div>
+        <div>
+          <h3>${emp.name}</h3>
+          <p>${emp.role} — ${emp.dept}</p>
+        </div>
+      </div>
+      <div class="detail-grid">
+        <div class="mini-card"><small>Mã nhân viên</small><b>${emp.id}</b></div>
+        <div class="mini-card"><small>Điểm KPI</small><b style="color:var(--green)">${emp.perf}/100</b></div>
+        <div class="mini-card"><small>Mức lương Gross</small><b>${fmt(emp.salary)}</b></div>
+        <div class="mini-card"><small>Trạng thái 3D</small><b style="color:var(--cyan); font-size:11px">${emp.status}</b></div>
+      </div>
+      <div class="section-label">Chi tiết hợp đồng & BHXH</div>
+      <div style="font-size:11px; color:var(--muted); display:grid; gap:4px;">
+        <div>• Mức đóng BHXH: 10.5% NLĐ (${fmt(emp.salary * 0.105)} VNĐ)</div>
+        <div>• Đóng BHYT/BHTN đầy đủ theo Bộ luật Lao động 2019</div>
+        <div>• Thuế TNCN ước tính: ${fmt(emp.salary * 0.1)} VNĐ</div>
+      </div>
+      <button class="btn primary" style="width:100%; justify-content:center; margin-top:8px;">💬 Nhắn tin / Gửi tin hiệu</button>
+    `;
+  }
+}
+
+// ==========================================
+// 4. VIRTUAL WORKPLACE MODULE RENDERERS
+// ==========================================
+function renderVirtualHQModule(container) {
+  container.innerHTML = `
+    <div class="module-view">
+      <div class="heading">
+        <div>
+          <h1>Virtual Headquarters — 3D Cartoon Workplace</h1>
+          <p>Không gian làm việc ảo đa phòng ban, hỗ trợ di chuyển WASD, tương tác trực tuyến và quản lý sự hiện diện</p>
+        </div>
+        <div class="heading-actions">
+          <button class="btn primary" id="btnEnterHQ3D">🚀 Vào Phòng Làm Việc 3D</button>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi">
+          <div class="kpi-top"><span>Nhân sự Online trong 3D</span></div>
+          <div class="kpi-value" style="color:var(--green)">42</div>
+          <div class="kpi-foot">Đang hoạt động tại HQ</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><span>Phòng ban đang mở</span></div>
+          <div class="kpi-value" style="color:var(--cyan)">8 Phòng</div>
+          <div class="kpi-foot">HR, Finance, Legal, Tech...</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><span>Cuộc họp trực tuyến</span></div>
+          <div class="kpi-value" style="color:var(--purple)">5 Phòng</div>
+          <div class="kpi-foot">Đang sử dụng WebRTC Voice/Video</div>
+        </div>
+      </div>
+      <div class="scene-card" style="margin-top: 10px;">
+        <div class="card-head">
+          <h2>◈ Bản đồ thu nhỏ Virtual Office (Minimap)</h2>
+          <span>Khu vực: Tầng 1 - Sảnh chính & Phòng ban</span>
+        </div>
+        <div class="scene-wrap" id="virtualSceneWrap" style="height: 380px;">
+          <div class="scene-badge"><i class="pill-dot"></i> MULTIPLAYER REALTIME SERVER ACTIVE</div>
+          <div class="scene-hint">Sử dụng phím W A S D để di chuyển avatar của bạn trong văn phòng ảo.</div>
+        </div>
+      </div>
+    </div>
+  `;
+  setTimeout(() => init3DScene('virtualSceneWrap'), 50);
+}
+
+function renderMyAvatarModule(container) {
+  container.innerHTML = `
+    <div class="module-view">
+      <div class="heading">
+        <div>
+          <h1>My Avatar Studio — Tùy chỉnh nhân vật 3D Cartoon</h1>
+          <p>Thiết lập diện mạo, trang phục, kiểu tóc và thông điệp trạng thái cá nhân hiển thị trong Virtual Workplace</p>
+        </div>
+        <button class="btn primary" id="btnSaveAvatar">💾 Lưu Thay Đổi Avatar</button>
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="detail-card" style="padding: 16px; display:grid; gap: 12px;">
+          <div class="section-label">Thông tin định danh liên kết</div>
+          <div class="field"><label>Mã nhân viên (Employee ID)</label><input type="text" value="EMP-101 (Tô Văn Nghĩa)" disabled></div>
+          <div class="field"><label>Chức danh & Phòng ban</label><input type="text" value="Principal Architect — HR & Tech" disabled></div>
+          <div class="field"><label>Thông điệp trạng thái (Status Message)</label><input id="inStatusMsg" type="text" value="${state.myAvatar.statusMessage}"></div>
+        </div>
+        <div class="detail-card" style="padding: 16px; display:grid; gap: 12px;">
+          <div class="section-label">Tùy chỉnh diện mạo 3D</div>
+          <div class="field">
+            <label>Kiểu tóc</label>
+            <select id="selHair"><option>Modern Undercut</option><option>Classic Short</option><option>Professional Fade</option></select>
+          </div>
+          <div class="field">
+            <label>Màu áo đồng phục</label>
+            <select id="selShirt"><option value="#2563eb">Enterprise Blue (#2563eb)</option><option value="#059669">Emerald Green (#059669)</option><option value="#7c3aed">Royal Purple (#7c3aed)</option></select>
+          </div>
+          <div class="field">
+            <label>Phụ kiện</label>
+            <select id="selAccessory"><option>Smart Glasses</option><option>Wireless Headset</option><option>None</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderMeetingRoomsModule(container) {
+  container.innerHTML = `
+    <div class="module-view">
+      <div class="heading">
+        <div>
+          <h1>Virtual Meeting Rooms & SFU Voice/Video</h1>
+          <p>Phòng họp trực tuyến tích hợp WebRTC, chia sẻ màn hình và đồng bộ lịch họp với hệ thống PULSE</p>
+        </div>
+        <button class="btn primary">＋ Tạo phòng họp mới</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tên cuộc họp</th>
+              <th>Chủ trì (Host)</th>
+              <th>Phòng ban</th>
+              <th>Thành viên tham gia</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Họp chiến lược C&B Tháng 11</b></td>
+              <td>Nguyễn Văn An</td>
+              <td>C&B / HRM</td>
+              <td>6 / 10 người</td>
+              <td><span class="status-pill">Đang diễn ra</span></td>
+              <td><button class="btn primary" style="padding:4px 10px; font-size:10px;">Tham gia Voice/Video</button></td>
+            </tr>
+            <tr>
+              <td><b>Review Kiến trúc Digital Twin 3D</b></td>
+              <td>Tô Văn Nghĩa</td>
+              <td>Tech / Engineering</td>
+              <td>4 / 8 người</td>
+              <td><span class="status-pill">Sắp diễn ra</span></td>
+              <td><button class="btn" style="padding:4px 10px; font-size:10px;">Vào phòng chờ</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderSocialLoungeModule(container) {
+  container.innerHTML = `
+    <div class="module-view">
+      <div class="heading">
+        <div>
+          <h1>Social Lounge & Global Enterprise Chat</h1>
+          <p>Không gian giao lưu giải trí ảo, trò chuyện toàn công ty hoặc theo phòng ban trực tuyến</p>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 16px; height: 425px;">
+        <div class="detail-card" style="padding: 14px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div class="section-label">Phòng chat chung: Global Enterprise Lounge</div>
+          <div style="flex:1; background:rgba(0,0,0,0.3); border-radius:8px; padding:12px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; margin: 8px 0;">
+            <div style="font-size:11px"><b style="color:var(--blue-light)">Tô Văn Nghĩa:</b> Xin chào mọi người, hệ thống Virtual Workplace đã sẵn sàng!</div>
+            <div style="font-size:11px"><b style="color:var(--green)">Nguyễn Văn An:</b> Tuyệt vời, bảng lương C&B tháng 11 cũng đã đồng bộ xong.</div>
+            <div style="font-size:11px"><b style="color:var(--purple)">Trần Thị Mai:</b> Đã kiểm tra số liệu tài chính, sẵn sàng cho kỳ khóa sổ.</div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <input type="text" placeholder="Nhập nội dung tin nhắn..." style="flex:1; background:rgba(0,0,0,0.2); border:1px solid var(--panel-border); border-radius:6px; padding:8px; color:#fff; font-size:12px;">
+            <button class="btn primary">Gửi</button>
+          </div>
+        </div>
+        <div class="detail-card" style="padding: 14px;">
+          <div class="section-label">Đồng nghiệp đang Online (12)</div>
+          <div style="display:grid; gap:8px; margin-top:8px;">
+            <div style="display:flex; align-items:center; gap:8px; font-size:11px"><span class="pill-dot"></i></span><b>Tô Văn Nghĩa</b> <span style="color:var(--muted)">· Tại bàn HQ</span></div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:11px"><span class="pill-dot"></span><b>Nguyễn Văn An</b> <span style="color:var(--muted)">· Đang họp C&B</span></div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:11px"><span class="pill-dot"></span><b>Trần Thị Mai</b> <span style="color:var(--muted)">· Tài chính</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderVirtualAdminModule(container) {
+  container.innerHTML = `
+    <div class="module-view">
+      <div class="heading">
+        <div>
+          <h1>Virtual Workplace Administration & Server Health</h1>
+          <p>Quản trị cụm máy chủ Multiplayer, phân quyền khu vực 3D, giới hạn phòng và kiểm duyệt nội dung</p>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi">
+          <div class="kpi-top"><span>Trạng thái Multiplayer Server</span></div>
+          <div class="kpi-value" style="color:var(--green)">Ổn định</div>
+          <div class="kpi-foot">Latency: 18ms · WebSocket Active</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><span>Tổng Room đang hoạt động</span></div>
+          <div class="kpi-value" style="color:var(--cyan)">14 Phòng</div>
+          <div class="kpi-foot">Tối ưu hóa tải GPU & CPU</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><span>Bảo mật RLS Multi-company</span></div>
+          <div class="kpi-value" style="color:var(--green)">Đã bật</div>
+          <div class="kpi-foot">Cách ly dữ liệu 100%</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ==========================================
+// 5. EXISTING ENTERPRISE MODULE RENDERERS
+// ==========================================
+function renderHRMModule(container) {
+  container.innerHTML = `
+    <div class="module-view">
+      <div class="heading">
+        <div>
+          <h1>Phân hệ Quản trị Nhân sự HRM — Digital Workforce</h1>
+          <p>Quản lý hồ sơ, hợp đồng, chấm công và vị trí nhân viên trong mô hình 3D</p>
+        </div>
+        <button class="btn primary">＋ Thêm hồ sơ nhân viên</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã NV</th><th>Họ và Tên</th><th>Chức danh</th><th>Phòng ban</th><th>Mức lương</th><th>KPI Performance</th><th>Trạng thái Twin 3D</th><th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${state.employees.map(e => `
+              <tr>
+                <td><b>${e.id}</b></td><td>${e.name}</td><td>${e.role}</td><td>${e.dept}</td><td>${moneyVND(e.salary)}</td>
+                <td><span style="color:var(--green); font-weight:700">${e.perf}%</span></td>
+                <td><span class="status-pill">${e.status}</span></td>
+                <td><button class="btn" style="padding:3px 8px; font-size:10px;">Sửa</button></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderPayrollModule(container) {
+  container.innerHTML = `
+    <div class="module-view">
+      <div class="heading">
+        <div>
+          <h1>Phân hệ Tính lương C&B Engine</h1>
+          <p>Tự động hóa tính lương, trích đóng BHXH (10.5% NLĐ, 21.5% NSDLĐ) và Thuế TNCN lũy tiến</p>
+        </div>
+        <button class="btn primary">⚡ Chạy Payroll Tháng 11/2026</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã NV</th><th>Họ tên</th><th>Lương Gross</th><th>BHXH NLĐ (10.5%)</th><th>Thuế TNCN</th><th>Lương Net Thực nhận</th><th>BHXH Cty đóng (21.5%)</th><th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${state.employees.map(e => {
+              const bhxhNld = e.salary * 0.105;
+              const bhxhCty = e.salary * 0.215;
+              const pit = Math.max(0, (e.salary - bhxhNld - 11000000) * 0.1);
+              const net = e.salary - bhxhNld - pit;
+              return `
+                <tr>
+                  <td><b>${e.id}</b></td><td>${e.name}</td><td>${moneyVND(e.salary)}</td>
+                  <td style="color:var(--amber)">-${moneyVND(bhxhNld)}</td>
+                  <td style="color:var(--red)">-${moneyVND(pit)}</td>
+                  <td style="color:var(--green); font-weight:800">${moneyVND(net)}</td>
+                  <td style="color:var(--muted)">${moneyVND(bhxhCty)}</td>
+                  <td><span class="status-pill">Đã duyệt Payroll</span></td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderTaxInsuranceModule(container) {
+  container.innerHTML = `
+    <div class="module-view">
+      <div class="heading">
+        <div>
+          <h1>Phân hệ Quản lý Thuế TNCN & BHXH Việt Nam</h1>
+          <p>Đối chiếu nghĩa vụ thuế, bảo hiểm xã hội, bảo hiểm y tế và bảo hiểm thất nghiệp theo Luật quy định</p>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="kpi-top"><span>Tổng Quỹ BHXH Công ty đóng</span></div><div class="kpi-value" style="color:var(--cyan)">34.4 Triệu</div><div class="kpi-foot">Tỷ lệ 21.5% quỹ lương</div></div>
+        <div class="kpi"><div class="kpi-top"><span>Tổng Trích đóng NLĐ</span></div><div class="kpi-value" style="color:var(--amber)">16.8 Triệu</div><div class="kpi-foot">Tỷ lệ 10.5% mức lương</div></div>
+        <div class="kpi"><div class="kpi-top"><span>Tổng Thuế TNCN Khấu trừ</span></div><div class="kpi-value" style="color:var(--purple)">12.1 Triệu</div><div class="kpi-foot">Quyết toán theo tháng</div></div>
+      </div>
+    </div>
+  `;
+}
+
+function renderLegalModule(container) {
+  container.innerHTML = `
+    <div class="module-view">
+      <div class="heading">
+        <div>
+          <h1>Vietnam Legal Intelligence Engine</h1>
+          <p>Cơ sở dữ liệu pháp luật lao động, tiền lương, BHXH có nguồn, phiên bản và ngày hiệu lực</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Mã Văn bản</th><th>Tên Quy định / Luật</th><th>Cơ quan Ban hành</th><th>Ngày hiệu lực</th><th>Trạng thái áp dụng</th></tr>
+          </thead>
+          <tbody>
+            ${state.legalRules.map(r => `
+              <tr><td><b>${r.code}</b></td><td>${r.name}</td><td>${r.source}</td><td>${r.activeDate}</td><td><span class="status-pill">${r.status}</span></td></tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderRiskModule(container) {
+  container.innerHTML = `
+    <div class="module-view">
+      <div class="heading">
+        <div>
+          <h1>Quản trị Rủi ro Doanh nghiệp (ERM Engine)</h1>
+          <p>Theo dõi Key Risk Indicators (KRI) và phát hiện bất thường tự động</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Mã KRI</th><th>Mô tả Rủi ro</th><th>Mức độ</th><th>Bộ phận chịu trách nhiệm</th><th>Trạng thái xử lý</th></tr>
+          </thead>
+          <tbody>
+            ${state.risks.map(r => `
+              <tr><td><b>${r.id}</b></td><td>${r.title}</td><td><b style="color:${r.level === 'Cao' ? 'var(--red)' : 'var(--amber)'}">${r.level}</b></td><td>${r.dept}</td><td><span class="status-pill">${r.status}</span></td></tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderAuditLogsModule(container) {
+  container.innerHTML = `
+    <div class="module-view">
+      <div class="heading">
+        <div>
+          <h1>Hệ thống Nhật ký Audit Logs (Immutability Track)</h1>
+          <p>Truy vết toàn bộ tác động vào Database và trạng thái 3D Digital Twin</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Thời gian</th><th>Người thực hiện</th><th>Hành động Nghiệp vụ</th><th>Phân hệ</th></tr>
+          </thead>
+          <tbody>
+            ${state.auditLogs.map(a => `
+              <tr><td><code>${a.time}</code></td><td><b>${a.user}</b></td><td>${a.action}</td><td><span class="status-pill">${a.module}</span></td></tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderGenericModule(container, title) {
+  container.innerHTML = `
+    <div class="module-view">
+      <div class="heading">
+        <div>
+          <h1>Phân hệ ${title}</h1>
+          <p>Dữ liệu Digital Twin đang kết nối và đồng bộ với Supabase Backend</p>
+        </div>
+      </div>
+      <div class="alert-box">
+        ℹ <span>Phân hệ <b>${title}</b> đã tích hợp dữ liệu nền tảng và bảo mật phân quyền RLS theo từng Chi nhánh / Tập đoàn.</span>
+      </div>
+    </div>
+  `;
+}
+
+// ==========================================
+// 6. CONTROLLERS & EVENT BINDINGS
+// ==========================================
+function bindOverviewEvents() {
+  const btnReset = $('btnResetCam');
+  if (btnReset) {
+    btnReset.onclick = () => {
+      if (camera && controls) {
+        camera.position.set(14, 12, 16);
+        controls.target.set(0, 0, 0);
+        controls.update();
+        toast('Đã reset góc nhìn 3D về mặc định.');
+      }
+    };
+  }
+
+  const btnEdit = $('editDataBtn');
+  if (btnEdit) {
+    btnEdit.onclick = () => {
+      const comp = getCurrentCompanyData();
+      $('modalTitle').textContent = `✎ Cập nhật chỉ số — ${comp.name}`;
+      $('modalBody').innerHTML = `
+        <div class="field"><label>Số lượng nhân sự</label><input id="inEmp" type="number" value="${comp.employees}"></div>
+        <div class="field"><label>Doanh thu (tỷ VNĐ)</label><input id="inRev" type="number" step="0.1" value="${comp.revenue}"></div>
+        <div class="field"><label>Lợi nhuận (tỷ VNĐ)</label><input id="inProf" type="number" step="0.1" value="${comp.profit}"></div>
+        <div class="field"><label>Quỹ lương (tỷ VNĐ)</label><input id="inPay" type="number" step="0.1" value="${comp.payroll}"></div>
+        <div class="field full"><label>Ghi chú thay đổi</label><input id="inNote" type="text" placeholder="Nhập lý do điều chỉnh dữ liệu..."></div>
+      `;
+      $('editModal').classList.add('show');
+    };
+  }
+
+  const btnRefresh = $('refreshBtn');
+  if (btnRefresh) {
+    btnRefresh.onclick = () => {
+      toast('Đã đồng bộ thành công với Supabase Realtime Engine.');
+    };
+  }
+}
+
+function setupGlobalEvents() {
+  document.querySelectorAll('.nav button').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const page = btn.dataset.page;
+      state.activeView = page;
+      $('crumbCurrent').textContent = page;
+      renderMainView();
+    };
+  });
+
+  const switchBtn = $('companySwitchBtn');
+  if (switchBtn) {
+    switchBtn.onclick = () => {
+      const currentIndex = state.companies.findIndex(c => c.id === state.currentCompany);
+      const nextIndex = (currentIndex + 1) % state.companies.length;
+      state.currentCompany = state.companies[nextIndex].id;
+      $('currentCompanyLabel').textContent = `◈ ${state.companies[nextIndex].name}`;
+      toast(`Đã chuyển sang: ${state.companies[nextIndex].name}`);
+      renderMainView();
+    };
+  }
+
+  $('closeModal').onclick = () => $('editModal').classList.remove('show');
+  $('cancelEdit').onclick = () => $('editModal').classList.remove('show');
+  
+  $('saveData').onclick = () => {
+    const comp = getCurrentCompanyData();
+    const empInput = $('inEmp');
+    if (empInput) {
+      comp.employees = Number($('inEmp').value);
+      comp.revenue = Number($('inRev').value);
+      comp.profit = Number($('inProf').value);
+      comp.payroll = Number($('inPay').value);
+      
+      state.auditLogs.unshift({
+        time: new Date().toTimeString().split(' ')[0],
+        user: 'Tô Văn Nghĩa',
+        action: `Cập nhật dữ liệu Twin (${comp.name})`,
+        module: 'Digital Twin'
+      });
+
+      toast('Đã cập nhật dữ liệu doanh nghiệp và đồng bộ 3D!');
+      $('editModal').classList.remove('show');
+      renderMainView();
+    }
+  };
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  renderMainView();
+  setupGlobalEvents();
+});
 </script>
 </body>
 </html>
