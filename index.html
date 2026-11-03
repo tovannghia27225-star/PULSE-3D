@@ -3,2030 +3,748 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PULSE 3D — Pixel Enterprise HQ</title>
+<title>PULSE 3D — Enterprise Virtual HQ</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          darkbg: '#060b14', darkpanel: '#0d1527',
-          pulseblue: '#2563eb', pulsecyan: '#06b6d4',
-          pulsegreen: '#10b981', pulseamber: '#f59e0b',
-          pulsered: '#ef4444', pulsepurple: '#8b5cf6'
-        }
-      }
-    }
-  }
+  tailwind.config = { theme: { extend: { colors: {
+    bgdark: '#0B1120', panel: '#111827', border: '#1F2937'
+  }}}};
 </script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Press+Start+2P&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+  
   * { box-sizing: border-box; }
-  body {
-    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-    background-color: #050a14; color: #f0f4f8;
-    overflow: hidden; user-select: none;
-  }
+  body { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; background-color: #0B1120; color: #F3F4F6; overflow: hidden; user-select: none; }
+  
   ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: rgba(9, 15, 29, 0.8); }
-  ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.3); border-radius: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #4B5563; }
 
-  .dark-glass-panel {
-    background: rgba(11, 20, 38, 0.92);
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  /* Giao diện kính mờ (Glassmorphism) */
+  .glass-panel {
+    background: rgba(17, 24, 39, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   }
 
-  /* Pixel-art dialogue bubble */
-  .chat-bubble-3d {
+  /* Nhãn tên nhân vật (HTML Overlay) */
+  .char-label {
     position: absolute;
     transform: translate(-50%, -100%);
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #E2E8F0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     pointer-events: none;
-    transition: opacity 0.15s ease;
-    z-index: 30;
-  }
-  .chat-bubble-3d > .bubble-inner {
-    background: #131c30;
-    border: 3px solid #050a14;
-    border-radius: 3px;
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.6), inset 0 0 0 1px rgba(56,189,248,0.4);
-    padding: 5px 9px;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: 8px;
-    line-height: 1.35;
-    color: #e0f2fe;
-    position: relative;
     white-space: nowrap;
-    image-rendering: pixelated;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
+    z-index: 10;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
   }
-  .chat-bubble-3d > .bubble-inner::after {
+  .char-label::after {
     content: '';
     position: absolute;
-    bottom: -8px;
+    bottom: -5px;
     left: 50%;
-    margin-left: -6px;
-    width: 0; height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 8px solid #050a14;
+    transform: translateX(-50%);
+    border-width: 5px 5px 0;
+    border-style: solid;
+    border-color: rgba(15, 23, 42, 0.9) transparent transparent transparent;
   }
-  .chat-bubble-3d > .bubble-inner::before {
+  .char-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .char-dot.green { background: #10B981; box-shadow: 0 0 6px #10B981; }
+  .char-dot.blue { background: #3B82F6; box-shadow: 0 0 6px #3B82F6; }
+
+  /* Bong bóng Chat */
+  .chat-bubble {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    background: #0F172A;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #E2E8F0;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 20;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: float 3s ease-in-out infinite;
+  }
+  .chat-bubble::after {
     content: '';
     position: absolute;
-    bottom: -4px;
+    bottom: -6px;
     left: 50%;
-    margin-left: -4px;
-    width: 0; height: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-top: 6px solid #131c30;
-    z-index: 1;
+    transform: translateX(-50%);
+    border-width: 6px 6px 0;
+    border-style: solid;
+    border-color: #0F172A transparent transparent transparent;
   }
-  .bubble-inner .bubble-dot {
-    display: inline-block;
-    width: 6px; height: 6px;
-    background: #22d3ee;
-    margin-right: 6px;
-    box-shadow: 0 0 6px #22d3ee;
-    animation: bubbleBlink 1s infinite;
-  }
-  @keyframes bubbleBlink { 0%,50% { opacity:1; } 51%,100% { opacity:0.2; } }
+  @keyframes float { 0%,100%{transform:translate(-50%,-100%)} 50%{transform:translate(-50%,-105%)} }
 
-  .badge-green { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
-  .badge-blue { background: rgba(37,99,235,0.15); color: #38bdf8; border: 1px solid rgba(37,99,235,0.3); }
-
-  #canvasContainer canvas { image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+  #canvas-container canvas { display: block; width: 100%; height: 100%; outline: none; }
 </style>
 <script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
-  }
-}
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+}}
 </script>
 </head>
-<body class="h-screen w-screen flex flex-col overflow-hidden text-xs">
+<body class="h-screen w-screen flex flex-col overflow-hidden text-sm">
 
-  <header class="h-12 dark-glass-panel z-20 flex items-center justify-between px-4 border-b border-white/10 shrink-0">
-    <div class="flex items-center gap-3">
-      <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-extrabold text-white text-base shadow-lg shadow-blue-500/30">P</div>
-      <div>
-        <div class="font-extrabold text-sm text-white tracking-tight flex items-center gap-2">
-          PULSE 3D <span class="text-[10px] font-semibold bg-cyan-500/10 text-cyan-400 px-2 py-0.5 rounded-full border border-cyan-500/30">PIXEL HQ</span>
-        </div>
-        <div class="text-[9px] text-slate-400 font-medium">Enterprise Digital Ecosystem · Pixel Virtual Workplace</div>
-      </div>
+<!-- TOP BAR -->
+<header class="h-14 glass-panel z-30 flex items-center justify-between px-4 border-b border-white/10 shrink-0">
+  <div class="flex items-center gap-4">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center font-extrabold text-white shadow-lg">P</div>
+      <span class="font-extrabold text-white text-base tracking-tight">PULSE 3D</span>
     </div>
-    <div class="flex items-center gap-4">
-      <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-300">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="font-semibold text-[10px]">REALTIME AGENTS (540 NV)</span>
-      </div>
-      <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/20 border border-blue-500/30 text-white">
-        <span>🏢</span>
-        <select id="companySelect" class="bg-transparent text-cyan-300 font-bold focus:outline-none cursor-pointer text-xs">
-          <option value="COMP-001" class="bg-slate-900 text-white">◈ Tập đoàn PULSE Group (HQ)</option>
-          <option value="COMP-002" class="bg-slate-900 text-white">◈ PULSE Technology Solutions</option>
-          <option value="COMP-003" class="bg-slate-900 text-white">◈ PULSE Logistics & Warehouse</option>
-        </select>
-      </div>
-      <div class="flex items-center gap-2 bg-white/5 pl-2 pr-3 py-1 rounded-full border border-white/10">
-        <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center font-extrabold text-white text-[10px]">TN</div>
-        <div class="text-left">
-          <div class="font-bold text-white text-[11px] leading-tight">Tô Văn Nghĩa</div>
-          <div class="text-[8px] text-slate-400">Principal Architect</div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <div class="flex-1 flex min-h-0 relative">
-    <aside class="w-64 dark-glass-panel flex flex-col border-r border-white/10 z-10 shrink-0">
-      <div class="p-3 border-b border-white/10">
-        <div class="flex justify-between items-center mb-1">
-          <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Danh Sách Nhân Sự</span>
-          <span class="text-[9px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20" id="empOnlineCount">● 540 Online</span>
-        </div>
-        <input type="text" id="searchInput" placeholder="Tìm tên, mã EMP..." class="w-full bg-black/40 border border-white/10 rounded-lg px-2.5 py-1.5 text-white text-[11px] focus:outline-none focus:border-cyan-500/50 mt-1">
-      </div>
-      <div class="flex-1 overflow-y-auto p-2 space-y-1.5" id="sessionsList"></div>
-      <div class="p-2 border-t border-white/10 space-y-1">
-        <div class="text-[9px] font-bold text-slate-500 uppercase tracking-wider px-2 mb-1">Lọc Phòng Ban</div>
-        <button data-filter="all" class="dept-filter-btn active w-full text-left px-2.5 py-1 rounded-lg text-cyan-400 bg-white/10 flex items-center justify-between font-bold"><span>❖ Tất cả</span><span class="text-[9px]">540 NV</span></button>
-        <button data-filter="HRM" class="dept-filter-btn w-full text-left px-2.5 py-1 rounded-lg text-slate-300 hover:bg-white/5 flex items-center justify-between font-medium"><span>♙ HRM & C&B</span><span class="text-[9px] text-cyan-400">10.5%</span></button>
-        <button data-filter="Finance" class="dept-filter-btn w-full text-left px-2.5 py-1 rounded-lg text-slate-300 hover:bg-white/5 flex items-center justify-between font-medium"><span>₫ Finance</span><span class="text-[9px] text-emerald-400">45.8B</span></button>
-        <button data-filter="Legal" class="dept-filter-btn w-full text-left px-2.5 py-1 rounded-lg text-slate-300 hover:bg-white/5 flex items-center justify-between font-medium"><span>§ Legal</span><span class="text-[9px] text-amber-400">BLLĐ 2019</span></button>
-        <button data-filter="Tech" class="dept-filter-btn w-full text-left px-2.5 py-1 rounded-lg text-slate-300 hover:bg-white/5 flex items-center justify-between font-medium"><span>⚙ Tech</span><span class="text-[9px] text-purple-400">3D Twin</span></button>
-        <button data-filter="Operations" class="dept-filter-btn w-full text-left px-2.5 py-1 rounded-lg text-slate-300 hover:bg-white/5 flex items-center justify-between font-medium"><span>📦 Operations</span><span class="text-[9px] text-cyan-400">Warehouse</span></button>
-      </div>
-      <div class="p-2.5 border-t border-white/10 text-[9px] text-slate-500 flex justify-between items-center">
-        <span>PULSE Pixel Engine v4.0</span>
-        <span class="text-emerald-400 font-semibold">● Live</span>
-      </div>
-    </aside>
-
-    <main class="flex-1 relative flex flex-col bg-slate-950">
-      <div class="absolute top-3 left-4 right-4 z-10 grid grid-cols-2 md:grid-cols-5 gap-2.5 pointer-events-none">
-        <div class="dark-glass-panel p-2.5 rounded-xl pointer-events-auto">
-          <div class="text-slate-400 text-[9px] font-bold uppercase tracking-wider">Nhân Sự</div>
-          <div class="text-lg font-extrabold text-white mt-0.5" id="kpiEmp">540</div>
-          <div class="text-[9px] text-emerald-400 font-medium">100% Pixel Avatar</div>
-        </div>
-        <div class="dark-glass-panel p-2.5 rounded-xl pointer-events-auto">
-          <div class="text-slate-400 text-[9px] font-bold uppercase tracking-wider">Doanh Thu</div>
-          <div class="text-lg font-extrabold text-cyan-400 mt-0.5" id="kpiRev">45.8 Tỷ</div>
-          <div class="text-[9px] text-slate-400">↑ 12.4% QoQ</div>
-        </div>
-        <div class="dark-glass-panel p-2.5 rounded-xl pointer-events-auto">
-          <div class="text-slate-400 text-[9px] font-bold uppercase tracking-wider">Lợi Nhuận</div>
-          <div class="text-lg font-extrabold text-emerald-400 mt-0.5" id="kpiProf">11.2 Tỷ</div>
-          <div class="text-[9px] text-slate-400">Biên: 24.5%</div>
-        </div>
-        <div class="dark-glass-panel p-2.5 rounded-xl pointer-events-auto">
-          <div class="text-slate-400 text-[9px] font-bold uppercase tracking-wider">Quỹ Lương</div>
-          <div class="text-lg font-extrabold text-amber-400 mt-0.5" id="kpiPay">8.5 Tỷ</div>
-          <div class="text-[9px] text-amber-400/80">BHXH 10.5%/21.5%</div>
-        </div>
-        <div class="dark-glass-panel p-2.5 rounded-xl pointer-events-auto hidden md:block">
-          <div class="text-slate-400 text-[9px] font-bold uppercase tracking-wider">Compliance</div>
-          <div class="text-lg font-extrabold text-purple-400 mt-0.5" id="kpiComp">96%</div>
-          <div class="text-[9px] text-purple-300">BLLĐ 2019</div>
-        </div>
-      </div>
-
-      <div id="canvasContainer" class="w-full h-full relative cursor-grab active:cursor-grabbing"></div>
-      <div id="bubblesContainer" class="absolute inset-0 pointer-events-none overflow-hidden z-20"></div>
-
-      <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 dark-glass-panel px-4 py-2 rounded-2xl flex items-center gap-3 shadow-2xl border border-white/10">
-        <button id="btnHomeView" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition" title="Reset view">🏠</button>
-        <button id="btnZoomOut" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition">➖</button>
-        <div class="text-slate-300 font-bold text-xs px-1" id="zoomValueText">100%</div>
-        <button id="btnZoomIn" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition">➕</button>
-        <div class="h-4 w-px bg-white/10"></div>
-        <button id="btnDragMode" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 font-bold text-xs flex items-center gap-1.5 transition">
-          <span>✋</span> Drag: <span id="dragStatusLabel" class="text-cyan-400">BẬT</span>
-        </button>
-        <button id="btnToggleBubbles" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 font-bold text-xs flex items-center gap-1.5 transition">
-          <span>💬</span> Bubble: <span id="bubbleStatusLabel" class="text-emerald-400">BẬT</span>
-        </button>
-        <button id="btnAvatarControl" class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold shadow-lg flex items-center gap-1.5 transition">
-          <span>🏃</span> Hoá thân
-        </button>
-      </div>
-    </main>
-
-    <aside class="w-80 dark-glass-panel flex flex-col border-l border-white/10 z-10 shrink-0">
-      <div class="p-3 border-b border-white/10 bg-black/20">
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-[10px] font-extrabold text-cyan-400 uppercase tracking-wider">Node Server</span>
-          <span class="text-[9px] text-slate-400">Live</span>
-        </div>
-        <div class="grid grid-cols-2 gap-2 text-[10px]">
-          <div class="p-2 rounded-lg bg-black/40 border border-white/5">
-            <div class="text-slate-400 font-medium">RAM</div>
-            <div class="text-sm font-bold text-white mt-0.5">79% <span class="text-[9px] font-normal text-slate-400">(13/16GB)</span></div>
-            <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1.5 overflow-hidden"><div class="bg-cyan-500 h-full rounded-full" style="width: 79%"></div></div>
-          </div>
-          <div class="p-2 rounded-lg bg-black/40 border border-white/5">
-            <div class="text-slate-400 font-medium">CPU</div>
-            <div class="text-sm font-bold text-emerald-400 mt-0.5">44% <span class="text-[9px] font-normal text-slate-400">(10 cores)</span></div>
-            <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1.5 overflow-hidden"><div class="bg-emerald-500 h-full rounded-full" style="width: 44%"></div></div>
-          </div>
-        </div>
-      </div>
-      <div class="p-3 border-b border-white/10 bg-black/10">
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Digital Twin</span>
-          <span class="px-2 py-0.5 rounded-full text-[9px] font-bold badge-blue">DETAILS</span>
-        </div>
-        <div id="detailPanel" class="space-y-2"></div>
-      </div>
-      <div class="flex-1 flex flex-col min-h-0 p-3">
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Audit Logs</span>
-          <span class="text-[9px] text-emerald-400 font-bold">● Live</span>
-        </div>
-        <div class="flex-1 overflow-y-auto space-y-2 pr-1" id="auditFeed"></div>
-      </div>
-    </aside>
-  </div>
-
-  <div id="editModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-    <div class="w-full max-w-lg dark-glass-panel rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-      <div class="p-4 border-b border-white/10 flex justify-between items-center bg-black/30">
-        <h3 class="font-extrabold text-white text-sm flex items-center gap-2"><span>✎</span> Cập Nhật Digital Twin</h3>
-        <button id="closeEditModal" class="text-slate-400 hover:text-white text-base">✕</button>
-      </div>
-      <div class="p-4 space-y-3">
-        <div><label class="text-slate-400 text-[10px] font-bold block mb-1">Tên Công Ty</label><input id="editCompName" type="text" class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white text-xs"></div>
-        <div class="grid grid-cols-2 gap-3">
-          <div><label class="text-slate-400 text-[10px] font-bold block mb-1">Doanh Thu (Tỷ)</label><input id="editCompRev" type="number" step="0.1" class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white text-xs"></div>
-          <div><label class="text-slate-400 text-[10px] font-bold block mb-1">Lợi Nhuận (Tỷ)</label><input id="editCompProf" type="number" step="0.1" class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white text-xs"></div>
-        </div>
-        <div><label class="text-slate-400 text-[10px] font-bold block mb-1">Quỹ Lương (Tỷ)</label><input id="editCompPay" type="number" step="0.1" class="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white text-xs"></div>
-      </div>
-      <div class="p-4 border-t border-white/10 flex justify-end gap-2 bg-black/30">
-        <button id="cancelEditBtn" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-bold">Hủy</button>
-        <button id="saveEditBtn" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold shadow-lg">Lưu</button>
-      </div>
+    <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold">
+      <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+      DEMO - dữ liệu giả lập
     </div>
   </div>
-
-  <div id="toast" class="fixed bottom-16 right-8 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-2xl z-50 transition-all duration-300 opacity-0 translate-y-4 pointer-events-none flex items-center gap-2 border border-white/10">
-    <span class="text-cyan-400">ℹ</span><span id="toastText">Thao tác thành công</span>
+  
+  <div class="flex items-center gap-4">
+    <!-- Hardware Monitor (Giả lập) -->
+    <div class="hidden lg:flex items-center gap-3 px-4 py-1.5 rounded-full bg-black/40 border border-white/5">
+      <span class="text-xs font-semibold text-slate-300">🖥 Máy Mac</span>
+      <span class="text-xs text-slate-400">RAM 79% · 3.1GB</span>
+      <div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+        <div class="h-full bg-amber-500 rounded-full" style="width: 79%"></div>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button class="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition">⚙️</button>
+      <button class="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition">❓</button>
+    </div>
   </div>
+</header>
+
+<!-- MAIN LAYOUT -->
+<div class="flex-1 flex min-h-0 relative">
+
+  <!-- LEFT PANEL: Sessions & Tasks -->
+  <aside class="w-72 glass-panel flex flex-col border-r border-white/10 z-20 shrink-0 absolute left-0 top-0 bottom-0 md:relative">
+    <div class="p-4 border-b border-white/10">
+      <div class="flex justify-between items-center mb-3">
+        <h2 class="text-sm font-bold text-white">Phiên làm việc</h2>
+        <span class="text-[10px] font-semibold text-emerald-400 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> đang nhận dữ liệu</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2 mb-4">
+        <div class="p-2 rounded-xl bg-black/40 border border-white/5">
+          <div class="text-lg font-extrabold text-white" id="statActive">6</div>
+          <div class="text-[10px] text-slate-400">đang làm</div>
+        </div>
+        <div class="p-2 rounded-xl bg-black/40 border border-white/5">
+          <div class="text-lg font-extrabold text-amber-400" id="statPending">0</div>
+          <div class="text-[10px] text-slate-400">chờ duyệt</div>
+        </div>
+        <div class="p-2 rounded-xl bg-black/40 border border-white/5">
+          <div class="text-lg font-extrabold text-slate-400" id="statIdle">0</div>
+          <div class="text-[10px] text-slate-400">đang nghỉ</div>
+        </div>
+      </div>
+      <div class="relative">
+        <input type="text" id="searchInput" placeholder="Tìm theo tên hoặc thư mục..." class="w-full bg-black/30 border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50">
+        <span class="absolute left-3 top-2.5 text-slate-500 text-xs">🔍</span>
+      </div>
+    </div>
+    
+    <div class="flex-1 overflow-y-auto p-2 space-y-1">
+      <div class="px-2 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider flex justify-between items-center">
+        <span>Đang làm <span id="countActive">6</span></span>
+      </div>
+      <div id="sessionsList" class="space-y-1"></div>
+    </div>
+  </aside>
+
+  <!-- CENTER 3D VIEW -->
+  <main class="flex-1 relative bg-[#0B1120] ml-0 md:ml-0">
+    <div id="canvas-container" class="absolute inset-0"></div>
+    <div id="labels-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+    <div id="bubbles-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+    <!-- BOTTOM TOOLBAR -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 glass-panel px-4 py-2 rounded-2xl flex items-center gap-2 shadow-2xl">
+      <button class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition" title="Về mặc định">🏠</button>
+      <button class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition">🖥</button>
+      <button class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition">👥</button>
+      <div class="w-px h-6 bg-white/10 mx-1"></div>
+      <button class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition" id="btnZoomOut">➖</button>
+      <div class="text-xs font-bold text-slate-300 px-2" id="zoomLevel">100%</div>
+      <button class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition" id="btnZoomIn">➕</button>
+      <div class="w-px h-6 bg-white/10 mx-1"></div>
+      <button class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white text-xs font-bold shadow-lg flex items-center gap-2 transition">
+        <span>🏃</span> Hoá thân
+      </button>
+    </div>
+  </main>
+
+  <!-- RIGHT PANEL: Activity & Metrics -->
+  <aside class="w-80 glass-panel flex flex-col border-l border-white/10 z-20 shrink-0 hidden lg:flex">
+    <div class="p-4 border-b border-white/10">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-sm font-bold text-white">Hoạt động</h2>
+        <span class="text-[10px] font-semibold text-emerald-400 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> trực tiếp</span>
+      </div>
+      <div class="grid grid-cols-4 gap-2 mb-4 text-center">
+        <div class="p-2 rounded-lg bg-black/30 border border-white/5">
+          <div class="text-sm font-bold text-blue-400">6</div>
+          <div class="text-[9px] text-slate-400 uppercase">Việc</div>
+        </div>
+        <div class="p-2 rounded-lg bg-black/30 border border-white/5">
+          <div class="text-sm font-bold text-white">11</div>
+          <div class="text-[9px] text-slate-400 uppercase">Đọc</div>
+        </div>
+        <div class="p-2 rounded-lg bg-black/30 border border-white/5">
+          <div class="text-sm font-bold text-white">2</div>
+          <div class="text-[9px] text-slate-400 uppercase">Sửa</div>
+        </div>
+        <div class="p-2 rounded-lg bg-black/30 border border-white/5">
+          <div class="text-sm font-bold text-emerald-400">$16.9</div>
+          <div class="text-[9px] text-slate-400 uppercase">Giá API</div>
+        </div>
+      </div>
+      
+      <!-- System status buttons -->
+      <div class="space-y-2 mb-4">
+        <button class="w-full flex items-center justify-between p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold hover:bg-amber-500/20 transition">
+          <span class="flex items-center gap-2">⏱ Thời gian</span>
+          <span class="text-[10px] text-amber-500/70 font-normal">xem mỗi phiên làm gì</span>
+        </button>
+        <button class="w-full flex items-center justify-between p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold hover:bg-emerald-500/20 transition">
+          <span class="flex items-center gap-2">🏆 Tổng kết tuần</span>
+          <span class="text-[10px] text-emerald-500/70 font-normal">thể ảnh 7 ngày</span>
+        </button>
+      </div>
+      
+      <div class="flex gap-2 mb-3">
+        <button class="flex-1 py-1.5 rounded-lg bg-white/5 text-xs font-semibold text-slate-300 hover:bg-white/10">Tắt cả</button>
+        <button class="flex-1 py-1.5 rounded-lg bg-rose-500/20 text-xs font-semibold text-rose-400 border border-rose-500/30 hover:bg-rose-500/30 flex items-center justify-center gap-1">
+          Cần chú ý <span class="bg-rose-500 text-white text-[9px] px-1.5 rounded-full">2</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Feed -->
+    <div class="flex-1 overflow-y-auto p-3 space-y-2" id="activityFeed">
+      <!-- Rendered via JS -->
+    </div>
+  </aside>
+
+</div>
 
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-// =========================================================
-// 1. DATA MODEL
-// =========================================================
-const firstNames = ['Tô','Nguyễn','Trần','Lê','Phạm','Hoàng','Vũ','Đặng','Bùi','Đỗ','Hồ'];
-const middleNames = ['Văn','Thị','Minh','Hoàng','Thu','Đức','Anh','Ngọc','Hữu','Khánh'];
-const lastNames = ['Nghĩa','An','Mai','Nam','Khoa','Thảo','Hùng','Linh','Dũng','Trang','Tú','Thắng','Hải','Hà'];
-const departments = ['HRM','C&B','Finance','Legal','Tech','Operations'];
-const rolesByDept = {
-  HRM: ['HR Manager','Talent Acquisition','HRBP'],
-  'C&B': ['C&B Lead','Payroll Specialist','Insurance Officer'],
-  Finance: ['Chief Accountant','Financial Analyst','Auditor'],
-  Legal: ['Legal Lead','Compliance Specialist','Contract Reviewer'],
-  Tech: ['Principal Architect','Senior Developer','DevOps','3D Specialist'],
-  Operations: ['Operations Lead','Logistics Officer','Supply Manager']
-};
-
-function generate540Employees() {
-  const emps = [];
-  emps.push({ id:'EMP-101', name:'Tô Văn Nghĩa', role:'Principal Architect', dept:'Tech', salary:45000000, perf:98, status:'Làm việc tại bàn', bubble:'Push code kiến trúc v4.0!', shirtColor:0x2563eb, hairColor:0x1e293b, accessory:'glasses', targetPos:{x:-3.5,z:-2}, currentPos:{x:-3.5,z:-2}, state:'working', deskPos:{x:-3.5,z:-2} });
-  emps.push({ id:'EMP-102', name:'Nguyễn Văn An', role:'C&B Specialist', dept:'C&B', salary:22000000, perf:92, status:'Đối soát lương & BHXH', bubble:'Chạy xong script C&B rồi nha', shirtColor:0x10b981, hairColor:0x475569, accessory:'headset', targetPos:{x:-3.5,z:2}, currentPos:{x:-3.5,z:2}, state:'working', deskPos:{x:-3.5,z:2} });
-  emps.push({ id:'EMP-103', name:'Trần Thị Mai', role:'Chief Accountant', dept:'Finance', salary:35000000, perf:95, status:'Họp ban giám đốc', bubble:'Quyết toán Tài chính kỳ này!', shirtColor:0xf59e0b, hairColor:0x78350f, accessory:'lanyard', targetPos:{x:3.5,z:-2}, currentPos:{x:3.5,z:-2}, state:'working', deskPos:{x:3.5,z:-2} });
-  emps.push({ id:'EMP-104', name:'Lê Hoàng Nam', role:'Operations Lead', dept:'Operations', salary:28000000, perf:88, status:'Kiểm tra hàng Shopee', bubble:'Dạ em ra liền!', shirtColor:0x06b6d4, hairColor:0x334155, accessory:'none', targetPos:{x:-7.2,z:3.2}, currentPos:{x:-7.2,z:3.2}, state:'walking', deskPos:{x:-7.2,z:3.2} });
-  emps.push({ id:'EMP-105', name:'Phạm Minh Khoa', role:'Legal Lead', dept:'Legal', salary:30000000, perf:91, status:'Đối soát hợp đồng', bubble:'Review BLLĐ 2019 đi ạ', shirtColor:0x8b5cf6, hairColor:0x0f172a, accessory:'glasses', targetPos:{x:3.5,z:2.5}, currentPos:{x:3.5,z:2.5}, state:'working', deskPos:{x:3.5,z:2.5} });
-  emps.push({ id:'EMP-106', name:'Hoàng Thu Thảo', role:'UX Specialist', dept:'Tech', salary:24000000, perf:94, status:'Nghỉ giải lao Lounge', bubble:'Bánh tráng trộn! Đợi mình với!', shirtColor:0xec4899, hairColor:0x9a3412, accessory:'headset', targetPos:{x:7.0,z:-3.5}, currentPos:{x:7.0,z:-3.5}, state:'resting', deskPos:{x:7.0,z:-3.5} });
-
-  const colors = [0x2563eb,0x10b981,0xf59e0b,0x06b6d4,0x8b5cf6,0xec4899,0x64748b,0x0284c7];
-  const hairColors = [0x1e293b,0x475569,0x78350f,0x0f172a,0x9a3412];
-  const accessories = ['lanyard','glasses','headset','none'];
-
-  for (let i = 7; i <= 540; i++) {
-    const fn = firstNames[Math.floor(Math.random()*firstNames.length)];
-    const mn = middleNames[Math.floor(Math.random()*middleNames.length)];
-    const ln = lastNames[Math.floor(Math.random()*lastNames.length)];
-    const dept = departments[Math.floor(Math.random()*departments.length)];
-    const roles = rolesByDept[dept];
-    const role = roles[Math.floor(Math.random()*roles.length)];
-    const idStr = 'EMP-' + String(i).padStart(3, '0');
-    emps.push({
-      id:idStr, name:`${fn} ${mn} ${ln}`, role, dept,
-      salary: 15000000 + Math.floor(Math.random()*25000000),
-      perf: 80 + Math.floor(Math.random()*20),
-      status:'Đang làm việc',
-      bubble:`Tác vụ ${dept} đang chạy`,
-      shirtColor: colors[i%colors.length],
-      hairColor: hairColors[i%hairColors.length],
-      accessory: accessories[i%accessories.length],
-      targetPos:{x:(Math.random()-0.5)*12, z:(Math.random()-0.5)*10},
-      currentPos:{x:(Math.random()-0.5)*12, z:(Math.random()-0.5)*10},
-      state:'working',
-      deskPos:{x:(Math.random()-0.5)*12, z:(Math.random()-0.5)*10}
-    });
-  }
-  return emps;
-}
+// ==========================================
+// 1. DATA & STATE
+// ==========================================
+const DEPARTMENTS = ['Tech', 'Sales', 'Marketing', 'HRM', 'Finance', 'Operations'];
+const NAMES = ['Tô Văn Nghĩa', 'Nguyễn Văn An', 'Trần Thị Mai', 'Lê Hoàng Nam', 'Phạm Minh Khoa', 'Hoàng Thu Thảo', 'Vũ Ngọc Linh', 'Đặng Hữu Tú', 'Bùi Thu Hà', 'Hồ Khánh Dũng'];
+const ROLES = ['Principal Architect', 'Frontend Dev', 'Backend Dev', 'Product Owner', 'UI/UX Designer', 'QA Engineer', 'DevOps', 'Data Analyst'];
 
 const state = {
-  currentCompanyId: 'COMP-001',
+  employees: [],
+  selected: null,
   showBubbles: true,
-  avatarControlMode: false,
-  dragModeActive: true,
-  currentFilter: 'all',
-  selectedEntity: null,
-  companies: [
-    { id:'COMP-001', name:'Tập đoàn PULSE Group (HQ)', employees:540, revenue:45.8, profit:11.2, payroll:8.5, compliance:96, risks:3 },
-    { id:'COMP-002', name:'PULSE Technology Solutions', employees:180, revenue:18.5, profit:4.6, payroll:3.8, compliance:98, risks:1 },
-    { id:'COMP-003', name:'PULSE Logistics & Warehouse', employees:220, revenue:22.1, profit:3.9, payroll:3.1, compliance:92, risks:5 }
-  ],
-  employees: generate540Employees(),
-  activities: [
-    { time:'17:28:10', user:'Tô Văn Nghĩa', action:'Cập nhật bảng lương C&B Tháng 11/2026', tag:'Payroll' },
-    { time:'16:45:22', user:'System Worker', action:'Khởi chạy Realtime 540 Nhân sự Engine', tag:'540 NV' },
-    { time:'14:12:05', user:'Trần Thị Mai', action:'Phê duyệt chứng từ chi ngân sách', tag:'Finance' },
-    { time:'11:05:40', user:'Phạm Minh Khoa', action:'Đối soát NĐ 145/2020/NĐ-CP', tag:'Legal' },
-    { time:'09:30:00', user:'Nguyễn Văn An', action:'Xuất báo cáo BHXH (10.5%/21.5%)', tag:'HRM' }
-  ]
 };
 
-const $ = id => document.getElementById(id);
-function showToast(msg) {
-  const t = $('toast');
-  $('toastText').textContent = msg;
-  t.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none'), 2400);
-}
-
-// =========================================================
-// 2. PIXEL TEXTURE LIBRARY
-// =========================================================
-const TEX_CACHE = {};
-function pxTex(key, w, h, draw, rx=1, ry=1) {
-  const k = key+'|'+rx+'|'+ry;
-  if (TEX_CACHE[k]) return TEX_CACHE[k];
-  const c = document.createElement('canvas');
-  c.width = w; c.height = h;
-  const g = c.getContext('2d');
-  g.imageSmoothingEnabled = false;
-  draw(g, w, h);
-  const t = new THREE.CanvasTexture(c);
-  t.magFilter = THREE.NearestFilter;
-  t.minFilter = THREE.NearestFilter;
-  t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  t.repeat.set(rx, ry);
-  t.colorSpace = THREE.SRGBColorSpace;
-  t.anisotropy = 1;
-  TEX_CACHE[k] = t;
-  return t;
-}
-
-// --- Wood floor: warm oak planks ---
-const woodFloorTex = pxTex('woodFloor', 64, 64, (g,w,h) => {
-  const tones = ['#B0784A','#9E6838','#B88452','#A06A3C'];
-  for (let p = 0; p < 4; p++) {
-    const y0 = p * (h/4);
-    g.fillStyle = tones[p];
-    g.fillRect(0, y0, w, h/4);
-    // grain
-    for (let i = 0; i < 24; i++) {
-      const yy = y0 + Math.floor(Math.random()*(h/4));
-      const xx = Math.floor(Math.random()*w);
-      const len = 2 + Math.floor(Math.random()*10);
-      g.fillStyle = Math.random() < 0.5 ? 'rgba(60,30,10,0.3)' : 'rgba(200,160,110,0.25)';
-      g.fillRect(xx, yy, len, 1);
-    }
-    g.fillStyle = 'rgba(30,15,5,0.6)';
-    g.fillRect(0, y0, w, 1);
-    const seamX = (p%2===0) ? w/2 : w/4;
-    g.fillRect(seamX, y0, 1, h/4);
-  }
-}, 10, 8);
-
-// --- Carpet textures ---
-function makeCarpetTexture(key, baseColor, accentColor) {
-  return pxTex(key, 32, 32, (g,w,h) => {
-    g.fillStyle = baseColor; g.fillRect(0,0,w,h);
-    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-      if ((x+y)%2 === 0 && Math.random() < 0.4) { g.fillStyle = accentColor; g.fillRect(x,y,1,1); }
-      if (Math.random() < 0.08) { g.fillStyle = 'rgba(255,255,255,0.08)'; g.fillRect(x,y,1,1); }
-      if (Math.random() < 0.06) { g.fillStyle = 'rgba(0,0,0,0.12)'; g.fillRect(x,y,1,1); }
-    }
-  }, 3, 3);
-}
-const carpetMint = makeCarpetTexture('carpetMint', '#8fc4b4', '#7bb3a3');
-const carpetCyan = makeCarpetTexture('carpetCyan', '#7ba8bd', '#6a94a8');
-const carpetPeach = makeCarpetTexture('carpetPeach', '#e0b898', '#d1a888');
-const carpetPurple = makeCarpetTexture('carpetPurple', '#9b8bc4', '#8a7bb5');
-
-// --- Grass ground ---
-const grassTex = pxTex('grass', 32, 32, (g,w,h) => {
-  g.fillStyle = '#5a8545'; g.fillRect(0,0,w,h);
-  for (let i = 0; i < 200; i++) {
-    const r = Math.random();
-    g.fillStyle = r < 0.4 ? '#6b9a52' : (r < 0.7 ? '#4d7538' : '#7aab60');
-    g.fillRect(Math.floor(Math.random()*w), Math.floor(Math.random()*h), 1, 1);
-  }
-}, 8, 8);
-
-// --- Asphalt road ---
-const asphaltTex = pxTex('asphalt', 32, 32, (g,w,h) => {
-  g.fillStyle = '#2a2a35'; g.fillRect(0,0,w,h);
-  for (let i = 0; i < 150; i++) {
-    g.fillStyle = Math.random() < 0.5 ? '#1f1f28' : '#383840';
-    g.fillRect(Math.floor(Math.random()*w), Math.floor(Math.random()*h), 1, 1);
-  }
-}, 6, 2);
-
-// --- Sidewalk ---
-const sidewalkTex = pxTex('sidewalk', 32, 32, (g,w,h) => {
-  g.fillStyle = '#8a8a92'; g.fillRect(0,0,w,h);
-  for (let i = 0; i < 80; i++) {
-    g.fillStyle = Math.random() < 0.5 ? '#7a7a82' : '#9a9aa2';
-    g.fillRect(Math.floor(Math.random()*w), Math.floor(Math.random()*h), 1, 1);
-  }
-  g.fillStyle = 'rgba(0,0,0,0.4)';
-  g.fillRect(0, h/2, w, 1);
-  g.fillRect(w/2, 0, 1, h);
-}, 8, 2);
-
-// --- Wall (concrete panel) ---
-const wallTex = pxTex('wall', 32, 32, (g,w,h) => {
-  g.fillStyle = '#3a4554'; g.fillRect(0,0,w,h);
-  for (let i = 0; i < 60; i++) {
-    g.fillStyle = Math.random() < 0.5 ? '#323d4a' : '#435060';
-    g.fillRect(Math.floor(Math.random()*w), Math.floor(Math.random()*h), 1, 1);
-  }
-  g.fillStyle = 'rgba(0,0,0,0.25)';
-  for (let y = 0; y < h; y += 8) g.fillRect(0, y, w, 1);
-}, 4, 2);
-
-// --- Wood desk top ---
-const deskWoodTex = pxTex('deskWood', 32, 32, (g,w,h) => {
-  g.fillStyle = '#8B5A2B'; g.fillRect(0,0,w,h);
-  for (let i = 0; i < 40; i++) {
-    const yy = Math.floor(Math.random()*h);
-    g.fillStyle = Math.random() < 0.6 ? 'rgba(50,25,10,0.4)' : 'rgba(180,130,90,0.35)';
-    g.fillRect(Math.floor(Math.random()*w), yy, 2+Math.floor(Math.random()*6), 1);
-  }
-}, 2, 2);
-
-// --- Dark wood ---
-const darkWoodTex = pxTex('darkWood', 32, 32, (g,w,h) => {
-  g.fillStyle = '#4a2f1a'; g.fillRect(0,0,w,h);
-  for (let i = 0; i < 30; i++) {
-    g.fillStyle = Math.random() < 0.5 ? 'rgba(20,10,5,0.5)' : 'rgba(100,65,40,0.4)';
-    g.fillRect(Math.floor(Math.random()*w), Math.floor(Math.random()*h), 3+Math.floor(Math.random()*8), 1);
-  }
-}, 2, 2);
-
-// --- Metal ---
-const metalTex = pxTex('metal', 16, 16, (g,w,h) => {
-  g.fillStyle = '#5a6570'; g.fillRect(0,0,w,h);
-  for (let i = 0; i < 30; i++) {
-    g.fillStyle = Math.random() < 0.5 ? '#4a5560' : '#6a7580';
-    g.fillRect(Math.floor(Math.random()*w), Math.floor(Math.random()*h), 1, 1);
-  }
-}, 1, 1);
-
-// --- Monitor screen: code ---
-const screenCodeTex = pxTex('screenCode', 32, 20, (g,w,h) => {
-  g.fillStyle = '#0a1929'; g.fillRect(0,0,w,h);
-  const cols = ['#38bdf8','#10b981','#f59e0b','#ef4444','#8b5cf6','#c084fc'];
-  for (let y = 2; y < h-2; y += 2) {
-    let x = 2 + Math.floor(Math.random()*3);
-    const len = 3 + Math.floor(Math.random()*12);
-    g.fillStyle = cols[Math.floor(Math.random()*cols.length)];
-    g.fillRect(x, y, Math.min(len, w-x-2), 1);
-    x += len + 2;
-    if (x < w-4 && Math.random() < 0.5) {
-      g.fillStyle = cols[Math.floor(Math.random()*cols.length)];
-      g.fillRect(x, y, Math.min(2+Math.floor(Math.random()*(w-x-2)), w-x-2), 1);
-    }
-  }
-}, 1, 1);
-
-// --- Monitor screen: chart ---
-const screenChartTex = pxTex('screenChart', 32, 20, (g,w,h) => {
-  g.fillStyle = '#0a1929'; g.fillRect(0,0,w,h);
-  // grid
-  g.fillStyle = 'rgba(56,189,248,0.15)';
-  for (let y = 3; y < h-2; y += 3) g.fillRect(2, y, w-4, 1);
-  // bars
-  const bars = [10,15,8,16,12,18,14];
-  bars.forEach((bh, i) => {
-    const x = 3 + i*4;
-    g.fillStyle = i%2 === 0 ? '#10b981' : '#06b6d4';
-    g.fillRect(x, h-2-bh, 3, bh);
+// Khởi tạo 12 nhân vật mẫu để hiển thị (giống ảnh)
+for (let i = 0; i < 12; i++) {
+  state.employees.push({
+    id: `EMP-${100+i}`,
+    name: NAMES[i % NAMES.length],
+    role: ROLES[i % ROLES.length],
+    dept: DEPARTMENTS[i % DEPARTMENTS.length],
+    status: i % 3 === 0 ? 'idle' : 'working',
+    color: [0x3B82F6, 0x10B981, 0xF59E0B, 0x8B5CF6, 0xEC4899, 0x06B6D4][i % 6],
+    hairColor: [0x1F2937, 0x451A03, 0x78350F, 0x000000][i % 4],
+    pos: { x: (Math.random() - 0.5) * 10, z: (Math.random() - 0.5) * 8 },
+    targetPos: { x: (Math.random() - 0.5) * 10, z: (Math.random() - 0.5) * 8 },
+    bubble: i % 4 === 0 ? 'Đang xử lý task...' : (i % 5 === 0 ? 'Bánh tráng trộn! Đợi mình với!' : null)
   });
-}, 1, 1);
-
-// --- Server front ---
-const serverFrontTex = pxTex('serverFront', 16, 32, (g,w,h) => {
-  g.fillStyle = '#0a0a0a'; g.fillRect(0,0,w,h);
-  for (let y = 0; y < h; y += 3) { g.fillStyle = '#1a1a1a'; g.fillRect(0,y,w,1); }
-  for (let i = 0; i < 20; i++) {
-    const colors = ['#10b981','#f59e0b','#ef4444','#06b6d4'];
-    g.fillStyle = colors[Math.floor(Math.random()*colors.length)];
-    g.fillRect(Math.floor(Math.random()*w), Math.floor(Math.random()*h), 1, 1);
-  }
-}, 1, 1);
-
-// --- Book shelf spines ---
-const bookSpinesTex = pxTex('bookSpines', 32, 32, (g,w,h) => {
-  g.fillStyle = '#2a1a0a'; g.fillRect(0,0,w,h);
-  const bookCols = ['#dc2626','#f59e0b','#10b981','#2563eb','#8b5cf6','#ec4899','#06b6d4','#64748b'];
-  let x = 0;
-  while (x < w) {
-    const bw = 2 + Math.floor(Math.random()*3);
-    const bh = 20 + Math.floor(Math.random()*10);
-    g.fillStyle = bookCols[Math.floor(Math.random()*bookCols.length)];
-    g.fillRect(x, h-bh, bw, bh);
-    g.fillStyle = 'rgba(0,0,0,0.3)';
-    g.fillRect(x, h-bh, bw, 1);
-    x += bw + 1;
-  }
-}, 2, 1);
-
-// --- Coffee machine body ---
-const coffeeTex = pxTex('coffee', 16, 24, (g,w,h) => {
-  g.fillStyle = '#2a2a2a'; g.fillRect(0,0,w,h);
-  g.fillStyle = '#3a3a3a'; g.fillRect(1,1,w-2,h-4);
-  g.fillStyle = '#0a0a0a'; g.fillRect(3,h-10,w-6,5);
-  g.fillStyle = '#f59e0b'; g.fillRect(4,h-9,w-8,1);
-  g.fillStyle = '#ef4444'; g.fillRect(w-5,3,2,2);
-  g.fillStyle = '#10b981'; g.fillRect(w-5,6,2,2);
-}, 1, 1);
-
-// --- Vending machine front ---
-const vendingTex = pxTex('vending', 24, 32, (g,w,h) => {
-  g.fillStyle = '#1e3a8a'; g.fillRect(0,0,w,h);
-  g.fillStyle = '#0a1929'; g.fillRect(2,2,w-4,h-8);
-  // products on shelves
-  const prodCols = ['#ef4444','#f59e0b','#10b981','#06b6d4','#8b5cf6','#ec4899'];
-  for (let row = 0; row < 4; row++) {
-    const y = 4 + row * 5;
-    for (let col = 0; col < 5; col++) {
-      g.fillStyle = prodCols[(row*5+col)%prodCols.length];
-      g.fillRect(3 + col*4, y, 3, 3);
-    }
-    g.fillStyle = '#1e293b'; g.fillRect(2, y+4, w-4, 1);
-  }
-  // bottom slot
-  g.fillStyle = '#0a0a0a'; g.fillRect(3, h-6, w-6, 3);
-}, 1, 1);
-
-// --- Whiteboard ---
-const whiteboardTex = pxTex('whiteboard', 32, 20, (g,w,h) => {
-  g.fillStyle = '#f0f4f8'; g.fillRect(0,0,w,h);
-  g.fillStyle = '#e2e8f0'; g.fillRect(0,0,w,1); g.fillRect(0,h-1,w,1);
-  g.fillRect(0,0,1,h); g.fillRect(w-1,0,1,h);
-  // "drawings"
-  const cols = ['#ef4444','#2563eb','#10b981','#f59e0b'];
-  for (let i = 0; i < 6; i++) {
-    g.fillStyle = cols[Math.floor(Math.random()*cols.length)];
-    const x = 2 + Math.floor(Math.random()*24);
-    const y = 2 + Math.floor(Math.random()*14);
-    const len = 2 + Math.floor(Math.random()*8);
-    g.fillRect(x, y, len, 1);
-  }
-}, 1, 1);
-
-// --- Leather (for sofas) ---
-const leatherTex = pxTex('leather', 16, 16, (g,w,h) => {
-  g.fillStyle = '#1a1a2e'; g.fillRect(0,0,w,h);
-  for (let i = 0; i < 40; i++) {
-    g.fillStyle = Math.random() < 0.5 ? '#252540' : '#151528';
-    g.fillRect(Math.floor(Math.random()*w), Math.floor(Math.random()*h), 1, 1);
-  }
-}, 2, 2);
-
-// =========================================================
-// 3. SCENE SETUP
-// =========================================================
-let scene, camera, renderer, controls, raycaster, mouse, clock;
-let characterMeshes = [];
-let draggableProps = [];
-let isDragging = false, draggedObject = null;
-const dragPlane = new THREE.Plane(new THREE.Vector3(0,1,0), 0);
-const planeIntersect = new THREE.Vector3();
-const PIXEL_SCALE = 0.65;
-
-// Material cache (colors only)
-const matCache = {};
-function flatMat(color, opts={}) {
-  const k = color + '|' + JSON.stringify(opts);
-  if (matCache[k]) return matCache[k];
-  matCache[k] = new THREE.MeshStandardMaterial({ color, flatShading: true, roughness: 0.85, ...opts });
-  return matCache[k];
-}
-function texMat(tex, opts={}) {
-  const k = tex.uuid + '|' + JSON.stringify(opts);
-  if (matCache[k]) return matCache[k];
-  matCache[k] = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.85, ...opts });
-  return matCache[k];
 }
 
-function box(w, h, d, mat, x, y, z) {
-  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
-  m.position.set(x, y, z);
-  m.castShadow = true;
-  m.receiveShadow = true;
-  return m;
-}
+// ==========================================
+// 2. THREE.JS SETUP (SẮC NÉT, LOW-POLY)
+// ==========================================
+const container = document.getElementById('canvas-container');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0B1120); // Màu nền tối
+scene.fog = new THREE.FogExp2(0x0B1120, 0.015);
 
-function init3DEngine() {
-  const container = $('canvasContainer');
+// Camera Isometric
+const aspect = container.clientWidth / container.clientHeight;
+const frustumSize = 18;
+const camera = new THREE.OrthographicCamera(
+  -frustumSize * aspect / 2, frustumSize * aspect / 2,
+  frustumSize / 2, -frustumSize / 2,
+  0.1, 1000
+);
+camera.position.set(25, 25, 25);
+camera.lookAt(0, 0, 0);
 
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0a1520);
-  scene.fog = new THREE.FogExp2(0x0a1520, 0.012);
+// Renderer độ phân giải cao (Không dùng Pixelated)
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(container.clientWidth, container.clientHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+container.appendChild(renderer.domElement);
 
-  const aspect = container.clientWidth / container.clientHeight;
-  const d = 14;
-  camera = new THREE.OrthographicCamera(-d*aspect, d*aspect, d, -d, 0.1, 200);
-  camera.position.set(20, 22, 20);
-  camera.lookAt(0, 0, 0);
+// Controls
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.maxPolarAngle = Math.PI / 2.5;
+controls.minZoom = 0.5;
+controls.maxZoom = 3;
+controls.target.set(0, 0, 0);
 
-  renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false });
-  renderer.setPixelRatio(1);
-  renderer.setSize(container.clientWidth * PIXEL_SCALE, container.clientHeight * PIXEL_SCALE, false);
-  renderer.domElement.style.width = '100%';
-  renderer.domElement.style.height = '100%';
-  renderer.domElement.style.imageRendering = 'pixelated';
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  container.appendChild(renderer.domElement);
+// Ánh sáng (Lighting Setup)
+scene.add(new THREE.AmbientLight(0xffffff, 1.2));
 
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.08;
-  controls.maxPolarAngle = Math.PI / 2.15;
-  controls.minZoom = 0.5;
-  controls.maxZoom = 2.5;
-  controls.target.set(0, 0, 0);
+const sunLight = new THREE.DirectionalLight(0xfff5e6, 2.5);
+sunLight.position.set(20, 30, 15);
+sunLight.castShadow = true;
+sunLight.shadow.mapSize.width = 2048;
+sunLight.shadow.mapSize.height = 2048;
+sunLight.shadow.camera.left = -25;
+sunLight.shadow.camera.right = 25;
+sunLight.shadow.camera.top = 25;
+sunLight.shadow.camera.bottom = -25;
+sunLight.shadow.bias = -0.0005;
+scene.add(sunLight);
 
-  // Lighting
-  scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-  const sun = new THREE.DirectionalLight(0xfff2d6, 2.2);
-  sun.position.set(18, 28, 14);
-  sun.castShadow = true;
-  sun.shadow.mapSize.width = 2048;
-  sun.shadow.mapSize.height = 2048;
-  sun.shadow.camera.left = -25; sun.shadow.camera.right = 25;
-  sun.shadow.camera.top = 25; sun.shadow.camera.bottom = -25;
-  sun.shadow.bias = -0.0004;
-  scene.add(sun);
-  const fill = new THREE.DirectionalLight(0x6090c0, 0.6);
-  fill.position.set(-15, 12, -10);
-  scene.add(fill);
+const fillLight = new THREE.DirectionalLight(0x6090c0, 0.8);
+fillLight.position.set(-15, 10, -15);
+scene.add(fillLight);
 
-  raycaster = new THREE.Raycaster();
-  mouse = new THREE.Vector2();
-  clock = new THREE.Clock();
+// Warm interior lights
+const warmLight1 = new THREE.PointLight(0xffaa00, 1.5, 15);
+warmLight1.position.set(0, 5, 0);
+scene.add(warmLight1);
 
-  buildWorld();
-  buildCharacters();
+// ==========================================
+// 3. MATERIALS & TEXTURES (SMOOTH VOXEL)
+// ==========================================
+const matWood = new THREE.MeshStandardMaterial({ color: 0xDEB887, roughness: 0.8, flatShading: true });
+const matDarkWood = new THREE.MeshStandardMaterial({ color: 0x5C4033, roughness: 0.8, flatShading: true });
+const matMetal = new THREE.MeshStandardMaterial({ color: 0x9CA3AF, roughness: 0.4, metalness: 0.6, flatShading: true });
+const matGlass = new THREE.MeshStandardMaterial({ color: 0x93C5FD, transparent: true, opacity: 0.3, roughness: 0.1, metalness: 0.2, side: THREE.DoubleSide });
+const matWhite = new THREE.MeshStandardMaterial({ color: 0xF3F4F6, roughness: 0.9, flatShading: true });
+const matScreen = new THREE.MeshBasicMaterial({ color: 0x0F172A });
 
-  window.addEventListener('resize', onWindowResize);
-  renderer.domElement.addEventListener('pointerdown', onPointerDown);
-  renderer.domElement.addEventListener('pointermove', onPointerMove);
-  renderer.domElement.addEventListener('pointerup', onPointerUp);
-  window.addEventListener('keydown', onKeyDown);
+// ==========================================
+// 4. BUILD WORLD (CHI TIẾT)
+// ==========================================
+const officeGroup = new THREE.Group();
+scene.add(officeGroup);
 
-  animate();
-}
+// Sàn gỗ
+const floorGeo = new THREE.BoxGeometry(20, 0.4, 16);
+const floorMesh = new THREE.Mesh(floorGeo, matWood);
+floorMesh.position.y = -0.2;
+floorMesh.receiveShadow = true;
+officeGroup.add(floorMesh);
 
-// =========================================================
-// 4. WORLD BUILDING
-// =========================================================
-function buildWorld() {
-  // --- Ground: grass + plaza ---
-  const grass = new THREE.Mesh(new THREE.PlaneGeometry(70, 70), texMat(grassTex, { roughness: 0.95 }));
-  grass.rotation.x = -Math.PI/2; grass.position.y = -0.02; grass.receiveShadow = true;
-  scene.add(grass);
+// Tường kính
+const wallMat = new THREE.MeshStandardMaterial({ color: 0xE5E7EB, roughness: 0.9 });
+// Tường trái
+const leftWall = new THREE.Mesh(new THREE.BoxGeometry(0.2, 4, 16), wallMat);
+leftWall.position.set(-10, 2, 0);
+leftWall.receiveShadow = true;
+leftWall.castShadow = true;
+officeGroup.add(leftWall);
+// Tường sau
+const backWall = new THREE.Mesh(new THREE.BoxGeometry(20, 4, 0.2), wallMat);
+backWall.position.set(0, 2, -8);
+backWall.receiveShadow = true;
+backWall.castShadow = true;
+officeGroup.add(backWall);
 
-  // --- Road ---
-  const road = new THREE.Mesh(new THREE.PlaneGeometry(70, 6), texMat(asphaltTex, { roughness: 0.7 }));
-  road.rotation.x = -Math.PI/2; road.position.set(0, 0.01, 16); road.receiveShadow = true;
-  scene.add(road);
+// Vách ngăn kính giữa các phòng
+const glassWall1 = new THREE.Mesh(new THREE.BoxGeometry(6, 3, 0.1), matGlass);
+glassWall1.position.set(4, 1.5, -2);
+officeGroup.add(glassWall1);
 
-  // road center dashes
-  for (let x = -34; x <= 34; x += 4) {
-    const dash = box(1.4, 0.02, 0.22, flatMat(0xd8d8e0), x, 0.02, 16);
-    scene.add(dash);
-  }
+const glassWall2 = new THREE.Mesh(new THREE.BoxGeometry(0.1, 3, 6), matGlass);
+glassWall2.position.set(1, 1.5, -5);
+officeGroup.add(glassWall2);
 
-  // sidewalk
-  const sidewalk = new THREE.Mesh(new THREE.PlaneGeometry(70, 2.5), texMat(sidewalkTex, { roughness: 0.9 }));
-  sidewalk.rotation.x = -Math.PI/2; sidewalk.position.set(0, 0.015, 11.7); sidewalk.receiveShadow = true;
-  scene.add(sidewalk);
+// Khung cửa kính
+const frameMat = new THREE.MeshStandardMaterial({ color: 0x111827 });
+const frame1 = new THREE.Mesh(new THREE.BoxGeometry(6.1, 0.1, 0.15), frameMat);
+frame1.position.set(4, 3, -2);
+officeGroup.add(frame1);
 
-  // crosswalk
-  for (let x = -3; x <= 3; x += 1) {
-    const stripe = box(0.5, 0.02, 5.8, flatMat(0xf0f4f8), x, 0.02, 16);
-    scene.add(stripe);
-  }
-
-  // --- Office building ---
-  const officeW = 18.5, officeD = 14.5;
-  // concrete base slab
-  const slab = box(officeW + 0.4, 0.3, officeD + 0.4, texMat(wallTex, { color: 0x4a5260, roughness: 0.9 }), 0, 0.15, 0);
-  scene.add(slab);
-
-  // wood floor inside
-  const floor = new THREE.Mesh(
-    new THREE.BoxGeometry(officeW, 0.06, officeD),
-    texMat(woodFloorTex, { roughness: 0.7 })
-  );
-  floor.position.set(0, 0.32, 0);
-  floor.receiveShadow = true;
-  scene.add(floor);
-  const FLOOR_Y = 0.35;
-
-  // --- Walls ---
-  const wallMat = texMat(wallTex, { roughness: 0.9 });
-  // back wall (z=-officeD/2)
-  const backWall = box(officeW, 3.2, 0.2, wallMat, 0, 1.6 + 0.32, -officeD/2);
-  scene.add(backWall);
-  // left wall
-  const leftWall = box(0.2, 3.2, officeD, wallMat, -officeW/2, 1.6 + 0.32, 0);
-  scene.add(leftWall);
-  // right wall (half height, glass above)
-  const rightWallLow = box(0.2, 1.0, officeD, wallMat, officeW/2, 0.5 + 0.32, 0);
-  scene.add(rightWallLow);
-  const rightGlass = box(0.06, 2.2, officeD, new THREE.MeshStandardMaterial({
-    color: 0x9ad4f8, transparent: true, opacity: 0.25, roughness: 0.15, metalness: 0.1
-  }), officeW/2, 2.1 + 0.32, 0);
-  scene.add(rightGlass);
-
-  // front glass wall (z=+officeD/2)
-  const frontLow = box(officeW, 0.5, 0.2, wallMat, 0, 0.25 + 0.32, officeD/2);
-  scene.add(frontLow);
-  const frontGlass = box(officeW, 2.5, 0.06, new THREE.MeshStandardMaterial({
-    color: 0x9ad4f8, transparent: true, opacity: 0.22, roughness: 0.15, metalness: 0.1
-  }), 0, 1.75 + 0.32, officeD/2);
-  scene.add(frontGlass);
-
-  // ceiling accent beam (subtle)
-  // (skip ceiling to keep isometric view clear)
-
-  // --- Interior layout (using FLOOR_Y as ground level inside) ---
-  buildReception(-7.5, 5.2, FLOOR_Y);
-  buildDeliveryCounter(-4.5, 5.2, FLOOR_Y);
-  buildWorkstationPod(-5.5, -3.5, FLOOR_Y, 0x2563eb, 'HRM');
-  buildWorkstationPod(3.5, -3.5, FLOOR_Y, 0xf59e0b, 'Finance');
-  buildTechPod(-7.5, -5.5, FLOOR_Y);
-  buildLegalPod(5.5, 3.8, FLOOR_Y);
-  buildMeetingRoom(2.5, 3.5, FLOOR_Y);
-  buildLounge(7.2, -4.2, FLOOR_Y);
-  buildExecutive(0, -5.5, FLOOR_Y);
-
-  // Carpets
-  addCarpet(-5.5, -3.5, 6.0, 4.6, carpetMint, FLOOR_Y);
-  addCarpet(3.5, -3.5, 6.0, 4.6, carpetPeach, FLOOR_Y);
-  addCarpet(2.5, 3.5, 5.2, 4.2, carpetPurple, FLOOR_Y);
-  addCarpet(-7.5, 5.2, 4.5, 3.2, carpetCyan, FLOOR_Y);
-  addCarpet(7.2, -4.2, 3.5, 3.5, carpetMint, FLOOR_Y);
-
-  // --- Exterior decorations ---
-  buildExterior();
-}
-
-function addCarpet(x, z, w, d, tex, y) {
-  const c = new THREE.Mesh(new THREE.PlaneGeometry(w, d), texMat(tex, { roughness: 0.95 }));
-  c.rotation.x = -Math.PI/2;
-  c.position.set(x, y + 0.005, z);
-  c.receiveShadow = true;
-  scene.add(c);
-}
-
-// --- RECEPTION ---
-function buildReception(x, z, y) {
-  // L-shaped reception desk
-  const deskGroup = new THREE.Group();
-  deskGroup.position.set(x, y, z);
-  const dTop = texMat(deskWoodTex, { roughness: 0.7 });
-  // main counter
-  const counter = box(3.0, 1.0, 0.8, texMat(darkWoodTex, { roughness: 0.7 }), 0, 0.5, 0);
-  deskGroup.add(counter);
-  const counterTop = box(3.2, 0.1, 0.9, dTop, 0, 1.05, 0);
-  deskGroup.add(counterTop);
-  // logo block
-  const logo = box(0.6, 0.5, 0.02, flatMat(0x0ea5e9), 0, 0.7, 0.42);
-  deskGroup.add(logo);
-  const logoP = box(0.3, 0.35, 0.02, flatMat(0xffffff), 0, 0.7, 0.44);
-  deskGroup.add(logoP);
-  // plant on counter
-  deskGroup.add(makeSmallPlant(1.1, 1.2, 0));
-  scene.add(deskGroup);
-
-  // Reception sofa
-  buildSofa(x - 2.2, z - 1.8, y);
-
-  // Tall plant next to desk
-  buildTallPlant(x + 2.3, z + 0.2, y);
-}
-
-function buildSofa(x, z, y) {
+// ==========================================
+// 5. FURNITURE BUILDER
+// ==========================================
+function createDesk(x, z, rotation = 0) {
   const g = new THREE.Group();
-  g.position.set(x, y, z);
-  const leather = texMat(leatherTex, { roughness: 0.6 });
-  const seat = box(2.0, 0.35, 0.9, leather, 0, 0.2, 0);
-  g.add(seat);
-  const back = box(2.0, 0.7, 0.15, leather, 0, 0.55, -0.38);
-  g.add(back);
-  const armL = box(0.15, 0.55, 0.9, leather, -0.93, 0.35, 0);
-  g.add(armL);
-  const armR = box(0.15, 0.55, 0.9, leather, 0.93, 0.35, 0);
-  g.add(armR);
-  // cushions
-  const c1 = box(0.85, 0.1, 0.75, flatMat(0x7c3aed), -0.45, 0.4, 0.02);
-  g.add(c1);
-  const c2 = box(0.85, 0.1, 0.75, flatMat(0x7c3aed), 0.45, 0.4, 0.02);
-  g.add(c2);
-  scene.add(g);
-}
-
-// --- DELIVERY COUNTER (Shopee) ---
-function buildDeliveryCounter(x, z, y) {
-  const g = new THREE.Group();
-  g.position.set(x, y, z);
-  // counter
-  const counter = box(2.0, 0.9, 0.8, texMat(darkWoodTex, { roughness: 0.7 }), 0, 0.45, 0);
-  g.add(counter);
-  const top = box(2.1, 0.08, 0.9, texMat(deskWoodTex, { roughness: 0.6 }), 0, 0.94, 0);
+  g.position.set(x, 0, z);
+  g.rotation.y = rotation;
+  
+  // Mặt bàn
+  const top = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.1, 1.2), matWhite);
+  top.position.y = 0.75;
+  top.castShadow = true;
+  top.receiveShadow = true;
   g.add(top);
-  // Shopee logo (orange box)
-  const shopee = box(0.7, 0.4, 0.05, flatMat(0xee4d2d), -0.4, 1.25, 0.42);
-  g.add(shopee);
-  const shopeeL = box(0.5, 0.08, 0.02, flatMat(0xffffff), -0.4, 1.25, 0.45);
-  g.add(shopeeL);
-  // stacked parcels
-  const boxMat = flatMat(0xd4a373);
-  const p1 = box(0.4, 0.35, 0.4, boxMat, 0.6, 1.2, 0);
-  g.add(p1);
-  const tape1 = box(0.42, 0.04, 0.42, flatMat(0xa07050), 0.6, 1.2, 0);
-  g.add(tape1);
-  const p2 = box(0.35, 0.3, 0.35, boxMat, 0.6, 1.5, 0);
-  g.add(p2);
-  // RFID turnstile
-  const rfidMat = texMat(metalTex, { roughness: 0.5, metalness: 0.4 });
-  const r1 = box(0.25, 1.1, 0.25, rfidMat, -1.4, 0.55, 0.5);
-  g.add(r1);
-  const r2 = box(0.25, 1.1, 0.25, rfidMat, -0.6, 0.55, 0.5);
-  g.add(r2);
-  const rLed = box(0.06, 0.06, 0.06, flatMat(0x10b981, { emissive: 0x10b981, emissiveIntensity: 0.8 }), -1.4, 1.05, 0.5);
-  g.add(rLed);
-  scene.add(g);
-}
-
-// --- WORKSTATION POD ---
-function buildWorkstationPod(x, z, y, themeColor, deptName) {
-  const g = new THREE.Group();
-  g.position.set(x, y, z);
-  const woodTop = texMat(deskWoodTex, { roughness: 0.6 });
-  const metalLeg = texMat(metalTex, { roughness: 0.5, metalness: 0.6 });
-
-  // 4 desks in a 2x2 grid
-  const deskW = 1.6, deskD = 0.9;
-  const positions = [
-    [-1.2, -1.0], [1.2, -1.0],
-    [-1.2, 1.0], [1.2, 1.0]
-  ];
-  positions.forEach(([dx, dz], i) => {
-    // desk surface
-    const dt = box(deskW, 0.08, deskD, woodTop, dx, 0.75, dz);
-    g.add(dt);
-    // legs
-    const l1 = box(0.08, 0.75, 0.08, metalLeg, dx - deskW/2 + 0.1, 0.375, dz - deskD/2 + 0.1);
-    const l2 = box(0.08, 0.75, 0.08, metalLeg, dx + deskW/2 - 0.1, 0.375, dz - deskD/2 + 0.1);
-    const l3 = box(0.08, 0.75, 0.08, metalLeg, dx - deskW/2 + 0.1, 0.375, dz + deskD/2 - 0.1);
-    const l4 = box(0.08, 0.75, 0.08, metalLeg, dx + deskW/2 - 0.1, 0.375, dz + deskD/2 - 0.1);
-    g.add(l1, l2, l3, l4);
-    // monitor
-    const monitor = buildMonitor(dx, 0.79, dz - 0.2, i % 2 === 0 ? screenCodeTex : screenChartTex);
-    g.add(monitor);
-    // keyboard
-    const kb = box(0.4, 0.04, 0.15, flatMat(0x1a1a2e), dx, 0.82, dz + 0.18);
-    g.add(kb);
-    // mouse
-    const ms = box(0.08, 0.03, 0.12, flatMat(0x2a2a3e), dx + 0.28, 0.82, dz + 0.18);
-    g.add(ms);
-    // coffee cup on desk
-    if (i === 0) {
-      const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.1, 6),
-        flatMat(0xffffff, { roughness: 0.4 }));
-      cup.position.set(dx + 0.5, 0.84, dz - 0.1);
-      cup.castShadow = true;
-      g.add(cup);
-      const coffee = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.04, 0.02, 6),
-        flatMat(0x4a2c1a));
-      coffee.position.set(dx + 0.5, 0.89, dz - 0.1);
-      g.add(coffee);
-    }
-    // chair
-    const chair = buildChair(dx, dz + 0.7);
-    g.add(chair);
+  
+  // Chân bàn
+  const legGeo = new THREE.BoxGeometry(0.1, 0.75, 0.1);
+  [[-1.1, -0.5], [1.1, -0.5], [-1.1, 0.5], [1.1, 0.5]].forEach(([lx, lz]) => {
+    const leg = new THREE.Mesh(legGeo, matMetal);
+    leg.position.set(lx, 0.375, lz);
+    leg.castShadow = true;
+    g.add(leg);
   });
+  
+  // Màn hình
+  const monitorBase = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.05, 8), matMetal);
+  monitorBase.position.set(0, 0.82, -0.3);
+  g.add(monitorBase);
+  const monitorStand = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.3, 0.05), matMetal);
+  monitorStand.position.set(0, 1.0, -0.3);
+  g.add(monitorStand);
+  const monitorScreen = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.5, 0.05), matScreen);
+  monitorScreen.position.set(0, 1.3, -0.3);
+  monitorScreen.castShadow = true;
+  g.add(monitorScreen);
+  
+  // Bàn phím & Chuột
+  const kb = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.03, 0.2), matDarkWood);
+  kb.position.set(0, 0.81, 0.2);
+  g.add(kb);
+  const mouse = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.04, 0.15), matDarkWood);
+  mouse.position.set(0.4, 0.82, 0.2);
+  g.add(mouse);
 
-  // divider strip (colored)
-  const div = box(3.4, 0.4, 0.05, flatMat(themeColor, { emissive: themeColor, emissiveIntensity: 0.15 }), 0, 0.85, 0);
-  g.add(div);
+  // Ghế
+  const chairGroup = new THREE.Group();
+  chairGroup.position.set(0, 0, 0.9);
+  const seat = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.1, 0.6), matDarkWood);
+  seat.position.y = 0.45;
+  seat.castShadow = true;
+  chairGroup.add(seat);
+  const back = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.7, 0.1), matDarkWood);
+  back.position.set(0, 0.85, 0.25);
+  back.castShadow = true;
+  chairGroup.add(back);
+  const chairPole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.4, 8), matMetal);
+  chairPole.position.y = 0.2;
+  chairGroup.add(chairPole);
+  g.add(chairGroup);
 
-  // department name sign
-  // (skipping text since pixel font on canvas needs custom work - use colored block)
-  const sign = box(0.8, 0.15, 0.03, flatMat(themeColor), 0, 1.15, 0);
-  g.add(sign);
-
-  scene.add(g);
-}
-
-function buildMonitor(x, y, z, screenTex) {
-  const g = new THREE.Group();
-  g.position.set(x, y, z);
-  // stand
-  const stand = box(0.15, 0.08, 0.1, flatMat(0x1a1a1a), 0, 0.04, 0);
-  g.add(stand);
-  const pole = box(0.04, 0.3, 0.04, flatMat(0x1a1a1a), 0, 0.2, -0.03);
-  g.add(pole);
-  // screen body
-  const screenBody = box(0.55, 0.38, 0.04, flatMat(0x0a0a0a), 0, 0.42, 0);
-  g.add(screenBody);
-  // screen face
-  const screenFace = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.32), texMat(screenTex, { emissive: 0xffffff, emissiveIntensity: 0.25, emissiveMap: screenTex, roughness: 0.3 }));
-  screenFace.position.set(0, 0.42, 0.025);
-  g.add(screenFace);
   return g;
 }
 
-function buildChair(x, z) {
+// Đặt 3 cụm bàn làm việc
+officeGroup.add(createDesk(-5, -5));
+officeGroup.add(createDesk(-2, -5));
+officeGroup.add(createDesk(-5, -2));
+officeGroup.add(createDesk(6, -5, -Math.PI/2));
+officeGroup.add(createDesk(6, -2, -Math.PI/2));
+officeGroup.add(createDesk(-5, 3));
+
+// Phòng họp (Meeting Room)
+const meetingTable = new THREE.Mesh(new THREE.BoxGeometry(3, 0.1, 1.5), matWood);
+meetingTable.position.set(5, 0.75, 4);
+meetingTable.castShadow = true;
+officeGroup.add(meetingTable);
+// Chân bàn họp
+const mtLeg = new THREE.Mesh(new THREE.BoxGeometry(2, 0.75, 0.2), matMetal);
+mtLeg.position.set(5, 0.375, 4);
+officeGroup.add(mtLeg);
+
+// Khu vực Pantry / Căn tin (Góc dưới phải)
+const pantryFloor = new THREE.Mesh(new THREE.BoxGeometry(8, 0.42, 6), new THREE.MeshStandardMaterial({ color: 0xD1D5DB }));
+pantryFloor.position.set(6, -0.19, 4.5);
+officeGroup.add(pantryFloor);
+
+const counter = new THREE.Mesh(new THREE.BoxGeometry(6, 1.2, 1), matDarkWood);
+counter.position.set(6, 0.6, 7.5);
+counter.castShadow = true;
+officeGroup.add(counter);
+
+// Máy pha cà phê
+const coffeeMachine = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.8, 0.5), matMetal);
+coffeeMachine.position.set(6, 1.6, 7.5);
+officeGroup.add(coffeeMachine);
+
+// Bàn ăn nhỏ
+for(let i=0; i<2; i++) {
+  const smallTable = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.1, 16), matWhite);
+  smallTable.position.set(3 + i*3, 0.75, 2);
+  smallTable.castShadow = true;
+  officeGroup.add(smallTable);
+}
+
+// Cây cảnh
+function createPlant(x, z) {
   const g = new THREE.Group();
   g.position.set(x, 0, z);
-  const fabric = flatMat(0x1e293b, { roughness: 0.9 });
-  const metal = texMat(metalTex, { roughness: 0.5, metalness: 0.5 });
-  // seat
-  const seat = box(0.4, 0.08, 0.4, fabric, 0, 0.42, 0);
-  g.add(seat);
-  // back
-  const back = box(0.4, 0.5, 0.08, fabric, 0, 0.7, -0.16);
-  g.add(back);
-  // pole
-  const pole = box(0.06, 0.35, 0.06, metal, 0, 0.22, 0);
-  g.add(pole);
-  // wheel base (5 small boxes)
-  for (let i = 0; i < 5; i++) {
-    const a = (i / 5) * Math.PI * 2;
-    const wx = Math.cos(a) * 0.22;
-    const wz = Math.sin(a) * 0.22;
-    const arm = box(0.05, 0.03, 0.05, metal, wx, 0.04, wz);
-    g.add(arm);
-  }
-  return g;
-}
-
-// --- TECH POD (servers, dual monitors) ---
-function buildTechPod(x, z, y) {
-  const g = new THREE.Group();
-  g.position.set(x, y, z);
-
-  // Server racks (3)
-  const serverMat = texMat(serverFrontTex, { roughness: 0.4, metalness: 0.3 });
-  const frameMat = flatMat(0x0a0a0a, { roughness: 0.5, metalness: 0.4 });
-  for (let i = 0; i < 3; i++) {
-    const rackGroup = new THREE.Group();
-    rackGroup.position.set(-1.6 + i * 0.9, 0, 0.2);
-    const frame = box(0.75, 2.2, 0.7, frameMat, 0, 1.1, 0);
-    rackGroup.add(frame);
-    // front face with LEDs
-    const face = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 2.0), texMat(serverFrontTex, { emissive: 0xffffff, emissiveIntensity: 0.4, emissiveMap: serverFrontTex }));
-    face.position.set(0, 1.1, 0.36);
-    rackGroup.add(face);
-    g.add(rackGroup);
-  }
-
-  // dual monitor workstation
-  const deskGroup = new THREE.Group();
-  deskGroup.position.set(0.8, 0, 0.3);
-  const deskTop = box(1.8, 0.08, 0.9, texMat(deskWoodTex, { roughness: 0.6 }), 0, 0.75, 0);
-  deskGroup.add(deskTop);
-  const metalLeg = texMat(metalTex, { roughness: 0.5 });
-  deskGroup.add(box(0.08, 0.75, 0.08, metalLeg, -0.75, 0.375, -0.35));
-  deskGroup.add(box(0.08, 0.75, 0.08, metalLeg, 0.75, 0.375, -0.35));
-  deskGroup.add(box(0.08, 0.75, 0.08, metalLeg, -0.75, 0.375, 0.35));
-  deskGroup.add(box(0.08, 0.75, 0.08, metalLeg, 0.75, 0.375, 0.35));
-  // dual monitors
-  const mon1 = buildMonitor(-0.4, 0.79, -0.15, screenCodeTex);
-  const mon2 = buildMonitor(0.4, 0.79, -0.15, screenChartTex);
-  deskGroup.add(mon1, mon2);
-  const kb = box(0.5, 0.04, 0.15, flatMat(0x1a1a2e), 0, 0.82, 0.2);
-  deskGroup.add(kb);
-  g.add(deskGroup);
-
-  scene.add(g);
-}
-
-// --- LEGAL POD (bookshelves, BLLĐ docs) ---
-function buildLegalPod(x, z, y) {
-  const g = new THREE.Group();
-  g.position.set(x, y, z);
-
-  // Bookshelf
-  const shelfFrame = texMat(darkWoodTex, { roughness: 0.7 });
-  const booksMat = texMat(bookSpinesTex, { roughness: 0.9 });
-  const shGroup = new THREE.Group();
-  shGroup.position.set(-1.5, 0, -0.5);
-  // frame
-  shGroup.add(box(2.0, 2.0, 0.4, shelfFrame, 0, 1.0, 0));
-  // book rows (3 shelves) as textured planes on front
-  for (let row = 0; row < 3; row++) {
-    const shelfY = 0.35 + row * 0.6;
-    const booksMesh = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 0.5), texMat(bookSpinesTex, { roughness: 0.9 }));
-    booksMesh.position.set(0, shelfY, 0.21);
-    shGroup.add(booksMesh);
-  }
-  g.add(shGroup);
-
-  // desk with monitor (Legal)
-  const deskTop = box(1.6, 0.08, 0.9, texMat(deskWoodTex, { roughness: 0.6 }), 1.0, 0.75, 0.2);
-  g.add(deskTop);
-  const metalLeg = texMat(metalTex);
-  g.add(box(0.08, 0.75, 0.08, metalLeg, 0.3, 0.375, -0.15));
-  g.add(box(0.08, 0.75, 0.08, metalLeg, 1.7, 0.375, -0.15));
-  g.add(box(0.08, 0.75, 0.08, metalLeg, 0.3, 0.375, 0.55));
-  g.add(box(0.08, 0.75, 0.08, metalLeg, 1.7, 0.375, 0.55));
-  const monitor = buildMonitor(1.0, 0.79, 0.05, screenCodeTex);
-  g.add(monitor);
-  // BLLĐ book stack on desk
-  const book1 = box(0.35, 0.06, 0.25, flatMat(0xdc2626), 1.4, 0.82, 0.3);
-  g.add(book1);
-  const book2 = box(0.35, 0.06, 0.25, flatMat(0x2563eb), 1.4, 0.88, 0.3);
-  g.add(book2);
-
-  scene.add(g);
-}
-
-// --- MEETING ROOM (glass walls, big table) ---
-function buildMeetingRoom(x, z, y) {
-  const g = new THREE.Group();
-  g.position.set(x, y, z);
-
-  // glass walls (L shape)
-  const glassMat = new THREE.MeshStandardMaterial({
-    color: 0x9ad4f8, transparent: true, opacity: 0.2, roughness: 0.1, metalness: 0.15
-  });
-  const w = 4.8, d = 4.0;
-  // back glass
-  const back = new THREE.Mesh(new THREE.BoxGeometry(w, 2.2, 0.04), glassMat);
-  back.position.set(0, 1.1, -d/2);
-  g.add(back);
-  // left glass
-  const left = new THREE.Mesh(new THREE.BoxGeometry(0.04, 2.2, d), glassMat);
-  left.position.set(-w/2, 1.1, 0);
-  g.add(left);
-  // right glass (part)
-  const right = new THREE.Mesh(new THREE.BoxGeometry(0.04, 2.2, d), glassMat);
-  right.position.set(w/2, 1.1, 0);
-  g.add(right);
-  // door frame
-  const frameMat = flatMat(0x1e293b, { roughness: 0.5, metalness: 0.4 });
-  g.add(box(0.08, 2.3, 0.08, frameMat, -w/2, 1.15, d/2));
-  g.add(box(0.08, 2.3, 0.08, frameMat, w/2, 1.15, d/2));
-
-  // meeting table (long)
-  const tableTop = box(3.2, 0.1, 1.2, texMat(deskWoodTex, { roughness: 0.6 }), 0, 0.72, 0);
-  g.add(tableTop);
-  const tableMetal = texMat(metalTex);
-  g.add(box(0.1, 0.72, 0.1, tableMetal, -1.4, 0.36, -0.5));
-  g.add(box(0.1, 0.72, 0.1, tableMetal, 1.4, 0.36, -0.5));
-  g.add(box(0.1, 0.72, 0.1, tableMetal, -1.4, 0.36, 0.5));
-  g.add(box(0.1, 0.72, 0.1, tableMetal, 1.4, 0.36, 0.5));
-  // chairs around table
-  for (let i = -1; i <= 1; i++) {
-    const c1 = buildChair(i * 0.9, -0.9);
-    g.add(c1);
-    const c2 = buildChair(i * 0.9, 0.9);
-    g.add(c2);
-  }
-  // big TV screen on wall
-  const tvBody = box(1.4, 0.85, 0.06, flatMat(0x0a0a0a), 0, 1.6, -d/2 + 0.05);
-  g.add(tvBody);
-  const tvScreen = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 0.75),
-    texMat(screenChartTex, { emissive: 0xffffff, emissiveIntensity: 0.4, emissiveMap: screenChartTex }));
-  tvScreen.position.set(0, 1.6, -d/2 + 0.09);
-  g.add(tvScreen);
-
-  scene.add(g);
-}
-
-// --- LOUNGE (bar, coffee, vending) ---
-function buildLounge(x, z, y) {
-  const g = new THREE.Group();
-  g.position.set(x, y, z);
-
-  // bar counter
-  const barMat = texMat(darkWoodTex, { roughness: 0.6 });
-  const bar = box(2.4, 1.0, 0.7, barMat, 0, 0.5, -0.5);
-  g.add(bar);
-  const barTop = box(2.5, 0.08, 0.8, texMat(deskWoodTex), 0, 1.04, -0.5);
-  g.add(barTop);
-
-  // Coffee machine on bar
-  const coffee = box(0.5, 0.7, 0.4, texMat(coffeeTex, { roughness: 0.5 }), -0.7, 1.4, -0.5);
-  g.add(coffee);
-  const coffeeFace = new THREE.Mesh(new THREE.PlaneGeometry(0.45, 0.65), texMat(coffeeTex, { emissive: 0xffffff, emissiveIntensity: 0.2, emissiveMap: coffeeTex }));
-  coffeeFace.position.set(-0.7, 1.4, -0.29);
-  g.add(coffeeFace);
-  // coffee cups stack
-  for (let i = 0; i < 4; i++) {
-    const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.08, 6), flatMat(0xffffff));
-    cup.position.set(0.3 + i * 0.05, 1.12 + i * 0.09, -0.4);
-    cup.castShadow = true;
-    g.add(cup);
-  }
-
-  // Vending machine
-  const vending = box(1.0, 1.8, 0.7, flatMat(0x1e3a8a, { roughness: 0.5 }), 1.8, 0.9, -0.5);
-  g.add(vending);
-  const vendingFace = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 1.7), texMat(vendingTex, { emissive: 0xffffff, emissiveIntensity: 0.15, emissiveMap: vendingTex }));
-  vendingFace.position.set(1.8, 0.9, -0.14);
-  g.add(vendingFace);
-
-  // cafe tables (2 small round tables)
-  for (let i = 0; i < 2; i++) {
-    const t = new THREE.Group();
-    t.position.set(-0.8 + i * 1.6, 0, 0.8);
-    const top = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.06, 8), texMat(deskWoodTex));
-    top.position.y = 0.72;
-    top.castShadow = true;
-    top.receiveShadow = true;
-    t.add(top);
-    const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.7, 6), flatMat(0x1a1a1a));
-    leg.position.y = 0.36;
-    t.add(leg);
-    // 2 stools
-    for (let s = 0; s < 2; s++) {
-      const a = s * Math.PI;
-      const stool = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.05, 6), flatMat(0x7c3aed));
-      stool.position.set(Math.cos(a) * 0.6, 0.55, Math.sin(a) * 0.6);
-      stool.castShadow = true;
-      t.add(stool);
-      const sleg = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.55, 6), flatMat(0x1a1a1a));
-      sleg.position.set(Math.cos(a) * 0.6, 0.27, Math.sin(a) * 0.6);
-      t.add(sleg);
-    }
-    g.add(t);
-  }
-
-  scene.add(g);
-}
-
-// --- EXECUTIVE SUITE ---
-function buildExecutive(x, z, y) {
-  const g = new THREE.Group();
-  g.position.set(x, y, z);
-
-  // big executive desk
-  const deskTop = box(3.0, 0.12, 1.4, texMat(deskWoodTex, { roughness: 0.5 }), 0, 0.8, 0);
-  g.add(deskTop);
-  const deskBody = box(3.0, 0.7, 1.4, texMat(darkWoodTex, { roughness: 0.6 }), 0, 0.42, 0);
-  g.add(deskBody);
-  // dual monitors
-  const mon1 = buildMonitor(-0.7, 0.85, -0.3, screenCodeTex);
-  const mon2 = buildMonitor(0.1, 0.85, -0.3, screenChartTex);
-  const mon3 = buildMonitor(0.9, 0.85, -0.3, screenChartTex);
-  g.add(mon1, mon2, mon3);
-  // keyboard + mouse
-  g.add(box(0.5, 0.04, 0.15, flatMat(0x1a1a2e), 0.1, 0.88, 0.2));
-  // executive chair
-  const execChair = buildChair(0.1, 0.9);
-  g.add(execChair);
-
-  // big strategy display on wall
-  const bigScreenBody = box(4.0, 2.2, 0.15, flatMat(0x0a0a0a), 0, 2.4, -2.3);
-  g.add(bigScreenBody);
-  const bigScreenFace = new THREE.Mesh(new THREE.PlaneGeometry(3.8, 2.0),
-    texMat(screenChartTex, { emissive: 0xffffff, emissiveIntensity: 0.5, emissiveMap: screenChartTex }));
-  bigScreenFace.position.set(0, 2.4, -2.22);
-  g.add(bigScreenFace);
-
-  scene.add(g);
-}
-
-// --- PLANTS ---
-function makeSmallPlant(x, y, z) {
-  const g = new THREE.Group();
-  g.position.set(x, y, z);
-  // pot
-  const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.1, 0.16, 6),
-    flatMat(0xa0603a, { roughness: 0.8 }));
-  pot.position.y = 0.08;
+  const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.2, 0.5, 8), matWhite);
+  pot.position.y = 0.25;
   pot.castShadow = true;
   g.add(pot);
-  // leaves (pixel style)
-  const leafMat = flatMat(0x4a8a3a);
-  const leafMat2 = flatMat(0x6aaa50);
-  for (let i = 0; i < 4; i++) {
-    const a = (i / 4) * Math.PI * 2;
-    const leaf = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.22, 0.1), i%2 ? leafMat : leafMat2);
-    leaf.position.set(Math.cos(a) * 0.06, 0.28, Math.sin(a) * 0.06);
-    leaf.rotation.z = Math.cos(a) * 0.3;
-    leaf.rotation.x = Math.sin(a) * 0.3;
-    leaf.castShadow = true;
-    g.add(leaf);
-  }
+  const leafMat = new THREE.MeshStandardMaterial({ color: 0x22C55E, roughness: 0.8, flatShading: true });
+  const leaves = new THREE.Mesh(new THREE.DodecahedronGeometry(0.6), leafMat);
+  leaves.position.y = 0.9;
+  leaves.castShadow = true;
+  g.add(leaves);
   return g;
 }
+officeGroup.add(createPlant(-9, -7));
+officeGroup.add(createPlant(9, -7));
+officeGroup.add(createPlant(-9, 7));
 
-function buildTallPlant(x, z, y) {
-  const g = new THREE.Group();
-  g.position.set(x, y, z);
-  const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.16, 0.35, 6),
-    flatMat(0x7a4020, { roughness: 0.8 }));
-  pot.position.y = 0.175;
-  pot.castShadow = true;
-  g.add(pot);
-  // trunk
-  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.06, 0.7, 4), flatMat(0x4a2a1a));
-  trunk.position.y = 0.7;
-  g.add(trunk);
-  // leaves layered
-  const leafMat = flatMat(0x4a8a3a);
-  const leafMat2 = flatMat(0x5a9a4a);
-  const leafMat3 = flatMat(0x6aaa60);
-  const layers = [[0.85, 0.42, leafMat], [1.1, 0.36, leafMat2], [1.35, 0.28, leafMat3]];
-  layers.forEach(([ly, lr, mat], i) => {
-    for (let j = 0; j < 4; j++) {
-      const a = (j/4) * Math.PI * 2 + i * 0.4;
-      const leaf = new THREE.Mesh(new THREE.BoxGeometry(lr * 0.5, 0.1, lr * 0.5), mat);
-      leaf.position.set(Math.cos(a) * lr * 0.4, ly, Math.sin(a) * lr * 0.4);
-      leaf.rotation.y = a;
-      leaf.castShadow = true;
-      g.add(leaf);
-    }
-  });
-  scene.add(g);
-}
+// ==========================================
+// 6. CHARACTERS (CHIBI VOXEL)
+// ==========================================
+const characters = [];
 
-// --- EXTERIOR ---
-function buildExterior() {
-  // Trees along sidewalk
-  const treePositions = [-16, -10, -4, 3, 9, 15];
-  treePositions.forEach(x => {
-    buildTree(x, 10.5, 0);
-  });
-
-  // Traffic light near crosswalk
-  buildTrafficLight(-4.5, 12.5);
-
-  // Motorbikes parked
-  buildMotorbike(-12, 13);
-  buildMotorbike(8, 13.2);
-
-  // GS25 convenience store
-  buildGS25(16, 9);
-
-  // Sidewalk potted plants
-  [-8, 5, 12].forEach(x => {
-    const p = makeSmallPlant(x, 0, 10.8);
-    scene.add(p);
-  });
-}
-
-function buildTree(x, z, y) {
-  const g = new THREE.Group();
-  g.position.set(x, y, z);
-  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.2, 1.5, 6),
-    flatMat(0x5a3a1a, { roughness: 0.9 }));
-  trunk.position.y = 0.75;
-  trunk.castShadow = true;
-  g.add(trunk);
-  // foliage (layered cubes for pixel look)
-  const leafMat = flatMat(0x3a7a3a);
-  const leafMat2 = flatMat(0x4a8a4a);
-  const leafMat3 = flatMat(0x5a9a5a);
-  const foliage = [[0,1.4,0,1.3,leafMat], [0.4,1.7,0.2,1.0,leafMat2], [-0.3,1.85,-0.2,0.9,leafMat3], [0,2.1,0,0.7,leafMat2]];
-  foliage.forEach(([fx, fy, fz, fs, mat]) => {
-    const l = new THREE.Mesh(new THREE.BoxGeometry(fs, fs * 0.8, fs), mat);
-    l.position.set(fx, fy, fz);
-    l.castShadow = true;
-    g.add(l);
-  });
-  scene.add(g);
-}
-
-function buildTrafficLight(x, z) {
-  const g = new THREE.Group();
-  g.position.set(x, 0, z);
-  const pole = box(0.15, 3.0, 0.15, flatMat(0x2a2a2a), 0, 1.5, 0);
-  g.add(pole);
-  // light box
-  const lightBox = box(0.3, 0.9, 0.3, flatMat(0x0a0a0a), 0, 3.2, 0);
-  g.add(lightBox);
-  // 3 lights
-  const red = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 8), flatMat(0xef4444, { emissive: 0xef4444, emissiveIntensity: 0.7 }));
-  red.position.set(0, 3.5, 0.16); g.add(red);
-  const yellow = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 8), flatMat(0x404040));
-  yellow.position.set(0, 3.2, 0.16); g.add(yellow);
-  const green = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 8), flatMat(0x404040));
-  green.position.set(0, 2.9, 0.16); g.add(green);
-  scene.add(g);
-}
-
-function buildMotorbike(x, z) {
-  const g = new THREE.Group();
-  g.position.set(x, 0, z);
-  // wheels
-  const wheelMat = flatMat(0x0a0a0a);
-  const w1 = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.1, 8), wheelMat);
-  w1.rotation.z = Math.PI/2;
-  w1.position.set(-0.45, 0.2, 0);
-  w1.castShadow = true;
-  g.add(w1);
-  const w2 = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.1, 8), wheelMat);
-  w2.rotation.z = Math.PI/2;
-  w2.position.set(0.45, 0.2, 0);
-  w2.castShadow = true;
-  g.add(w2);
-  // body
-  const body = box(0.7, 0.25, 0.22, flatMat(0x3b82f6, { roughness: 0.5 }), 0, 0.5, 0);
-  g.add(body);
-  // seat
-  const seat = box(0.4, 0.1, 0.18, flatMat(0x1a1a1a), 0, 0.67, 0);
-  g.add(seat);
-  // handlebar
-  const handle = box(0.3, 0.06, 0.06, flatMat(0x1a1a1a), 0.35, 0.75, 0);
-  g.add(handle);
-  scene.add(g);
-}
-
-function buildGS25(x, z) {
-  const g = new THREE.Group();
-  g.position.set(x, 0, z);
-  // building
-  const build = box(3.5, 2.5, 2.5, flatMat(0xe0e8f0, { roughness: 0.8 }), 0, 1.25, 0);
-  g.add(build);
-  // glass storefront
-  const glass = new THREE.Mesh(new THREE.PlaneGeometry(3.0, 1.8),
-    new THREE.MeshStandardMaterial({ color: 0x9ad4f8, transparent: true, opacity: 0.4, roughness: 0.2, emissive: 0xfff2b0, emissiveIntensity: 0.2 }));
-  glass.position.set(0, 1.1, 1.26);
-  g.add(glass);
-  // sign band
-  const sign = box(3.5, 0.5, 0.05, flatMat(0x0a8544), 0, 2.3, 1.26);
-  g.add(sign);
-  // sign text "GS25" - use small white blocks
-  const textBlocks = [];
-  for (let i = 0; i < 4; i++) {
-    const b = box(0.3, 0.35, 0.02, flatMat(0xffffff), -0.9 + i * 0.55, 2.3, 1.29);
-    g.add(b);
-  }
-  // roof
-  const roof = box(3.7, 0.15, 2.7, flatMat(0x2a2a2a), 0, 2.55, 0);
-  g.add(roof);
-  scene.add(g);
-}
-
-// =========================================================
-// 5. CHARACTERS (PIXEL/VOXEL STYLE)
-// =========================================================
-function buildCharacters() {
-  // Render 30 representative characters for performance
-  state.employees.slice(0, 30).forEach(emp => {
-    const charGroup = createPixelCharacter(emp);
-    charGroup.position.set(emp.currentPos.x, 0.35, emp.currentPos.z);
-    scene.add(charGroup);
-    characterMeshes.push(charGroup);
-  });
-}
-
-function createPixelCharacter(emp) {
+function createCharacter(emp) {
   const group = new THREE.Group();
+  group.position.set(emp.pos.x, 0, emp.pos.z);
+  
+  const skinMat = new THREE.MeshStandardMaterial({ color: 0xFFE0BD, roughness: 0.6 });
+  const shirtMat = new THREE.MeshStandardMaterial({ color: emp.color, roughness: 0.7 });
+  const pantsMat = new THREE.MeshStandardMaterial({ color: 0x374151, roughness: 0.8 });
+  const hairMat = new THREE.MeshStandardMaterial({ color: emp.hairColor, roughness: 0.8 });
+  const shoeMat = new THREE.MeshStandardMaterial({ color: 0x111827 });
 
-  // Materials
-  const skinMat = flatMat(0xFFD5B8, { roughness: 0.9 });
-  const shirtMat = new THREE.MeshStandardMaterial({ color: emp.shirtColor, roughness: 0.85, flatShading: true });
-  const pantsMat = flatMat(0x2c3e50, { roughness: 0.9 });
-  const shoeMat = flatMat(0x1a1a1a, { roughness: 0.7 });
-  const hairMat = new THREE.MeshStandardMaterial({ color: emp.hairColor, roughness: 0.9, flatShading: true });
-  const eyeMat = new THREE.MeshBasicMaterial({ color: 0x0a0a0a });
-  const browMat = new THREE.MeshBasicMaterial({ color: 0x2a1a0a });
-  const mouthMat = new THREE.MeshBasicMaterial({ color: 0xc97b7b });
-  const whiteMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-
-  // === HEAD (chibi big box) ===
-  const head = box(0.5, 0.48, 0.45, skinMat, 0, 1.4, 0);
-  group.add(head);
-
-  // Hair (top)
-  const hairTop = box(0.54, 0.22, 0.48, hairMat, 0, 1.63, 0);
-  group.add(hairTop);
-
-  // Hair fringe (bangs on front)
-  const hairFringe = box(0.52, 0.1, 0.06, hairMat, 0, 1.58, 0.22);
-  group.add(hairFringe);
-
-  // Side hair (small)
-  const hairL = box(0.06, 0.25, 0.44, hairMat, -0.25, 1.4, 0);
-  group.add(hairL);
-  const hairR = box(0.06, 0.25, 0.44, hairMat, 0.25, 1.4, 0);
-  group.add(hairR);
-
-  // Eyes
-  const eyeL = box(0.07, 0.09, 0.02, eyeMat, -0.12, 1.42, 0.23);
-  group.add(eyeL);
-  const eyeR = box(0.07, 0.09, 0.02, eyeMat, 0.12, 1.42, 0.23);
-  group.add(eyeR);
-
-  // Eye whites (small)
-  const eyeWL = box(0.03, 0.03, 0.01, whiteMat, -0.14, 1.45, 0.24);
-  group.add(eyeWL);
-  const eyeWR = box(0.03, 0.03, 0.01, whiteMat, 0.10, 1.45, 0.24);
-  group.add(eyeWR);
-
-  // Eyebrows
-  const browL = box(0.09, 0.025, 0.02, browMat, -0.12, 1.5, 0.23);
-  group.add(browL);
-  const browR = box(0.09, 0.025, 0.02, browMat, 0.12, 1.5, 0.23);
-  group.add(browR);
-
-  // Mouth
-  const mouth = box(0.08, 0.02, 0.02, mouthMat, 0, 1.3, 0.23);
-  group.add(mouth);
-
-  // === TORSO ===
-  const torso = box(0.5, 0.55, 0.3, shirtMat, 0, 1.0, 0);
+  // Thân
+  const torso = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.7, 0.4), shirtMat);
+  torso.position.y = 0.95;
+  torso.castShadow = true;
   group.add(torso);
 
-  // Collar (white)
-  const collar = box(0.3, 0.05, 0.32, whiteMat, 0, 1.26, 0);
-  group.add(collar);
+  // Đầu (Chibi to)
+  const head = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.6, 0.6), skinMat);
+  head.position.y = 1.6;
+  head.castShadow = true;
+  group.add(head);
 
-  // === ARMS (articulated groups) ===
-  // Left arm
-  const armL = new THREE.Group();
-  armL.position.set(-0.32, 1.15, 0);
-  const upperArmL = box(0.14, 0.28, 0.16, shirtMat, 0, -0.14, 0);
-  armL.add(upperArmL);
-  const forearmL = box(0.12, 0.24, 0.14, skinMat, 0, -0.4, 0);
-  armL.add(forearmL);
-  const handL = box(0.13, 0.1, 0.14, skinMat, 0, -0.57, 0);
-  armL.add(handL);
+  // Tóc
+  const hair = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.2, 0.65), hairMat);
+  hair.position.y = 1.85;
+  hair.castShadow = true;
+  group.add(hair);
+
+  // Mắt
+  const eyeGeo = new THREE.BoxGeometry(0.08, 0.12, 0.05);
+  const eyeMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+  const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
+  eyeL.position.set(-0.15, 1.6, 0.31);
+  group.add(eyeL);
+  const eyeR = new THREE.Mesh(eyeGeo, eyeMat);
+  eyeR.position.set(0.15, 1.6, 0.31);
+  group.add(eyeR);
+
+  // Tay (có khớp để gõ phím)
+  const armGeo = new THREE.BoxGeometry(0.2, 0.6, 0.2);
+  const armL = new THREE.Mesh(armGeo, shirtMat);
+  armL.position.set(-0.4, 0.95, 0);
+  armL.castShadow = true;
   group.add(armL);
 
-  // Right arm
-  const armR = new THREE.Group();
-  armR.position.set(0.32, 1.15, 0);
-  const upperArmR = box(0.14, 0.28, 0.16, shirtMat, 0, -0.14, 0);
-  armR.add(upperArmR);
-  const forearmR = box(0.12, 0.24, 0.14, skinMat, 0, -0.4, 0);
-  armR.add(forearmR);
-  const handR = box(0.13, 0.1, 0.14, skinMat, 0, -0.57, 0);
-  armR.add(handR);
+  const armR = new THREE.Mesh(armGeo, shirtMat);
+  armR.position.set(0.4, 0.95, 0);
+  armR.castShadow = true;
   group.add(armR);
 
-  // === LEGS (with hip pivot groups) ===
-  const legL = new THREE.Group();
-  legL.position.set(-0.13, 0.72, 0);
-  const legLMesh = box(0.18, 0.5, 0.2, pantsMat, 0, -0.25, 0);
-  legL.add(legLMesh);
-  const shoeL = box(0.2, 0.1, 0.28, shoeMat, 0, -0.55, 0.04);
-  legL.add(shoeL);
+  // Chân
+  const legGeo = new THREE.BoxGeometry(0.25, 0.5, 0.25);
+  const legL = new THREE.Mesh(legGeo, pantsMat);
+  legL.position.set(-0.15, 0.35, 0);
+  legL.castShadow = true;
   group.add(legL);
 
-  const legR = new THREE.Group();
-  legR.position.set(0.13, 0.72, 0);
-  const legRMesh = box(0.18, 0.5, 0.2, pantsMat, 0, -0.25, 0);
-  legR.add(legRMesh);
-  const shoeR = box(0.2, 0.1, 0.28, shoeMat, 0, -0.55, 0.04);
-  legR.add(shoeR);
+  const legR = new THREE.Mesh(legGeo, pantsMat);
+  legR.position.set(0.15, 0.35, 0);
+  legR.castShadow = true;
   group.add(legR);
 
-  // === ACCESSORIES ===
-  if (emp.accessory === 'glasses') {
-    const frameMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
-    const frameL = box(0.11, 0.11, 0.015, frameMat, -0.12, 1.42, 0.245);
-    group.add(frameL);
-    const frameR = box(0.11, 0.11, 0.015, frameMat, 0.12, 1.42, 0.245);
-    group.add(frameR);
-    const bridge = box(0.05, 0.02, 0.015, frameMat, 0, 1.42, 0.245);
-    group.add(bridge);
-    // tinted lens
-    const lensMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.35 });
-    const lensL = box(0.09, 0.09, 0.01, lensMat, -0.12, 1.42, 0.248);
-    group.add(lensL);
-    const lensR = box(0.09, 0.09, 0.01, lensMat, 0.12, 1.42, 0.248);
-    group.add(lensR);
+  // Giày
+  const shoeL = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.15, 0.35), shoeMat);
+  shoeL.position.set(-0.15, 0.075, 0.05);
+  group.add(shoeL);
+  const shoeR = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.15, 0.35), shoeMat);
+  shoeR.position.set(0.15, 0.075, 0.05);
+  group.add(shoeR);
+
+  group.userData = { emp, armL, armR, legL, legR };
+  
+  // HTML Label
+  const label = document.createElement('div');
+  label.className = 'char-label';
+  label.innerHTML = `<span class="char-dot ${emp.status === 'working' ? 'green' : 'blue'}"></span> Nhóm ${emp.dept.toLowerCase()}-1`;
+  document.getElementById('labels-container').appendChild(label);
+  
+  // HTML Bubble (nếu có)
+  let bubble = null;
+  if (emp.bubble) {
+    bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.innerHTML = `<span class="text-emerald-400">💬</span> ${emp.bubble}`;
+    document.getElementById('bubbles-container').appendChild(bubble);
   }
 
-  if (emp.accessory === 'headset') {
-    const hsMat = flatMat(0x1a1a1a, { roughness: 0.5 });
-    const band = box(0.5, 0.04, 0.04, hsMat, 0, 1.72, 0);
-    group.add(band);
-    const earL = box(0.06, 0.16, 0.12, hsMat, -0.27, 1.4, 0);
-    group.add(earL);
-    const earR = box(0.06, 0.16, 0.12, hsMat, 0.27, 1.4, 0);
-    group.add(earR);
-    // mic
-    const mic = box(0.03, 0.15, 0.03, hsMat, -0.24, 1.3, 0.1);
-    group.add(mic);
-    const micTip = box(0.04, 0.04, 0.04, flatMat(0xef4444, { emissive: 0xef4444, emissiveIntensity: 0.5 }), -0.24, 1.22, 0.1);
-    group.add(micTip);
-  }
-
-  if (emp.accessory === 'lanyard') {
-    const lanyardMat = flatMat(0x06b6d4);
-    const strap1 = box(0.03, 0.4, 0.02, lanyardMat, -0.1, 1.05, 0.16);
-    group.add(strap1);
-    const strap2 = box(0.03, 0.4, 0.02, lanyardMat, 0.1, 1.05, 0.16);
-    group.add(strap2);
-    const badge = box(0.16, 0.2, 0.02, whiteMat, 0, 0.85, 0.16);
-    group.add(badge);
-    const badgePhoto = box(0.1, 0.08, 0.01, flatMat(0x9ad4f8), 0, 0.9, 0.17);
-    group.add(badgePhoto);
-  }
-
-  // === userData ===
-  group.userData.type = 'employee';
-  group.userData.data = emp;
-  group.userData.id = emp.id;
-  group.userData.armL = armL;
-  group.userData.armR = armR;
-  group.userData.legL = legL;
-  group.userData.legR = legR;
-  group.userData.head = head;
-
-  return group;
+  group.userData.html = { label, bubble };
+  
+  scene.add(group);
+  characters.push(group);
 }
 
-// =========================================================
-// 6. INTERACTION
-// =========================================================
-function findCharacterGroup(obj) {
-  let o = obj;
-  while (o) {
-    if (o.userData && o.userData.type === 'employee') return o;
-    o = o.parent;
-  }
-  return null;
-}
+state.employees.forEach(createCharacter);
 
-function onPointerDown(event) {
-  const rect = renderer.domElement.getBoundingClientRect();
-  mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-  mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+// ==========================================
+// 7. ANIMATION & INTERACTION
+// ==========================================
+const clock = new THREE.Clock();
+const tempV = new THREE.Vector3();
 
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(characterMeshes, true);
-  if (intersects.length > 0) {
-    const group = findCharacterGroup(intersects[0].object);
-    if (group) {
-      selectEmployee(group.userData.data);
-      if (state.dragModeActive) {
-        isDragging = true;
-        draggedObject = group;
-        controls.enabled = false;
-        renderer.domElement.style.cursor = 'grabbing';
-      }
-    }
-  }
-}
-
-function onPointerMove(event) {
-  if (!isDragging || !draggedObject) return;
-  const rect = renderer.domElement.getBoundingClientRect();
-  mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-  mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-  raycaster.setFromCamera(mouse, camera);
-  if (raycaster.ray.intersectPlane(dragPlane, planeIntersect)) {
-    draggedObject.position.x = planeIntersect.x;
-    draggedObject.position.z = planeIntersect.z;
-    const emp = draggedObject.userData.data;
-    if (emp) {
-      emp.targetPos.x = planeIntersect.x;
-      emp.targetPos.z = planeIntersect.z;
-      emp.currentPos.x = planeIntersect.x;
-      emp.currentPos.z = planeIntersect.z;
-    }
-  }
-}
-
-function onPointerUp() {
-  if (isDragging) {
-    isDragging = false;
-    draggedObject = null;
-    controls.enabled = true;
-    renderer.domElement.style.cursor = 'grab';
-    showToast('Đã thả nhân sự đến vị trí mới');
-  }
-}
-
-function selectEmployee(emp) {
-  state.selectedEntity = emp;
-  renderDetailPanel();
-  showToast(`Đã chọn: ${emp.name} (${emp.role})`);
-}
-
-function onKeyDown(event) {
-  if (!state.avatarControlMode) return;
-  const mainEmp = state.employees.find(e => e.id === 'EMP-101');
-  if (!mainEmp) return;
-  const speed = 0.4;
-  if (event.key === 'w' || event.key === 'W' || event.key === 'ArrowUp') mainEmp.targetPos.z -= speed;
-  if (event.key === 's' || event.key === 'S' || event.key === 'ArrowDown') mainEmp.targetPos.z += speed;
-  if (event.key === 'a' || event.key === 'A' || event.key === 'ArrowLeft') mainEmp.targetPos.x -= speed;
-  if (event.key === 'd' || event.key === 'D' || event.key === 'ArrowRight') mainEmp.targetPos.x += speed;
-}
-
-function onWindowResize() {
-  const container = $('canvasContainer');
-  const aspect = container.clientWidth / container.clientHeight;
-  const d = 14;
-  camera.left = -d * aspect; camera.right = d * aspect;
-  camera.top = d; camera.bottom = -d;
-  camera.updateProjectionMatrix();
-  renderer.setSize(container.clientWidth * PIXEL_SCALE, container.clientHeight * PIXEL_SCALE, false);
-}
-
-// =========================================================
-// 7. ANIMATION LOOP
-// =========================================================
 function animate() {
   requestAnimationFrame(animate);
   const time = clock.getElapsedTime();
 
-  characterMeshes.forEach((charMesh, idx) => {
-    const emp = charMesh.userData.data;
-    if (!emp) return;
-    if (isDragging && draggedObject === charMesh) return;
-
-    // Position smoothing
-    emp.currentPos.x += (emp.targetPos.x - emp.currentPos.x) * 0.06;
-    emp.currentPos.z += (emp.targetPos.z - emp.currentPos.z) * 0.06;
-    charMesh.position.x = emp.currentPos.x;
-    charMesh.position.z = emp.currentPos.z;
-
-    // Default state: gentle bob
-    const state = emp.state || 'working';
-
-    if (state === 'walking') {
-      // Bounce
-      charMesh.position.y = 0.35 + Math.abs(Math.sin(time * 5 + idx)) * 0.06;
-      // Swing legs
-      const swing = Math.sin(time * 8 + idx) * 0.6;
-      charMesh.userData.legL.rotation.x = swing;
-      charMesh.userData.legR.rotation.x = -swing;
-      charMesh.userData.armL.rotation.x = -swing * 0.7;
-      charMesh.userData.armR.rotation.x = swing * 0.7;
-      charMesh.userData.head.rotation.z = Math.sin(time * 4 + idx) * 0.03;
-    } else if (state === 'working') {
-      // Typing arms
-      charMesh.position.y = 0.35;
-      const tap = Math.sin(time * 10 + idx * 1.7) * 0.15;
-      charMesh.userData.armL.rotation.x = -0.9 + tap;
-      charMesh.userData.armR.rotation.x = -0.9 - tap;
-      charMesh.userData.legL.rotation.x = 0;
-      charMesh.userData.legR.rotation.x = 0;
-      charMesh.userData.head.rotation.z = Math.sin(time * 1.5 + idx) * 0.02;
-    } else if (state === 'resting') {
-      // Idle with small sway
-      charMesh.position.y = 0.35 + Math.sin(time * 2 + idx) * 0.01;
-      charMesh.userData.armL.rotation.x = Math.sin(time * 2 + idx) * 0.1;
-      charMesh.userData.armR.rotation.x = -Math.sin(time * 2 + idx) * 0.1;
-      charMesh.userData.legL.rotation.x = 0;
-      charMesh.userData.legR.rotation.x = 0;
-      charMesh.userData.head.rotation.z = Math.sin(time * 1.5 + idx) * 0.04;
+  characters.forEach((charGroup, idx) => {
+    const { armL, armR, legL, legR, html } = charGroup.userData;
+    const emp = charGroup.userData.emp;
+    
+    // Animation gõ phím nhẹ nhàng (Không vẫy tay)
+    if (emp.status === 'working') {
+      const tap = Math.sin(time * 4 + idx) * 0.05;
+      armL.rotation.x = -0.4 + tap;
+      armR.rotation.x = -0.4 - tap;
+      legL.rotation.x = 0;
+      legR.rotation.x = 0;
     } else {
-      charMesh.position.y = 0.35;
-      charMesh.userData.armL.rotation.x = 0;
-      charMesh.userData.armR.rotation.x = 0;
-      charMesh.userData.legL.rotation.x = 0;
-      charMesh.userData.legR.rotation.x = 0;
+      // Idle: Thở nhẹ
+      charGroup.position.y = Math.sin(time * 1.5 + idx) * 0.02;
+      armL.rotation.x = 0;
+      armR.rotation.x = 0;
+    }
+
+    // Cập nhật HTML Label & Bubble
+    tempV.copy(charGroup.position);
+    tempV.y += 2.3; // Độ cao của label
+    tempV.project(camera);
+    
+    const x = (tempV.x * 0.5 + 0.5) * window.innerWidth;
+    const y = (-tempV.y * 0.5 + 0.5) * window.innerHeight;
+
+    if (tempV.z < 1) {
+      html.label.style.display = 'flex';
+      html.label.style.left = `${x}px`;
+      html.label.style.top = `${y}px`;
+      
+      if (html.bubble) {
+        html.bubble.style.display = 'flex';
+        html.bubble.style.left = `${x}px`;
+        html.bubble.style.top = `${y - 30}px`;
+      }
+    } else {
+      html.label.style.display = 'none';
+      if (html.bubble) html.bubble.style.display = 'none';
     }
   });
 
   controls.update();
   renderer.render(scene, camera);
-  updateFloatingBubbles();
 }
 
-// =========================================================
-// 8. SPEECH BUBBLES
-// =========================================================
-const bubbleTempV = new THREE.Vector3();
-function updateFloatingBubbles() {
-  const container = $('bubblesContainer');
-  if (!state.showBubbles) { container.innerHTML = ''; return; }
-
-  const rect = container.getBoundingClientRect();
-  let html = '';
-
-  // Only show bubbles for a few key characters for clarity
-  const bubbleChars = characterMeshes.slice(0, 8);
-  bubbleChars.forEach(charMesh => {
-    const emp = charMesh.userData.data;
-    if (!emp || !emp.bubble) return;
-
-    // Distance-based culling
-    const worldPos = new THREE.Vector3();
-    charMesh.getWorldPosition(worldPos);
-    if (worldPos.distanceTo(camera.position) > 30) return;
-
-    worldPos.y += 2.05;
-    bubbleTempV.copy(worldPos);
-    bubbleTempV.project(camera);
-
-    if (bubbleTempV.z > 1 || bubbleTempV.z < -1) return;
-
-    const x = (bubbleTempV.x * 0.5 + 0.5) * rect.width;
-    const y = (-bubbleTempV.y * 0.5 + 0.5) * rect.height;
-
-    if (x < -100 || x > rect.width + 100 || y < -50 || y > rect.height + 50) return;
-
-    const safeBubble = emp.bubble.replace(/</g, '&lt;');
-    html += `
-      <div class="chat-bubble-3d" style="left:${x}px; top:${y}px;">
-        <div class="bubble-inner">
-          <span class="bubble-dot"></span>${safeBubble}
-        </div>
-      </div>
-    `;
-  });
-
-  container.innerHTML = html;
-}
-
-// =========================================================
-// 9. UI RENDERERS
-// =========================================================
-function renderSessionsList() {
-  const container = $('sessionsList');
-  const searchVal = $('searchInput').value.toLowerCase().trim();
-
-  const filtered = state.employees.filter(emp => {
-    const matchSearch = emp.name.toLowerCase().includes(searchVal) || emp.id.toLowerCase().includes(searchVal);
-    const matchDept = state.currentFilter === 'all' || emp.dept === state.currentFilter;
-    return matchSearch && matchDept;
-  });
-
-  $('empOnlineCount').textContent = `● ${filtered.length} / 540 NV`;
-
-  container.innerHTML = filtered.slice(0, 40).map(emp => `
-    <div data-id="${emp.id}" class="session-card p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-cyan-500/40 cursor-pointer transition flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <div class="w-6 h-6 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-white text-[10px]">
-          ${emp.name.split(' ').pop()[0]}
-        </div>
-        <div>
-          <div class="font-bold text-white text-[11px]">${emp.name} <span class="text-[8px] text-slate-500">(${emp.id})</span></div>
-          <div class="text-[8px] text-slate-400">${emp.role} · ${emp.dept}</div>
-        </div>
-      </div>
-      <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-    </div>
-  `).join('');
-
-  container.querySelectorAll('.session-card').forEach(card => {
-    card.onclick = () => {
-      const emp = state.employees.find(e => e.id === card.dataset.id);
-      if (emp) selectEmployee(emp);
-    };
-  });
-}
-
-function renderAuditLogs() {
-  const container = $('auditFeed');
-  container.innerHTML = state.activities.map(act => `
-    <div class="p-2 rounded-xl bg-black/30 border border-white/5 space-y-1">
-      <div class="flex justify-between items-center">
-        <span class="font-bold text-cyan-400 text-[10px]">${act.user}</span>
-        <span class="text-[8px] text-slate-500">${act.time}</span>
-      </div>
-      <p class="text-slate-300 text-[9px] leading-tight">${act.action}</p>
-      <span class="inline-block px-1.5 py-0.5 rounded text-[8px] font-bold badge-blue">${act.tag}</span>
-    </div>
-  `).join('');
-}
-
-function renderDetailPanel() {
-  const container = $('detailPanel');
-  const comp = state.companies.find(c => c.id === state.currentCompanyId);
-
-  if (!state.selectedEntity) {
-    container.innerHTML = `
-      <div class="space-y-2">
-        <div class="font-bold text-white text-xs">${comp.name}</div>
-        <p class="text-[9px] text-slate-400">Pixel Virtual HQ Digital Twin</p>
-        <div class="grid grid-cols-2 gap-1.5 text-[9px] pt-1">
-          <div class="p-2 rounded-lg bg-black/40 border border-white/5">
-            <span class="text-slate-500 block">NHÂN SỰ</span>
-            <b class="text-white">${comp.employees} Hồ sơ</b>
-          </div>
-          <div class="p-2 rounded-lg bg-black/40 border border-white/5">
-            <span class="text-slate-500 block">LEGAL</span>
-            <b class="text-emerald-400">${comp.compliance}%</b>
-          </div>
-        </div>
-        <button id="openEditModalBtn" class="w-full py-1.5 rounded-lg bg-blue-600/30 border border-blue-500/40 text-blue-300 font-bold hover:bg-blue-600/50 transition text-[10px]">
-          ✎ Cập nhật dữ liệu Twin
-        </button>
-      </div>
-    `;
-    const btn = $('openEditModalBtn');
-    if (btn) {
-      btn.onclick = () => {
-        $('editCompName').value = comp.name;
-        $('editCompRev').value = comp.revenue;
-        $('editCompProf').value = comp.profit;
-        $('editCompPay').value = comp.payroll;
-        $('editModal').classList.remove('hidden');
-      };
-    }
-    return;
-  }
-
-  const emp = state.selectedEntity;
-  const bhxhNld = Math.round(emp.salary * 0.105);
-  const bhxhCty = Math.round(emp.salary * 0.215);
-  const pit = Math.max(0, Math.round((emp.salary - bhxhNld - 11000000) * 0.1));
-  const net = emp.salary - bhxhNld - pit;
-
-  container.innerHTML = `
-    <div class="space-y-2 text-[10px]">
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-xs">
-          ${emp.name.split(' ').pop()[0]}
-        </div>
-        <div>
-          <div class="font-bold text-white">${emp.name} <span class="text-[9px] text-slate-400">(${emp.id})</span></div>
-          <div class="text-[9px] text-cyan-400 font-medium">${emp.role} · ${emp.dept}</div>
-        </div>
-      </div>
-      <div class="p-2 rounded-xl bg-black/40 border border-white/5 space-y-1">
-        <div class="flex justify-between text-slate-300"><span>Lương Gross:</span> <b>${emp.salary.toLocaleString('vi-VN')}₫</b></div>
-        <div class="flex justify-between text-amber-400"><span>BHXH NLĐ (10.5%):</span> <b>-${bhxhNld.toLocaleString('vi-VN')}₫</b></div>
-        <div class="flex justify-between text-rose-400"><span>Thuế TNCN:</span> <b>-${pit.toLocaleString('vi-VN')}₫</b></div>
-        <div class="flex justify-between text-emerald-400 font-bold pt-1 border-t border-white/10"><span>Net:</span> <b>${net.toLocaleString('vi-VN')}₫</b></div>
-        <div class="flex justify-between text-slate-500 text-[8px]"><span>BHXH Cty (21.5%):</span> <b>${bhxhCty.toLocaleString('vi-VN')}₫</b></div>
-      </div>
-      <button id="pingEmpBtn" class="w-full py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold transition text-[10px]">
-        💬 Gửi tín hiệu đến ${emp.id}
-      </button>
-    </div>
-  `;
-
-  const ping = $('pingEmpBtn');
-  if (ping) {
-    ping.onclick = () => {
-      showToast(`Đã phát tín hiệu đến ${emp.name}`);
-      state.activities.unshift({
-        time: new Date().toTimeString().split(' ')[0],
-        user: 'Tô Văn Nghĩa',
-        action: `Tương tác trực tiếp với ${emp.name} (${emp.id})`,
-        tag: '3D Interaction'
-      });
-      renderAuditLogs();
-    };
-  }
-}
-
-function updateKPIs() {
-  const comp = state.companies.find(c => c.id === state.currentCompanyId);
-  if (!comp) return;
-  $('kpiEmp').textContent = comp.employees;
-  $('kpiRev').textContent = comp.revenue + ' Tỷ';
-  $('kpiProf').textContent = comp.profit + ' Tỷ';
-  $('kpiPay').textContent = comp.payroll + ' Tỷ';
-  $('kpiComp').textContent = comp.compliance + '%';
-  renderDetailPanel();
-}
-
-// =========================================================
-// 10. GLOBAL EVENTS
-// =========================================================
-function setupGlobalEvents() {
-  $('companySelect').onchange = (e) => {
-    state.currentCompanyId = e.target.value;
-    updateKPIs();
-  };
-
-  $('searchInput').oninput = () => renderSessionsList();
-
-  document.querySelectorAll('.dept-filter-btn').forEach(btn => {
-    btn.onclick = () => {
-      document.querySelectorAll('.dept-filter-btn').forEach(b => {
-        b.classList.remove('active', 'text-cyan-400', 'bg-white/10', 'font-bold');
-        b.classList.add('text-slate-300', 'font-medium');
-      });
-      btn.classList.add('active', 'text-cyan-400', 'bg-white/10', 'font-bold');
-      state.currentFilter = btn.dataset.filter;
-      renderSessionsList();
-    };
-  });
-
-  $('btnDragMode').onclick = () => {
-    state.dragModeActive = !state.dragModeActive;
-    $('dragStatusLabel').textContent = state.dragModeActive ? 'BẬT' : 'TẮT';
-    $('dragStatusLabel').className = state.dragModeActive ? 'text-cyan-400' : 'text-slate-500';
-    showToast(`Drag & Drop: ${state.dragModeActive ? 'Bật' : 'Tắt'}`);
-  };
-
-  $('btnHomeView').onclick = () => {
-    camera.position.set(20, 22, 20);
-    controls.target.set(0, 0, 0);
-    controls.update();
-    camera.zoom = 1; camera.updateProjectionMatrix();
-    $('zoomValueText').textContent = '100%';
-    showToast('Đã reset góc nhìn Isometric');
-  };
-
-  $('btnZoomIn').onclick = () => {
-    camera.zoom = Math.min(camera.zoom * 1.2, 2.5);
-    camera.updateProjectionMatrix();
-    $('zoomValueText').textContent = Math.round(camera.zoom * 100) + '%';
-  };
-
-  $('btnZoomOut').onclick = () => {
-    camera.zoom = Math.max(camera.zoom / 1.2, 0.5);
-    camera.updateProjectionMatrix();
-    $('zoomValueText').textContent = Math.round(camera.zoom * 100) + '%';
-  };
-
-  $('btnToggleBubbles').onclick = () => {
-    state.showBubbles = !state.showBubbles;
-    $('bubbleStatusLabel').textContent = state.showBubbles ? 'BẬT' : 'TẮT';
-    $('bubbleStatusLabel').className = state.showBubbles ? 'text-emerald-400' : 'text-slate-500';
-    showToast(`Bong bóng thoại: ${state.showBubbles ? 'Bật' : 'Tắt'}`);
-  };
-
-  $('btnAvatarControl').onclick = () => {
-    state.avatarControlMode = !state.avatarControlMode;
-    showToast(state.avatarControlMode
-      ? 'Hoá thân BẬT: WASD để di chuyển Tô Văn Nghĩa'
-      : 'Hoá thân TẮT');
-  };
-
-  $('closeEditModal').onclick = () => $('editModal').classList.add('hidden');
-  $('cancelEditBtn').onclick = () => $('editModal').classList.add('hidden');
-
-  $('saveEditBtn').onclick = () => {
-    const comp = state.companies.find(c => c.id === state.currentCompanyId);
-    if (comp) {
-      comp.name = $('editCompName').value;
-      comp.revenue = parseFloat($('editCompRev').value) || comp.revenue;
-      comp.profit = parseFloat($('editCompProf').value) || comp.profit;
-      comp.payroll = parseFloat($('editCompPay').value) || comp.payroll;
-      updateKPIs();
-      showToast('Đã lưu & đồng bộ Digital Twin!');
-    }
-    $('editModal').classList.add('hidden');
-  };
-}
-
-// =========================================================
-// 11. INIT
-// =========================================================
-window.addEventListener('DOMContentLoaded', () => {
-  init3DEngine();
-  renderSessionsList();
-  renderAuditLogs();
-  renderDetailPanel();
-  setupGlobalEvents();
-  updateKPIs();
-
-  // Periodic autonomous activity: characters wander occasionally
-  setInterval(() => {
-    characterMeshes.forEach((charMesh, i) => {
-      if (i > 8 || Math.random() > 0.3) return;
-      const emp = charMesh.userData.data;
-      if (!emp || emp.state === 'walking') return;
-      // Occasionally move to a new spot
-      if (Math.random() < 0.15) {
-        const ox = (Math.random() - 0.5) * 3;
-        const oz = (Math.random() - 0.5) * 3;
-        emp.targetPos.x = Math.max(-8, Math.min(8, emp.currentPos.x + ox));
-        emp.targetPos.z = Math.max(-6, Math.min(6, emp.currentPos.z + oz));
-        emp.state = 'walking';
-        emp.bubble = ['Đi lấy cà phê ☕','Đi họp xíu!','Lấy tài liệu cái!','Đợi tí ra liền!'][Math.floor(Math.random()*4)];
-        setTimeout(() => {
-          emp.state = 'working';
-          emp.bubble = 'Đang xử lý tác vụ...';
-        }, 4000);
-      }
-    });
-  }, 5000);
+// Xử lý Resize
+window.addEventListener('resize', () => {
+  const aspect = container.clientWidth / container.clientHeight;
+  camera.left = -frustumSize * aspect / 2;
+  camera.right = frustumSize * aspect / 2;
+  camera.top = frustumSize / 2;
+  camera.bottom = -frustumSize / 2;
+  camera.updateProjectionMatrix();
+  renderer.setSize(container.clientWidth, container.clientHeight);
 });
+
+// Zoom buttons
+document.getElementById('btnZoomIn').onclick = () => {
+  camera.zoom = Math.min(camera.zoom * 1.2, 3);
+  camera.updateProjectionMatrix();
+  document.getElementById('zoomLevel').innerText = Math.round(camera.zoom * 100) + '%';
+};
+document.getElementById('btnZoomOut').onclick = () => {
+  camera.zoom = Math.max(camera.zoom / 1.2, 0.5);
+  camera.updateProjectionMatrix();
+  document.getElementById('zoomLevel').innerText = Math.round(camera.zoom * 100) + '%';
+};
+
+// ==========================================
+// 8. UI RENDERING (LEFT & RIGHT PANELS)
+// ==========================================
+function renderSidebar() {
+  const list = document.getElementById('sessionsList');
+  list.innerHTML = state.employees.map(emp => `
+    <div class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition cursor-pointer flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-sm" style="background-color: #${emp.color.toString(16).padStart(6, '0')}">
+        ${emp.name.charAt(0)}
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-xs font-bold text-slate-200 truncate">${emp.role.toLowerCase()}</div>
+        <div class="text-[10px] text-slate-400 truncate">${emp.name}</div>
+      </div>
+      <div class="text-[10px] font-semibold text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded">${emp.status === 'working' ? '0:08' : 'Nghỉ'}</div>
+    </div>
+  `).join('');
+}
+
+function renderActivity() {
+  const feed = document.getElementById('activityFeed');
+  const acts = [
+    { name: 'mobile-app', action: 'Chạy typecheck', time: '23:34', status: 'success' },
+    { name: 'shop-api', action: 'Sửa src/routes/cart.ts', time: '23:34', status: 'editing' },
+    { name: 'infra', action: 'Chờ duyệt: Chạy terraform apply', time: '23:35', status: 'warning' },
+    { name: 'docs-site', action: 'Ghi file docs/install.md', time: '23:35', status: 'success' },
+  ];
+  
+  feed.innerHTML = acts.map(a => `
+    <div class="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1.5">
+      <div class="flex justify-between items-center">
+        <span class="text-xs font-bold text-white flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full ${a.status === 'warning' ? 'bg-amber-500' : 'bg-emerald-500'}"></span> ${a.name}
+        </span>
+        <span class="text-[10px] text-slate-500">${a.time}</span>
+      </div>
+      <div class="text-[11px] text-slate-300">${a.action}</div>
+      ${a.status === 'warning' ? `
+        <button class="mt-1 px-2 py-1 rounded bg-white/10 text-[10px] text-white hover:bg-white/20">Mở để duyệt</button>
+      ` : ''}
+    </div>
+  `).join('');
+}
+
+renderSidebar();
+renderActivity();
+animate();
 </script>
 </body>
 </html>
