@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PULSE 3D — Enterprise Virtual HQ</title>
+<title>PULSE 3D — Enterprise Virtual Campus</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = { theme: { extend: { colors: {
@@ -34,7 +34,7 @@
   .char-label {
     position: absolute;
     transform: translate(-50%, -100%);
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(15, 23, 42, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
     padding: 4px 8px;
@@ -57,7 +57,7 @@
     transform: translateX(-50%);
     border-width: 5px 5px 0;
     border-style: solid;
-    border-color: rgba(15, 23, 42, 0.9) transparent transparent transparent;
+    border-color: rgba(15, 23, 42, 0.95) transparent transparent transparent;
   }
   .char-dot { width: 6px; height: 6px; border-radius: 50%; }
   .char-dot.green { background: #10B981; box-shadow: 0 0 6px #10B981; }
@@ -96,6 +96,7 @@
   @keyframes float { 0%,100%{transform:translate(-50%,-100%)} 50%{transform:translate(-50%,-105%)} }
 
   #canvas-container canvas { display: block; width: 100%; height: 100%; outline: none; }
+  .dept-btn.active { background: rgba(59,130,246,0.2); color: #60A5FA; border-color: rgba(59,130,246,0.5); }
 </style>
 <script type="importmap">
 { "imports": {
@@ -111,26 +112,27 @@
   <div class="flex items-center gap-4">
     <div class="flex items-center gap-2">
       <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center font-extrabold text-white shadow-lg">P</div>
-      <span class="font-extrabold text-white text-base tracking-tight">PULSE 3D</span>
+      <span class="font-extrabold text-white text-base tracking-tight">PULSE 3D Campus</span>
     </div>
     <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold">
       <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-      DEMO - dữ liệu giả lập
+      REALTIME 540 AGENTS
     </div>
   </div>
   
   <div class="flex items-center gap-4">
-    <!-- Hardware Monitor (Giả lập) -->
     <div class="hidden lg:flex items-center gap-3 px-4 py-1.5 rounded-full bg-black/40 border border-white/5">
-      <span class="text-xs font-semibold text-slate-300">🖥 Máy Mac</span>
-      <span class="text-xs text-slate-400">RAM 79% · 3.1GB</span>
-      <div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-        <div class="h-full bg-amber-500 rounded-full" style="width: 79%"></div>
-      </div>
+      <span class="text-xs font-semibold text-slate-300">🖥 Node Server</span>
+      <span class="text-xs text-slate-400">RAM 79%</span>
+      <div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden"><div class="h-full bg-amber-500 rounded-full" style="width: 79%"></div></div>
     </div>
     <div class="flex items-center gap-2">
-      <button class="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition">⚙️</button>
-      <button class="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition">❓</button>
+      <select id="companySelect" class="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none">
+        <option value="COMP-001" class="bg-slate-900">◈ PULSE Group (HQ)</option>
+        <option value="COMP-002" class="bg-slate-900">◈ PULSE Tech</option>
+        <option value="COMP-003" class="bg-slate-900">◈ PULSE Logistics</option>
+      </select>
+      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center text-[10px] font-bold text-white shadow">TN</div>
     </div>
   </div>
 </header>
@@ -139,109 +141,80 @@
 <div class="flex-1 flex min-h-0 relative">
 
   <!-- LEFT PANEL: Sessions & Tasks -->
-  <aside class="w-72 glass-panel flex flex-col border-r border-white/10 z-20 shrink-0 absolute left-0 top-0 bottom-0 md:relative">
+  <aside class="w-72 glass-panel flex flex-col border-r border-white/10 z-20 shrink-0">
     <div class="p-4 border-b border-white/10">
       <div class="flex justify-between items-center mb-3">
-        <h2 class="text-sm font-bold text-white">Phiên làm việc</h2>
-        <span class="text-[10px] font-semibold text-emerald-400 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> đang nhận dữ liệu</span>
+        <h2 class="text-sm font-bold text-white">Nhân sự (540)</h2>
+        <span class="text-[10px] font-semibold text-emerald-400" id="onlineCount">● Online</span>
       </div>
-      <div class="grid grid-cols-3 gap-2 mb-4">
-        <div class="p-2 rounded-xl bg-black/40 border border-white/5">
-          <div class="text-lg font-extrabold text-white" id="statActive">6</div>
-          <div class="text-[10px] text-slate-400">đang làm</div>
-        </div>
-        <div class="p-2 rounded-xl bg-black/40 border border-white/5">
-          <div class="text-lg font-extrabold text-amber-400" id="statPending">0</div>
-          <div class="text-[10px] text-slate-400">chờ duyệt</div>
-        </div>
-        <div class="p-2 rounded-xl bg-black/40 border border-white/5">
-          <div class="text-lg font-extrabold text-slate-400" id="statIdle">0</div>
-          <div class="text-[10px] text-slate-400">đang nghỉ</div>
-        </div>
-      </div>
-      <div class="relative">
-        <input type="text" id="searchInput" placeholder="Tìm theo tên hoặc thư mục..." class="w-full bg-black/30 border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50">
+      
+      <div class="relative mb-3">
+        <input type="text" id="searchInput" placeholder="Tìm tên, mã EMP..." class="w-full bg-black/30 border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50">
         <span class="absolute left-3 top-2.5 text-slate-500 text-xs">🔍</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-1 mb-2">
+        <button data-filter="all" class="dept-btn active w-full text-left px-2 py-1 rounded-lg text-[10px] text-slate-300 border border-transparent hover:bg-white/5 transition">❖ Tất cả</button>
+        <button data-filter="Production" class="dept-btn w-full text-left px-2 py-1 rounded-lg text-[10px] text-slate-300 border border-transparent hover:bg-white/5 transition">🏭 Sản xuất</button>
+        <button data-filter="Engineering" class="dept-btn w-full text-left px-2 py-1 rounded-lg text-[10px] text-slate-300 border border-transparent hover:bg-white/5 transition">🔧 Kỹ thuật</button>
+        <button data-filter="Tech" class="dept-btn w-full text-left px-2 py-1 rounded-lg text-[10px] text-slate-300 border border-transparent hover:bg-white/5 transition">⚙ Tech</button>
+        <button data-filter="HRM" class="dept-btn w-full text-left px-2 py-1 rounded-lg text-[10px] text-slate-300 border border-transparent hover:bg-white/5 transition">♙ HRM</button>
+        <button data-filter="Finance" class="dept-btn w-full text-left px-2 py-1 rounded-lg text-[10px] text-slate-300 border border-transparent hover:bg-white/5 transition">₫ Finance</button>
       </div>
     </div>
     
-    <div class="flex-1 overflow-y-auto p-2 space-y-1">
-      <div class="px-2 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider flex justify-between items-center">
-        <span>Đang làm <span id="countActive">6</span></span>
-      </div>
-      <div id="sessionsList" class="space-y-1"></div>
+    <div class="flex-1 overflow-y-auto p-2 space-y-1" id="sessionsList">
+      <!-- Rendered via JS -->
     </div>
   </aside>
 
   <!-- CENTER 3D VIEW -->
-  <main class="flex-1 relative bg-[#0B1120] ml-0 md:ml-0">
+  <main class="flex-1 relative bg-[#0B1120]">
     <div id="canvas-container" class="absolute inset-0"></div>
     <div id="labels-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
     <div id="bubbles-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
 
+    <!-- KPIs Top Right -->
+    <div class="absolute top-4 right-4 flex gap-2 pointer-events-none z-10">
+      <div class="glass-panel px-3 py-2 rounded-xl text-right">
+        <div class="text-[9px] text-slate-400 uppercase">Doanh thu</div>
+        <div class="text-sm font-extrabold text-cyan-400" id="kpiRev">45.8 Tỷ</div>
+      </div>
+      <div class="glass-panel px-3 py-2 rounded-xl text-right">
+        <div class="text-[9px] text-slate-400 uppercase">Lương & C&B</div>
+        <div class="text-sm font-extrabold text-amber-400" id="kpiPay">8.5 Tỷ</div>
+      </div>
+    </div>
+
     <!-- BOTTOM TOOLBAR -->
-    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 glass-panel px-4 py-2 rounded-2xl flex items-center gap-2 shadow-2xl">
-      <button class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition" title="Về mặc định">🏠</button>
-      <button class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition">🖥</button>
-      <button class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition">👥</button>
-      <div class="w-px h-6 bg-white/10 mx-1"></div>
-      <button class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition" id="btnZoomOut">➖</button>
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 glass-panel px-4 py-2 rounded-2xl flex items-center gap-2 shadow-2xl z-20">
+      <button id="btnHomeView" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition" title="Về mặc định">🏠</button>
+      <button id="btnZoomOut" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition">➖</button>
       <div class="text-xs font-bold text-slate-300 px-2" id="zoomLevel">100%</div>
-      <button class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition" id="btnZoomIn">➕</button>
+      <button id="btnZoomIn" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition">➕</button>
       <div class="w-px h-6 bg-white/10 mx-1"></div>
-      <button class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white text-xs font-bold shadow-lg flex items-center gap-2 transition">
-        <span>🏃</span> Hoá thân
+      <button id="btnDragMode" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 text-xs font-bold transition">✋ Kéo thả: <span id="dragStatus" class="text-cyan-400">BẬT</span></button>
+      <button id="btnToggleBubbles" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 text-xs font-bold transition">💬 Chat: <span id="bubbleStatus" class="text-emerald-400">BẬT</span></button>
+      <div class="w-px h-6 bg-white/10 mx-1"></div>
+      <button id="btnAvatar" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white text-xs font-bold shadow-lg flex items-center gap-2 transition">
+        <span>🏃</span> Hoá thân (WASD)
       </button>
     </div>
   </main>
 
   <!-- RIGHT PANEL: Activity & Metrics -->
-  <aside class="w-80 glass-panel flex flex-col border-l border-white/10 z-20 shrink-0 hidden lg:flex">
+  <aside class="w-80 glass-panel flex flex-col border-l border-white/10 z-20 shrink-0">
     <div class="p-4 border-b border-white/10">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-sm font-bold text-white">Hoạt động</h2>
-        <span class="text-[10px] font-semibold text-emerald-400 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> trực tiếp</span>
-      </div>
-      <div class="grid grid-cols-4 gap-2 mb-4 text-center">
-        <div class="p-2 rounded-lg bg-black/30 border border-white/5">
-          <div class="text-sm font-bold text-blue-400">6</div>
-          <div class="text-[9px] text-slate-400 uppercase">Việc</div>
-        </div>
-        <div class="p-2 rounded-lg bg-black/30 border border-white/5">
-          <div class="text-sm font-bold text-white">11</div>
-          <div class="text-[9px] text-slate-400 uppercase">Đọc</div>
-        </div>
-        <div class="p-2 rounded-lg bg-black/30 border border-white/5">
-          <div class="text-sm font-bold text-white">2</div>
-          <div class="text-[9px] text-slate-400 uppercase">Sửa</div>
-        </div>
-        <div class="p-2 rounded-lg bg-black/30 border border-white/5">
-          <div class="text-sm font-bold text-emerald-400">$16.9</div>
-          <div class="text-[9px] text-slate-400 uppercase">Giá API</div>
-        </div>
+        <h2 class="text-sm font-bold text-white">Audit Logs</h2>
+        <span class="text-[10px] font-semibold text-emerald-400 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Live</span>
       </div>
       
-      <!-- System status buttons -->
-      <div class="space-y-2 mb-4">
-        <button class="w-full flex items-center justify-between p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold hover:bg-amber-500/20 transition">
-          <span class="flex items-center gap-2">⏱ Thời gian</span>
-          <span class="text-[10px] text-amber-500/70 font-normal">xem mỗi phiên làm gì</span>
-        </button>
-        <button class="w-full flex items-center justify-between p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold hover:bg-emerald-500/20 transition">
-          <span class="flex items-center gap-2">🏆 Tổng kết tuần</span>
-          <span class="text-[10px] text-emerald-500/70 font-normal">thể ảnh 7 ngày</span>
-        </button>
-      </div>
-      
-      <div class="flex gap-2 mb-3">
-        <button class="flex-1 py-1.5 rounded-lg bg-white/5 text-xs font-semibold text-slate-300 hover:bg-white/10">Tắt cả</button>
-        <button class="flex-1 py-1.5 rounded-lg bg-rose-500/20 text-xs font-semibold text-rose-400 border border-rose-500/30 hover:bg-rose-500/30 flex items-center justify-center gap-1">
-          Cần chú ý <span class="bg-rose-500 text-white text-[9px] px-1.5 rounded-full">2</span>
-        </button>
+      <div id="detailPanel" class="p-3 rounded-xl bg-black/40 border border-white/5 space-y-2">
+        <div class="text-xs text-slate-400 italic">Chọn nhân sự trên bản đồ để xem chi tiết lương & BHXH</div>
       </div>
     </div>
 
-    <!-- Live Feed -->
     <div class="flex-1 overflow-y-auto p-3 space-y-2" id="activityFeed">
       <!-- Rendered via JS -->
     </div>
@@ -256,29 +229,41 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // ==========================================
 // 1. DATA & STATE
 // ==========================================
-const DEPARTMENTS = ['Tech', 'Sales', 'Marketing', 'HRM', 'Finance', 'Operations'];
-const NAMES = ['Tô Văn Nghĩa', 'Nguyễn Văn An', 'Trần Thị Mai', 'Lê Hoàng Nam', 'Phạm Minh Khoa', 'Hoàng Thu Thảo', 'Vũ Ngọc Linh', 'Đặng Hữu Tú', 'Bùi Thu Hà', 'Hồ Khánh Dũng'];
-const ROLES = ['Principal Architect', 'Frontend Dev', 'Backend Dev', 'Product Owner', 'UI/UX Designer', 'QA Engineer', 'DevOps', 'Data Analyst'];
+const DEPARTMENTS = ['Production','Engineering','Sales','CSKH','Tech','Operations','Finance','Marketing','HRM','C&B','Legal','IT'];
+const DEPT_WEIGHTS = { Production:180, Engineering:40, Sales:60, CSKH:50, Tech:45, Operations:45, Finance:30, Marketing:25, HRM:20, 'C&B':15, Legal:15, IT:15 };
+const NAMES = ['Tô Văn Nghĩa','Nguyễn Văn An','Trần Thị Mai','Lê Hoàng Nam','Phạm Minh Khoa','Hoàng Thu Thảo','Vũ Ngọc Linh','Đặng Hữu Tú','Bùi Thu Hà','Hồ Khánh Dũng'];
+
+function pickDept() {
+  const roll = Math.random() * 540;
+  let acc = 0;
+  for (const [d, w] of Object.entries(DEPT_WEIGHTS)) { acc += w; if (roll < acc) return d; }
+  return 'Production';
+}
 
 const state = {
   employees: [],
   selected: null,
   showBubbles: true,
+  dragMode: true,
+  avatarControl: false,
+  currentFilter: 'all',
 };
 
-// Khởi tạo 12 nhân vật mẫu để hiển thị (giống ảnh)
-for (let i = 0; i < 12; i++) {
+// Tạo 540 nhân sự
+for (let i = 0; i < 540; i++) {
+  const dept = pickDept();
   state.employees.push({
     id: `EMP-${100+i}`,
-    name: NAMES[i % NAMES.length],
-    role: ROLES[i % ROLES.length],
-    dept: DEPARTMENTS[i % DEPARTMENTS.length],
-    status: i % 3 === 0 ? 'idle' : 'working',
+    name: NAMES[i % NAMES.length] + ' ' + (i+1),
+    role: dept + ' Specialist',
+    dept: dept,
+    salary: 15000000 + Math.floor(Math.random()*25000000),
+    status: i % 4 === 0 ? 'idle' : 'working',
     color: [0x3B82F6, 0x10B981, 0xF59E0B, 0x8B5CF6, 0xEC4899, 0x06B6D4][i % 6],
     hairColor: [0x1F2937, 0x451A03, 0x78350F, 0x000000][i % 4],
-    pos: { x: (Math.random() - 0.5) * 10, z: (Math.random() - 0.5) * 8 },
-    targetPos: { x: (Math.random() - 0.5) * 10, z: (Math.random() - 0.5) * 8 },
-    bubble: i % 4 === 0 ? 'Đang xử lý task...' : (i % 5 === 0 ? 'Bánh tráng trộn! Đợi mình với!' : null)
+    pos: { x: (Math.random()-0.5)*20, z: (Math.random()-0.5)*15 },
+    targetPos: { x: (Math.random()-0.5)*20, z: (Math.random()-0.5)*15 },
+    bubble: i % 7 === 0 ? 'Đang xử lý task...' : null
   });
 }
 
@@ -287,21 +272,19 @@ for (let i = 0; i < 12; i++) {
 // ==========================================
 const container = document.getElementById('canvas-container');
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0B1120); // Màu nền tối
+scene.background = new THREE.Color(0x0B1120);
 scene.fog = new THREE.FogExp2(0x0B1120, 0.015);
 
-// Camera Isometric
 const aspect = container.clientWidth / container.clientHeight;
-const frustumSize = 18;
+const frustumSize = 22;
 const camera = new THREE.OrthographicCamera(
   -frustumSize * aspect / 2, frustumSize * aspect / 2,
   frustumSize / 2, -frustumSize / 2,
   0.1, 1000
 );
-camera.position.set(25, 25, 25);
+camera.position.set(30, 30, 30);
 camera.lookAt(0, 0, 0);
 
-// Renderer độ phân giải cao (Không dùng Pixelated)
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(container.clientWidth, container.clientHeight);
@@ -310,7 +293,6 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 container.appendChild(renderer.domElement);
 
-// Controls
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
@@ -319,32 +301,24 @@ controls.minZoom = 0.5;
 controls.maxZoom = 3;
 controls.target.set(0, 0, 0);
 
-// Ánh sáng (Lighting Setup)
+// Ánh sáng
 scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-
 const sunLight = new THREE.DirectionalLight(0xfff5e6, 2.5);
 sunLight.position.set(20, 30, 15);
 sunLight.castShadow = true;
 sunLight.shadow.mapSize.width = 2048;
 sunLight.shadow.mapSize.height = 2048;
-sunLight.shadow.camera.left = -25;
-sunLight.shadow.camera.right = 25;
-sunLight.shadow.camera.top = 25;
-sunLight.shadow.camera.bottom = -25;
-sunLight.shadow.bias = -0.0005;
+sunLight.shadow.camera.left = -30;
+sunLight.shadow.camera.right = 30;
+sunLight.shadow.camera.top = 30;
+sunLight.shadow.camera.bottom = -30;
 scene.add(sunLight);
-
 const fillLight = new THREE.DirectionalLight(0x6090c0, 0.8);
 fillLight.position.set(-15, 10, -15);
 scene.add(fillLight);
 
-// Warm interior lights
-const warmLight1 = new THREE.PointLight(0xffaa00, 1.5, 15);
-warmLight1.position.set(0, 5, 0);
-scene.add(warmLight1);
-
 // ==========================================
-// 3. MATERIALS & TEXTURES (SMOOTH VOXEL)
+// 3. MATERIALS
 // ==========================================
 const matWood = new THREE.MeshStandardMaterial({ color: 0xDEB887, roughness: 0.8, flatShading: true });
 const matDarkWood = new THREE.MeshStandardMaterial({ color: 0x5C4033, roughness: 0.8, flatShading: true });
@@ -354,173 +328,75 @@ const matWhite = new THREE.MeshStandardMaterial({ color: 0xF3F4F6, roughness: 0.
 const matScreen = new THREE.MeshBasicMaterial({ color: 0x0F172A });
 
 // ==========================================
-// 4. BUILD WORLD (CHI TIẾT)
+// 4. WORLD BUILDER
 // ==========================================
-const officeGroup = new THREE.Group();
-scene.add(officeGroup);
+const worldGroup = new THREE.Group();
+scene.add(worldGroup);
 
-// Sàn gỗ
-const floorGeo = new THREE.BoxGeometry(20, 0.4, 16);
-const floorMesh = new THREE.Mesh(floorGeo, matWood);
-floorMesh.position.y = -0.2;
-floorMesh.receiveShadow = true;
-officeGroup.add(floorMesh);
+// --- Sàn văn phòng ---
+const floorMesh = new THREE.Mesh(new THREE.BoxGeometry(24, 0.4, 18), matWood);
+floorMesh.position.y = -0.2; floorMesh.receiveShadow = true;
+worldGroup.add(floorMesh);
 
 // Tường kính
 const wallMat = new THREE.MeshStandardMaterial({ color: 0xE5E7EB, roughness: 0.9 });
-// Tường trái
-const leftWall = new THREE.Mesh(new THREE.BoxGeometry(0.2, 4, 16), wallMat);
-leftWall.position.set(-10, 2, 0);
-leftWall.receiveShadow = true;
-leftWall.castShadow = true;
-officeGroup.add(leftWall);
-// Tường sau
-const backWall = new THREE.Mesh(new THREE.BoxGeometry(20, 4, 0.2), wallMat);
-backWall.position.set(0, 2, -8);
-backWall.receiveShadow = true;
-backWall.castShadow = true;
-officeGroup.add(backWall);
+const backWall = new THREE.Mesh(new THREE.BoxGeometry(24, 4, 0.2), wallMat);
+backWall.position.set(0, 2, -9); backWall.receiveShadow = true; worldGroup.add(backWall);
+const leftWall = new THREE.Mesh(new THREE.BoxGeometry(0.2, 4, 18), wallMat);
+leftWall.position.set(-12, 2, 0); leftWall.receiveShadow = true; worldGroup.add(leftWall);
 
-// Vách ngăn kính giữa các phòng
-const glassWall1 = new THREE.Mesh(new THREE.BoxGeometry(6, 3, 0.1), matGlass);
-glassWall1.position.set(4, 1.5, -2);
-officeGroup.add(glassWall1);
+// Vách ngăn kính
+const glassWall1 = new THREE.Mesh(new THREE.BoxGeometry(8, 3, 0.1), matGlass);
+glassWall1.position.set(5, 1.5, -2); worldGroup.add(glassWall1);
 
-const glassWall2 = new THREE.Mesh(new THREE.BoxGeometry(0.1, 3, 6), matGlass);
-glassWall2.position.set(1, 1.5, -5);
-officeGroup.add(glassWall2);
-
-// Khung cửa kính
-const frameMat = new THREE.MeshStandardMaterial({ color: 0x111827 });
-const frame1 = new THREE.Mesh(new THREE.BoxGeometry(6.1, 0.1, 0.15), frameMat);
-frame1.position.set(4, 3, -2);
-officeGroup.add(frame1);
-
-// ==========================================
-// 5. FURNITURE BUILDER
-// ==========================================
+// --- Hàm tạo Bàn làm việc ---
 function createDesk(x, z, rotation = 0) {
-  const g = new THREE.Group();
-  g.position.set(x, 0, z);
-  g.rotation.y = rotation;
-  
-  // Mặt bàn
+  const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = rotation;
   const top = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.1, 1.2), matWhite);
-  top.position.y = 0.75;
-  top.castShadow = true;
-  top.receiveShadow = true;
-  g.add(top);
-  
-  // Chân bàn
-  const legGeo = new THREE.BoxGeometry(0.1, 0.75, 0.1);
-  [[-1.1, -0.5], [1.1, -0.5], [-1.1, 0.5], [1.1, 0.5]].forEach(([lx, lz]) => {
-    const leg = new THREE.Mesh(legGeo, matMetal);
-    leg.position.set(lx, 0.375, lz);
-    leg.castShadow = true;
-    g.add(leg);
+  top.position.y = 0.75; top.castShadow = true; top.receiveShadow = true; g.add(top);
+  [[-1.1,-0.5],[1.1,-0.5],[-1.1,0.5],[1.1,0.5]].forEach(([lx, lz]) => {
+    const leg = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.75, 0.1), matMetal);
+    leg.position.set(lx, 0.375, lz); leg.castShadow = true; g.add(leg);
   });
-  
-  // Màn hình
-  const monitorBase = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.05, 8), matMetal);
-  monitorBase.position.set(0, 0.82, -0.3);
-  g.add(monitorBase);
-  const monitorStand = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.3, 0.05), matMetal);
-  monitorStand.position.set(0, 1.0, -0.3);
-  g.add(monitorStand);
   const monitorScreen = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.5, 0.05), matScreen);
-  monitorScreen.position.set(0, 1.3, -0.3);
-  monitorScreen.castShadow = true;
-  g.add(monitorScreen);
-  
-  // Bàn phím & Chuột
+  monitorScreen.position.set(0, 1.3, -0.3); monitorScreen.castShadow = true; g.add(monitorScreen);
   const kb = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.03, 0.2), matDarkWood);
-  kb.position.set(0, 0.81, 0.2);
-  g.add(kb);
-  const mouse = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.04, 0.15), matDarkWood);
-  mouse.position.set(0.4, 0.82, 0.2);
-  g.add(mouse);
-
+  kb.position.set(0, 0.81, 0.2); g.add(kb);
+  
   // Ghế
-  const chairGroup = new THREE.Group();
-  chairGroup.position.set(0, 0, 0.9);
+  const chairGroup = new THREE.Group(); chairGroup.position.set(0, 0, 0.9);
   const seat = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.1, 0.6), matDarkWood);
-  seat.position.y = 0.45;
-  seat.castShadow = true;
-  chairGroup.add(seat);
+  seat.position.y = 0.45; seat.castShadow = true; chairGroup.add(seat);
   const back = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.7, 0.1), matDarkWood);
-  back.position.set(0, 0.85, 0.25);
-  back.castShadow = true;
-  chairGroup.add(back);
-  const chairPole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.4, 8), matMetal);
-  chairPole.position.y = 0.2;
-  chairGroup.add(chairPole);
+  back.position.set(0, 0.85, 0.25); back.castShadow = true; chairGroup.add(back);
   g.add(chairGroup);
-
   return g;
 }
 
-// Đặt 3 cụm bàn làm việc
-officeGroup.add(createDesk(-5, -5));
-officeGroup.add(createDesk(-2, -5));
-officeGroup.add(createDesk(-5, -2));
-officeGroup.add(createDesk(6, -5, -Math.PI/2));
-officeGroup.add(createDesk(6, -2, -Math.PI/2));
-officeGroup.add(createDesk(-5, 3));
+// Đặt bàn
+worldGroup.add(createDesk(-8, -6)); worldGroup.add(createDesk(-5, -6)); worldGroup.add(createDesk(-2, -6));
+worldGroup.add(createDesk(-8, -3)); worldGroup.add(createDesk(-5, -3));
+worldGroup.add(createDesk(2, -6)); worldGroup.add(createDesk(5, -6));
 
-// Phòng họp (Meeting Room)
-const meetingTable = new THREE.Mesh(new THREE.BoxGeometry(3, 0.1, 1.5), matWood);
-meetingTable.position.set(5, 0.75, 4);
-meetingTable.castShadow = true;
-officeGroup.add(meetingTable);
-// Chân bàn họp
-const mtLeg = new THREE.Mesh(new THREE.BoxGeometry(2, 0.75, 0.2), matMetal);
-mtLeg.position.set(5, 0.375, 4);
-officeGroup.add(mtLeg);
-
-// Khu vực Pantry / Căn tin (Góc dưới phải)
+// Khu vực Pantry (Góc dưới phải)
 const pantryFloor = new THREE.Mesh(new THREE.BoxGeometry(8, 0.42, 6), new THREE.MeshStandardMaterial({ color: 0xD1D5DB }));
-pantryFloor.position.set(6, -0.19, 4.5);
-officeGroup.add(pantryFloor);
-
+pantryFloor.position.set(8, -0.19, 6); worldGroup.add(pantryFloor);
 const counter = new THREE.Mesh(new THREE.BoxGeometry(6, 1.2, 1), matDarkWood);
-counter.position.set(6, 0.6, 7.5);
-counter.castShadow = true;
-officeGroup.add(counter);
+counter.position.set(8, 0.6, 8.5); counter.castShadow = true; worldGroup.add(counter);
 
-// Máy pha cà phê
-const coffeeMachine = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.8, 0.5), matMetal);
-coffeeMachine.position.set(6, 1.6, 7.5);
-officeGroup.add(coffeeMachine);
+// Khu vực Nhà xưởng (Bên phải)
+const factoryFloor = new THREE.Mesh(new THREE.BoxGeometry(12, 0.4, 16), new THREE.MeshStandardMaterial({ color: 0x374151 }));
+factoryFloor.position.set(20, -0.2, 0); worldGroup.add(factoryFloor);
+// Băng tải
+const belt = new THREE.Mesh(new THREE.BoxGeometry(2, 0.6, 10), matMetal);
+belt.position.set(20, 0.3, 0); belt.castShadow = true; worldGroup.add(belt);
 
-// Bàn ăn nhỏ
-for(let i=0; i<2; i++) {
-  const smallTable = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.1, 16), matWhite);
-  smallTable.position.set(3 + i*3, 0.75, 2);
-  smallTable.castShadow = true;
-  officeGroup.add(smallTable);
-}
-
-// Cây cảnh
-function createPlant(x, z) {
-  const g = new THREE.Group();
-  g.position.set(x, 0, z);
-  const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.2, 0.5, 8), matWhite);
-  pot.position.y = 0.25;
-  pot.castShadow = true;
-  g.add(pot);
-  const leafMat = new THREE.MeshStandardMaterial({ color: 0x22C55E, roughness: 0.8, flatShading: true });
-  const leaves = new THREE.Mesh(new THREE.DodecahedronGeometry(0.6), leafMat);
-  leaves.position.y = 0.9;
-  leaves.castShadow = true;
-  g.add(leaves);
-  return g;
-}
-officeGroup.add(createPlant(-9, -7));
-officeGroup.add(createPlant(9, -7));
-officeGroup.add(createPlant(-9, 7));
+// Cổng bảo vệ (Phía trước)
+const booth = new THREE.Mesh(new THREE.BoxGeometry(3, 2.5, 3), matWhite);
+booth.position.set(0, 1.25, 14); booth.castShadow = true; worldGroup.add(booth);
 
 // ==========================================
-// 6. CHARACTERS (CHIBI VOXEL)
+// 5. CHARACTERS (CHIBI VOXEL)
 // ==========================================
 const characters = [];
 
@@ -534,75 +410,37 @@ function createCharacter(emp) {
   const hairMat = new THREE.MeshStandardMaterial({ color: emp.hairColor, roughness: 0.8 });
   const shoeMat = new THREE.MeshStandardMaterial({ color: 0x111827 });
 
-  // Thân
   const torso = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.7, 0.4), shirtMat);
-  torso.position.y = 0.95;
-  torso.castShadow = true;
-  group.add(torso);
+  torso.position.y = 0.95; torso.castShadow = true; group.add(torso);
 
-  // Đầu (Chibi to)
   const head = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.6, 0.6), skinMat);
-  head.position.y = 1.6;
-  head.castShadow = true;
-  group.add(head);
+  head.position.y = 1.6; head.castShadow = true; group.add(head);
 
-  // Tóc
   const hair = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.2, 0.65), hairMat);
-  hair.position.y = 1.85;
-  hair.castShadow = true;
-  group.add(hair);
+  hair.position.y = 1.85; hair.castShadow = true; group.add(hair);
 
-  // Mắt
   const eyeGeo = new THREE.BoxGeometry(0.08, 0.12, 0.05);
   const eyeMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
-  const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
-  eyeL.position.set(-0.15, 1.6, 0.31);
-  group.add(eyeL);
-  const eyeR = new THREE.Mesh(eyeGeo, eyeMat);
-  eyeR.position.set(0.15, 1.6, 0.31);
-  group.add(eyeR);
+  const eyeL = new THREE.Mesh(eyeGeo, eyeMat); eyeL.position.set(-0.15, 1.6, 0.31); group.add(eyeL);
+  const eyeR = new THREE.Mesh(eyeGeo, eyeMat); eyeR.position.set(0.15, 1.6, 0.31); group.add(eyeR);
 
-  // Tay (có khớp để gõ phím)
   const armGeo = new THREE.BoxGeometry(0.2, 0.6, 0.2);
-  const armL = new THREE.Mesh(armGeo, shirtMat);
-  armL.position.set(-0.4, 0.95, 0);
-  armL.castShadow = true;
-  group.add(armL);
+  const armL = new THREE.Mesh(armGeo, shirtMat); armL.position.set(-0.4, 0.95, 0); armL.castShadow = true; group.add(armL);
+  const armR = new THREE.Mesh(armGeo, shirtMat); armR.position.set(0.4, 0.95, 0); armR.castShadow = true; group.add(armR);
 
-  const armR = new THREE.Mesh(armGeo, shirtMat);
-  armR.position.set(0.4, 0.95, 0);
-  armR.castShadow = true;
-  group.add(armR);
-
-  // Chân
   const legGeo = new THREE.BoxGeometry(0.25, 0.5, 0.25);
-  const legL = new THREE.Mesh(legGeo, pantsMat);
-  legL.position.set(-0.15, 0.35, 0);
-  legL.castShadow = true;
-  group.add(legL);
-
-  const legR = new THREE.Mesh(legGeo, pantsMat);
-  legR.position.set(0.15, 0.35, 0);
-  legR.castShadow = true;
-  group.add(legR);
-
-  // Giày
-  const shoeL = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.15, 0.35), shoeMat);
-  shoeL.position.set(-0.15, 0.075, 0.05);
-  group.add(shoeL);
-  const shoeR = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.15, 0.35), shoeMat);
-  shoeR.position.set(0.15, 0.075, 0.05);
-  group.add(shoeR);
+  const legL = new THREE.Mesh(legGeo, pantsMat); legL.position.set(-0.15, 0.35, 0); legL.castShadow = true; group.add(legL);
+  const legR = new THREE.Mesh(legGeo, pantsMat); legR.position.set(0.15, 0.35, 0); legR.castShadow = true; group.add(legR);
 
   group.userData = { emp, armL, armR, legL, legR };
   
   // HTML Label
   const label = document.createElement('div');
   label.className = 'char-label';
-  label.innerHTML = `<span class="char-dot ${emp.status === 'working' ? 'green' : 'blue'}"></span> Nhóm ${emp.dept.toLowerCase()}-1`;
+  label.innerHTML = `<span class="char-dot ${emp.status === 'working' ? 'green' : 'blue'}"></span> ${emp.dept}-1`;
   document.getElementById('labels-container').appendChild(label);
   
-  // HTML Bubble (nếu có)
+  // HTML Bubble
   let bubble = null;
   if (emp.bubble) {
     bubble = document.createElement('div');
@@ -617,10 +455,66 @@ function createCharacter(emp) {
   characters.push(group);
 }
 
-state.employees.forEach(createCharacter);
+// Chỉ render 30 nhân vật để đảm bảo hiệu năng (nhưng data vẫn là 540)
+state.employees.slice(0, 30).forEach(createCharacter);
 
 // ==========================================
-// 7. ANIMATION & INTERACTION
+// 6. INTERACTION (DRAG & DROP)
+// ==========================================
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+const dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+const planeIntersect = new THREE.Vector3();
+let isDragging = false;
+let draggedObj = null;
+
+renderer.domElement.addEventListener('pointerdown', (e) => {
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  
+  raycaster.setFromCamera(mouse, camera);
+  const hits = raycaster.intersectObjects(characters, true);
+  if (hits.length > 0) {
+    let obj = hits[0].object;
+    while (obj.parent && !obj.userData.emp) obj = obj.parent;
+    if (obj.userData.emp) {
+      selectEmployee(obj.userData.emp);
+      if (state.dragMode) {
+        isDragging = true;
+        draggedObj = obj;
+        controls.enabled = false;
+      }
+    }
+  }
+});
+
+renderer.domElement.addEventListener('pointermove', (e) => {
+  if (!isDragging || !draggedObj) return;
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  
+  raycaster.setFromCamera(mouse, camera);
+  if (raycaster.ray.intersectPlane(dragPlane, planeIntersect)) {
+    draggedObj.position.x = planeIntersect.x;
+    draggedObj.position.z = planeIntersect.z;
+    const emp = draggedObj.userData.emp;
+    emp.pos.x = planeIntersect.x;
+    emp.pos.z = planeIntersect.z;
+  }
+});
+
+renderer.domElement.addEventListener('pointerup', () => {
+  if (isDragging) {
+    isDragging = false;
+    draggedObj = null;
+    controls.enabled = true;
+  }
+});
+
+// ==========================================
+// 7. ANIMATION LOOP
 // ==========================================
 const clock = new THREE.Clock();
 const tempV = new THREE.Vector3();
@@ -630,10 +524,13 @@ function animate() {
   const time = clock.getElapsedTime();
 
   characters.forEach((charGroup, idx) => {
-    const { armL, armR, legL, legR, html } = charGroup.userData;
-    const emp = charGroup.userData.emp;
+    const { armL, armR, legL, legR, html, emp } = charGroup.userData;
     
-    // Animation gõ phím nhẹ nhàng (Không vẫy tay)
+    // Đứng yên, không tự đi lung tung (trừ khi bị kéo thả)
+    charGroup.position.x = emp.pos.x;
+    charGroup.position.z = emp.pos.z;
+
+    // Animation: Gõ phím (Không vẫy tay)
     if (emp.status === 'working') {
       const tap = Math.sin(time * 4 + idx) * 0.05;
       armL.rotation.x = -0.4 + tap;
@@ -641,15 +538,15 @@ function animate() {
       legL.rotation.x = 0;
       legR.rotation.x = 0;
     } else {
-      // Idle: Thở nhẹ
+      // Idle: Thở nhẹ, tay buông
       charGroup.position.y = Math.sin(time * 1.5 + idx) * 0.02;
       armL.rotation.x = 0;
       armR.rotation.x = 0;
     }
 
-    // Cập nhật HTML Label & Bubble
+    // Cập nhật UI Label & Bubble
     tempV.copy(charGroup.position);
-    tempV.y += 2.3; // Độ cao của label
+    tempV.y += 2.3; 
     tempV.project(camera);
     
     const x = (tempV.x * 0.5 + 0.5) * window.innerWidth;
@@ -660,10 +557,12 @@ function animate() {
       html.label.style.left = `${x}px`;
       html.label.style.top = `${y}px`;
       
-      if (html.bubble) {
+      if (html.bubble && state.showBubbles) {
         html.bubble.style.display = 'flex';
         html.bubble.style.left = `${x}px`;
         html.bubble.style.top = `${y - 30}px`;
+      } else if (html.bubble) {
+        html.bubble.style.display = 'none';
       }
     } else {
       html.label.style.display = 'none';
@@ -675,18 +574,96 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-// Xử lý Resize
-window.addEventListener('resize', () => {
-  const aspect = container.clientWidth / container.clientHeight;
-  camera.left = -frustumSize * aspect / 2;
-  camera.right = frustumSize * aspect / 2;
-  camera.top = frustumSize / 2;
-  camera.bottom = -frustumSize / 2;
-  camera.updateProjectionMatrix();
-  renderer.setSize(container.clientWidth, container.clientHeight);
+// ==========================================
+// 8. UI RENDERING
+// ==========================================
+function selectEmployee(emp) {
+  state.selected = emp;
+  const bhxh = Math.round(emp.salary * 0.105);
+  const pit = Math.round((emp.salary - bhxh - 11000000) * 0.1);
+  const net = emp.salary - bhxh - (pit > 0 ? pit : 0);
+  
+  document.getElementById('detailPanel').innerHTML = `
+    <div class="flex items-center gap-2 mb-2 border-b border-white/10 pb-2">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-sm" style="background-color: #${emp.color.toString(16).padStart(6, '0')}">${emp.name.charAt(0)}</div>
+      <div>
+        <div class="text-xs font-bold text-white">${emp.name}</div>
+        <div class="text-[10px] text-slate-400">${emp.id} · ${emp.dept}</div>
+      </div>
+    </div>
+    <div class="space-y-1 text-[11px]">
+      <div class="flex justify-between text-slate-300"><span>Lương Gross:</span><b>${emp.salary.toLocaleString('vi-VN')}₫</b></div>
+      <div class="flex justify-between text-amber-400"><span>BHXH (10.5%):</span><b>-${bhxh.toLocaleString('vi-VN')}₫</b></div>
+      <div class="flex justify-between text-rose-400"><span>Thuế TNCN:</span><b>-${(pit > 0 ? pit : 0).toLocaleString('vi-VN')}₫</b></div>
+      <div class="flex justify-between text-emerald-400 font-bold border-t border-white/10 pt-1 mt-1"><span>Lương Net:</span><b>${net.toLocaleString('vi-VN')}₫</b></div>
+    </div>
+  `;
+}
+
+function renderSessionsList() {
+  const sv = document.getElementById('searchInput').value.toLowerCase().trim();
+  const filtered = state.employees.filter(emp => {
+    const ms = emp.name.toLowerCase().includes(sv) || emp.id.toLowerCase().includes(sv);
+    const md = state.currentFilter === 'all' || emp.dept === state.currentFilter;
+    return ms && md;
+  });
+  
+  document.getElementById('onlineCount').innerText = `● ${filtered.length} Online`;
+  
+  document.getElementById('sessionsList').innerHTML = filtered.slice(0, 30).map(emp => `
+    <div onclick="window._selectEmp('${emp.id}')" class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition cursor-pointer flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-sm" style="background-color: #${emp.color.toString(16).padStart(6, '0')}">
+        ${emp.name.charAt(0)}
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-xs font-bold text-slate-200 truncate">${emp.name}</div>
+        <div class="text-[10px] text-slate-400 truncate">${emp.role}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Expose function for inline onclick
+window._selectEmp = (id) => {
+  const emp = state.employees.find(e => e.id === id);
+  if (emp) selectEmployee(emp);
+};
+
+function renderActivity() {
+  const acts = [
+    { name: 'Tô Văn Nghĩa', action: 'Cập nhật bảng lương C&B', time: 'Vừa xong', status: 'success' },
+    { name: 'Hệ thống', action: 'Khởi chạy Realtime 540 Nhân sự', time: '1 phút trước', status: 'success' },
+    { name: 'Trần Thị Mai', action: 'Phê duyệt ngân sách vận hành', time: '5 phút trước', status: 'success' },
+    { name: 'Phạm Minh Khoa', action: 'Chờ duyệt: Đối soát BLLĐ 2019', time: '12 phút trước', status: 'warning' },
+  ];
+  
+  document.getElementById('activityFeed').innerHTML = acts.map(a => `
+    <div class="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1.5">
+      <div class="flex justify-between items-center">
+        <span class="text-xs font-bold text-white flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full ${a.status === 'warning' ? 'bg-amber-500' : 'bg-emerald-500'}"></span> ${a.name}
+        </span>
+        <span class="text-[10px] text-slate-500">${a.time}</span>
+      </div>
+      <div class="text-[11px] text-slate-300">${a.action}</div>
+    </div>
+  `).join('');
+}
+
+// ==========================================
+// 9. EVENT LISTENERS (UI)
+// ==========================================
+document.getElementById('searchInput').addEventListener('input', renderSessionsList);
+
+document.querySelectorAll('.dept-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.dept-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.currentFilter = btn.dataset.filter;
+    renderSessionsList();
+  };
 });
 
-// Zoom buttons
 document.getElementById('btnZoomIn').onclick = () => {
   camera.zoom = Math.min(camera.zoom * 1.2, 3);
   camera.updateProjectionMatrix();
@@ -697,52 +674,54 @@ document.getElementById('btnZoomOut').onclick = () => {
   camera.updateProjectionMatrix();
   document.getElementById('zoomLevel').innerText = Math.round(camera.zoom * 100) + '%';
 };
+document.getElementById('btnHomeView').onclick = () => {
+  camera.position.set(30, 30, 30);
+  controls.target.set(0, 0, 0);
+  camera.zoom = 1;
+  camera.updateProjectionMatrix();
+  controls.update();
+  document.getElementById('zoomLevel').innerText = '100%';
+};
 
-// ==========================================
-// 8. UI RENDERING (LEFT & RIGHT PANELS)
-// ==========================================
-function renderSidebar() {
-  const list = document.getElementById('sessionsList');
-  list.innerHTML = state.employees.map(emp => `
-    <div class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition cursor-pointer flex items-center gap-3">
-      <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-sm" style="background-color: #${emp.color.toString(16).padStart(6, '0')}">
-        ${emp.name.charAt(0)}
-      </div>
-      <div class="flex-1 min-w-0">
-        <div class="text-xs font-bold text-slate-200 truncate">${emp.role.toLowerCase()}</div>
-        <div class="text-[10px] text-slate-400 truncate">${emp.name}</div>
-      </div>
-      <div class="text-[10px] font-semibold text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded">${emp.status === 'working' ? '0:08' : 'Nghỉ'}</div>
-    </div>
-  `).join('');
-}
+document.getElementById('btnDragMode').onclick = () => {
+  state.dragMode = !state.dragMode;
+  document.getElementById('dragStatus').innerText = state.dragMode ? 'BẬT' : 'TẮT';
+  document.getElementById('dragStatus').className = state.dragMode ? 'text-cyan-400' : 'text-slate-500';
+};
 
-function renderActivity() {
-  const feed = document.getElementById('activityFeed');
-  const acts = [
-    { name: 'mobile-app', action: 'Chạy typecheck', time: '23:34', status: 'success' },
-    { name: 'shop-api', action: 'Sửa src/routes/cart.ts', time: '23:34', status: 'editing' },
-    { name: 'infra', action: 'Chờ duyệt: Chạy terraform apply', time: '23:35', status: 'warning' },
-    { name: 'docs-site', action: 'Ghi file docs/install.md', time: '23:35', status: 'success' },
-  ];
-  
-  feed.innerHTML = acts.map(a => `
-    <div class="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1.5">
-      <div class="flex justify-between items-center">
-        <span class="text-xs font-bold text-white flex items-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full ${a.status === 'warning' ? 'bg-amber-500' : 'bg-emerald-500'}"></span> ${a.name}
-        </span>
-        <span class="text-[10px] text-slate-500">${a.time}</span>
-      </div>
-      <div class="text-[11px] text-slate-300">${a.action}</div>
-      ${a.status === 'warning' ? `
-        <button class="mt-1 px-2 py-1 rounded bg-white/10 text-[10px] text-white hover:bg-white/20">Mở để duyệt</button>
-      ` : ''}
-    </div>
-  `).join('');
-}
+document.getElementById('btnToggleBubbles').onclick = () => {
+  state.showBubbles = !state.showBubbles;
+  document.getElementById('bubbleStatus').innerText = state.showBubbles ? 'BẬT' : 'TẮT';
+  document.getElementById('bubbleStatus').className = state.showBubbles ? 'text-emerald-400' : 'text-slate-500';
+};
 
-renderSidebar();
+document.getElementById('btnAvatar').onclick = () => {
+  state.avatarControl = !state.avatarControl;
+  alert(state.avatarControl ? 'Đã bật chế độ Hoá Thân. Dùng phím W A S D để di chuyển nhân vật Tô Văn Nghĩa.' : 'Đã tắt chế độ Hoá Thân.');
+};
+
+window.addEventListener('keydown', (e) => {
+  if (!state.avatarControl) return;
+  const mainEmp = state.employees[0];
+  const speed = 0.5;
+  if (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp') mainEmp.pos.z -= speed;
+  if (e.key === 's' || e.key === 'S' || e.key === 'ArrowDown') mainEmp.pos.z += speed;
+  if (e.key === 'a' || e.key === 'A' || e.key === 'ArrowLeft') mainEmp.pos.x -= speed;
+  if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') mainEmp.pos.x += speed;
+});
+
+window.addEventListener('resize', () => {
+  const aspect = container.clientWidth / container.clientHeight;
+  camera.left = -frustumSize * aspect / 2;
+  camera.right = frustumSize * aspect / 2;
+  camera.top = frustumSize / 2;
+  camera.bottom = -frustumSize / 2;
+  camera.updateProjectionMatrix();
+  renderer.setSize(container.clientWidth, container.clientHeight);
+});
+
+// Khởi chạy
+renderSessionsList();
 renderActivity();
 animate();
 </script>
