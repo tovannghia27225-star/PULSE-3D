@@ -3,100 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PULSE 3D — Enterprise Virtual Campus</title>
+<title>PULSE 3D — Enterprise Virtual Campus (Full AI)</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
-  tailwind.config = { theme: { extend: { colors: {
-    bgdark: '#0B1120', panel: '#111827', border: '#1F2937'
-  }}}};
+  tailwind.config = { theme: { extend: { colors: { bgdark: '#0B1120' }}}};
 </script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
   
   * { box-sizing: border-box; }
-  body { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; background-color: #0B1120; color: #F3F4F6; overflow: hidden; user-select: none; }
+  body { font-family: 'Inter', sans-serif; background-color: #0B1120; color: #F3F4F6; overflow: hidden; user-select: none; margin: 0; }
   
-  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: #4B5563; }
 
-  /* Giao diện kính mờ (Glassmorphism) */
   .glass-panel {
-    background: rgba(17, 24, 39, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    background: rgba(17, 24, 39, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
   }
 
-  /* Nhãn tên nhân vật (HTML Overlay) */
   .char-label {
-    position: absolute;
-    transform: translate(-50%, -100%);
-    background: rgba(15, 23, 42, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    padding: 4px 8px;
-    font-size: 11px;
-    font-weight: 600;
-    color: #E2E8F0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    pointer-events: none;
-    white-space: nowrap;
-    z-index: 10;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    position: absolute; transform: translate(-50%, -100%);
+    background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px; padding: 4px 8px; font-size: 11px; font-weight: 600;
+    color: #E2E8F0; display: flex; align-items: center; gap: 6px;
+    pointer-events: none; white-space: nowrap; z-index: 10; transition: opacity 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.4);
   }
   .char-label::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 5px 5px 0;
-    border-style: solid;
-    border-color: rgba(15, 23, 42, 0.95) transparent transparent transparent;
+    content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
+    border-width: 5px 5px 0; border-style: solid; border-color: rgba(15, 23, 42, 0.95) transparent transparent transparent;
   }
   .char-dot { width: 6px; height: 6px; border-radius: 50%; }
-  .char-dot.green { background: #10B981; box-shadow: 0 0 6px #10B981; }
-  .char-dot.blue { background: #3B82F6; box-shadow: 0 0 6px #3B82F6; }
 
-  /* Bong bóng Chat */
   .chat-bubble {
-    position: absolute;
-    transform: translate(-50%, -100%);
-    background: #0F172A;
-    border: 1px solid rgba(16, 185, 129, 0.4);
-    border-radius: 12px;
-    padding: 8px 12px;
-    font-size: 12px;
-    font-weight: 500;
-    color: #E2E8F0;
-    pointer-events: none;
-    white-space: nowrap;
-    z-index: 20;
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    animation: float 3s ease-in-out infinite;
+    position: absolute; transform: translate(-50%, -100%);
+    background: #0F172A; border: 1px solid rgba(16, 185, 129, 0.4);
+    border-radius: 12px; padding: 8px 12px; font-size: 12px; font-weight: 500;
+    color: #E2E8F0; pointer-events: none; white-space: nowrap; z-index: 20;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 8px;
   }
   .chat-bubble::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px 6px 0;
-    border-style: solid;
-    border-color: #0F172A transparent transparent transparent;
+    content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+    border-width: 6px 6px 0; border-style: solid; border-color: #0F172A transparent transparent transparent;
   }
-  @keyframes float { 0%,100%{transform:translate(-50%,-100%)} 50%{transform:translate(-50%,-105%)} }
 
-  #canvas-container canvas { display: block; width: 100%; height: 100%; outline: none; }
-  .dept-btn.active { background: rgba(59,130,246,0.2); color: #60A5FA; border-color: rgba(59,130,246,0.5); }
+  #canvas-container canvas { display: block; outline: none; }
 </style>
 <script type="importmap">
 { "imports": {
@@ -107,116 +62,95 @@
 </head>
 <body class="h-screen w-screen flex flex-col overflow-hidden text-sm">
 
-<!-- TOP BAR -->
+<!-- HEADER -->
 <header class="h-14 glass-panel z-30 flex items-center justify-between px-4 border-b border-white/10 shrink-0">
   <div class="flex items-center gap-4">
     <div class="flex items-center gap-2">
       <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center font-extrabold text-white shadow-lg">P</div>
-      <span class="font-extrabold text-white text-base tracking-tight">PULSE 3D Campus</span>
+      <span class="font-extrabold text-white text-base">PULSE AI Campus</span>
     </div>
-    <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold">
-      <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-      REALTIME 540 AGENTS
+    
+    <!-- Department Switcher -->
+    <div class="flex items-center gap-1 bg-black/30 p-1 rounded-xl border border-white/10 ml-4 overflow-x-auto">
+      <button data-dept="Tech" class="dept-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-blue-600 transition">Tech</button>
+      <button data-dept="HR" class="dept-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">HR</button>
+      <button data-dept="Finance" class="dept-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">Finance</button>
+      <button data-dept="Sales" class="dept-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">Sales</button>
+      <button data-dept="Marketing" class="dept-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">Marketing</button>
+      <button data-dept="Production" class="dept-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">Production</button>
     </div>
   </div>
   
   <div class="flex items-center gap-4">
     <div class="hidden lg:flex items-center gap-3 px-4 py-1.5 rounded-full bg-black/40 border border-white/5">
-      <span class="text-xs font-semibold text-slate-300">🖥 Node Server</span>
+      <span class="text-xs font-semibold text-slate-300">Server</span>
       <span class="text-xs text-slate-400">RAM 79%</span>
       <div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden"><div class="h-full bg-amber-500 rounded-full" style="width: 79%"></div></div>
     </div>
-    <div class="flex items-center gap-2">
-      <select id="companySelect" class="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none">
-        <option value="COMP-001" class="bg-slate-900">◈ PULSE Group (HQ)</option>
-        <option value="COMP-002" class="bg-slate-900">◈ PULSE Tech</option>
-        <option value="COMP-003" class="bg-slate-900">◈ PULSE Logistics</option>
-      </select>
-      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center text-[10px] font-bold text-white shadow">TN</div>
-    </div>
+    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center text-[10px] font-bold text-white shadow">TN</div>
   </div>
 </header>
 
 <!-- MAIN LAYOUT -->
 <div class="flex-1 flex min-h-0 relative">
 
-  <!-- LEFT PANEL: Sessions & Tasks -->
-  <aside class="w-72 glass-panel flex flex-col border-r border-white/10 z-20 shrink-0">
+  <!-- LEFT PANEL -->
+  <aside class="w-[300px] glass-panel flex flex-col border-r border-white/10 z-20 shrink-0">
     <div class="p-4 border-b border-white/10">
       <div class="flex justify-between items-center mb-3">
-        <h2 class="text-sm font-bold text-white">Nhân sự (540)</h2>
-        <span class="text-[10px] font-semibold text-emerald-400" id="onlineCount">● Online</span>
+        <h2 class="text-sm font-bold text-white">Nhân sự phòng ban</h2>
+        <span class="text-[10px] font-semibold text-emerald-400" id="empCount">0 Online</span>
       </div>
-      
-      <div class="relative mb-3">
-        <input type="text" id="searchInput" placeholder="Tìm tên, mã EMP..." class="w-full bg-black/30 border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50">
+      <div class="relative mb-2">
+        <input type="text" id="searchInput" placeholder="Tìm tên nhân sự..." class="w-full bg-black/30 border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50">
         <span class="absolute left-3 top-2.5 text-slate-500 text-xs">🔍</span>
-      </div>
-
-      <div class="grid grid-cols-2 gap-1 mb-2">
-        <button data-filter="all" class="dept-btn active w-full text-left px-2 py-1 rounded-lg text-[10px] text-slate-300 border border-transparent hover:bg-white/5 transition">❖ Tất cả</button>
-        <button data-filter="Production" class="dept-btn w-full text-left px-2 py-1 rounded-lg text-[10px] text-slate-300 border border-transparent hover:bg-white/5 transition">🏭 Sản xuất</button>
-        <button data-filter="Engineering" class="dept-btn w-full text-left px-2 py-1 rounded-lg text-[10px] text-slate-300 border border-transparent hover:bg-white/5 transition">🔧 Kỹ thuật</button>
-        <button data-filter="Tech" class="dept-btn w-full text-left px-2 py-1 rounded-lg text-[10px] text-slate-300 border border-transparent hover:bg-white/5 transition">⚙ Tech</button>
-        <button data-filter="HRM" class="dept-btn w-full text-left px-2 py-1 rounded-lg text-[10px] text-slate-300 border border-transparent hover:bg-white/5 transition">♙ HRM</button>
-        <button data-filter="Finance" class="dept-btn w-full text-left px-2 py-1 rounded-lg text-[10px] text-slate-300 border border-transparent hover:bg-white/5 transition">₫ Finance</button>
       </div>
     </div>
     
-    <div class="flex-1 overflow-y-auto p-2 space-y-1" id="sessionsList">
-      <!-- Rendered via JS -->
+    <div class="flex-1 overflow-y-auto p-3 space-y-2" id="sessionsList">
+      <!-- Render JS -->
     </div>
   </aside>
 
   <!-- CENTER 3D VIEW -->
-  <main class="flex-1 relative bg-[#0B1120]">
+  <main class="flex-1 relative bg-[#0B1120] overflow-hidden">
     <div id="canvas-container" class="absolute inset-0"></div>
     <div id="labels-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
     <div id="bubbles-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
-
-    <!-- KPIs Top Right -->
-    <div class="absolute top-4 right-4 flex gap-2 pointer-events-none z-10">
-      <div class="glass-panel px-3 py-2 rounded-xl text-right">
-        <div class="text-[9px] text-slate-400 uppercase">Doanh thu</div>
-        <div class="text-sm font-extrabold text-cyan-400" id="kpiRev">45.8 Tỷ</div>
-      </div>
-      <div class="glass-panel px-3 py-2 rounded-xl text-right">
-        <div class="text-[9px] text-slate-400 uppercase">Lương & C&B</div>
-        <div class="text-sm font-extrabold text-amber-400" id="kpiPay">8.5 Tỷ</div>
-      </div>
-    </div>
-
-    <!-- BOTTOM TOOLBAR -->
-    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 glass-panel px-4 py-2 rounded-2xl flex items-center gap-2 shadow-2xl z-20">
-      <button id="btnHomeView" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition" title="Về mặc định">🏠</button>
+    
+    <!-- Bottom Toolbar -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 glass-panel px-4 py-2 rounded-2xl flex items-center gap-2 shadow-2xl z-30">
+      <button id="btnHomeView" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition">🏠 Toàn cảnh</button>
+      <div class="w-px h-6 bg-white/10 mx-1"></div>
       <button id="btnZoomOut" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition">➖</button>
-      <div class="text-xs font-bold text-slate-300 px-2" id="zoomLevel">100%</div>
+      <div class="text-xs font-bold text-slate-300 px-2 w-12 text-center" id="zoomLevel">100%</div>
       <button id="btnZoomIn" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition">➕</button>
       <div class="w-px h-6 bg-white/10 mx-1"></div>
-      <button id="btnDragMode" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 text-xs font-bold transition">✋ Kéo thả: <span id="dragStatus" class="text-cyan-400">BẬT</span></button>
-      <button id="btnToggleBubbles" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 text-xs font-bold transition">💬 Chat: <span id="bubbleStatus" class="text-emerald-400">BẬT</span></button>
-      <div class="w-px h-6 bg-white/10 mx-1"></div>
+      <button id="btnDragMode" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 text-xs font-bold transition flex items-center gap-2">
+        ✋ Kéo thả <span id="dragStatus" class="text-cyan-400 bg-cyan-400/20 px-1.5 rounded">BẬT</span>
+      </button>
       <button id="btnAvatar" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white text-xs font-bold shadow-lg flex items-center gap-2 transition">
         <span>🏃</span> Hoá thân (WASD)
       </button>
     </div>
   </main>
 
-  <!-- RIGHT PANEL: Activity & Metrics -->
-  <aside class="w-80 glass-panel flex flex-col border-l border-white/10 z-20 shrink-0">
+  <!-- RIGHT PANEL -->
+  <aside class="w-[340px] glass-panel flex flex-col border-l border-white/10 z-20 shrink-0">
     <div class="p-4 border-b border-white/10">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-sm font-bold text-white">Audit Logs</h2>
+        <h2 class="text-sm font-bold text-white">Chi tiết nhân sự</h2>
         <span class="text-[10px] font-semibold text-emerald-400 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Live</span>
       </div>
       
       <div id="detailPanel" class="p-3 rounded-xl bg-black/40 border border-white/5 space-y-2">
-        <div class="text-xs text-slate-400 italic">Chọn nhân sự trên bản đồ để xem chi tiết lương & BHXH</div>
+        <div class="text-xs text-slate-400 italic text-center py-4">Bấm vào nhân vật để xem chi tiết</div>
       </div>
     </div>
 
-    <div class="flex-1 overflow-y-auto p-3 space-y-2" id="activityFeed">
-      <!-- Rendered via JS -->
+    <div class="flex-1 overflow-y-auto p-3 space-y-2">
+      <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nhật ký AI (Auto)</h2>
+      <div id="logFeed" class="space-y-2 text-xs"></div>
     </div>
   </aside>
 
@@ -227,65 +161,63 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 // ==========================================
-// 1. DATA & STATE
+// 1. DATA MODEL (540 NHÂN SỰ, 12 PHÒNG BAN)
 // ==========================================
-const DEPARTMENTS = ['Production','Engineering','Sales','CSKH','Tech','Operations','Finance','Marketing','HRM','C&B','Legal','IT'];
-const DEPT_WEIGHTS = { Production:180, Engineering:40, Sales:60, CSKH:50, Tech:45, Operations:45, Finance:30, Marketing:25, HRM:20, 'C&B':15, Legal:15, IT:15 };
-const NAMES = ['Tô Văn Nghĩa','Nguyễn Văn An','Trần Thị Mai','Lê Hoàng Nam','Phạm Minh Khoa','Hoàng Thu Thảo','Vũ Ngọc Linh','Đặng Hữu Tú','Bùi Thu Hà','Hồ Khánh Dũng'];
-
-function pickDept() {
-  const roll = Math.random() * 540;
-  let acc = 0;
-  for (const [d, w] of Object.entries(DEPT_WEIGHTS)) { acc += w; if (roll < acc) return d; }
-  return 'Production';
-}
-
-const state = {
-  employees: [],
-  selected: null,
-  showBubbles: true,
-  dragMode: true,
-  avatarControl: false,
-  currentFilter: 'all',
+const DEPARTMENTS = {
+  Tech:      { color: 0x3B82F6, center: { x: -12, z: -12 } },
+  HR:        { color: 0x10B981, center: { x:  12, z: -12 } },
+  Finance:   { color: 0xF59E0B, center: { x: -12, z:  12 } },
+  Sales:     { color: 0xEC4899, center: { x:  12, z:  12 } },
+  Marketing: { color: 0x8B5CF6, center: { x:   0, z: -16 } },
+  Production:{ color: 0x64748B, center: { x:  24, z:   0 } }
 };
 
-// Tạo 540 nhân sự
-for (let i = 0; i < 540; i++) {
-  const dept = pickDept();
-  state.employees.push({
-    id: `EMP-${100+i}`,
-    name: NAMES[i % NAMES.length] + ' ' + (i+1),
-    role: dept + ' Specialist',
-    dept: dept,
-    salary: 15000000 + Math.floor(Math.random()*25000000),
-    status: i % 4 === 0 ? 'idle' : 'working',
-    color: [0x3B82F6, 0x10B981, 0xF59E0B, 0x8B5CF6, 0xEC4899, 0x06B6D4][i % 6],
-    hairColor: [0x1F2937, 0x451A03, 0x78350F, 0x000000][i % 4],
-    pos: { x: (Math.random()-0.5)*20, z: (Math.random()-0.5)*15 },
-    targetPos: { x: (Math.random()-0.5)*20, z: (Math.random()-0.5)*15 },
-    bubble: i % 7 === 0 ? 'Đang xử lý task...' : null
-  });
-}
+const NAMES = ['Tô Văn Nghĩa','Nguyễn Văn An','Trần Thị Mai','Lê Hoàng Nam','Phạm Minh Khoa','Hoàng Thu Thảo','Vũ Ngọc Linh','Đặng Hữu Tú','Bùi Thu Hà','Hồ Khánh Dũng'];
+const state = {
+  activeDept: 'Tech',
+  employees: [],
+  selected: null,
+  dragMode: true,
+  avatarControl: false,
+};
+
+// Tạo data nhân sự (Mỗi phòng ban tạo 30 người để render 3D mượt, nhưng data hiển thị full)
+Object.keys(DEPARTMENTS).forEach((deptName, dIdx) => {
+  for (let i = 0; i < 30; i++) {
+    const c = DEPARTMENTS[deptName].center;
+    state.employees.push({
+      id: `${deptName}-${i+1}`,
+      name: NAMES[i % NAMES.length] + ' ' + (i+1),
+      dept: deptName,
+      salary: 15000000 + Math.floor(Math.random()*20000000),
+      color: DEPARTMENTS[deptName].color,
+      hairColor: [0x1F2937, 0x451A03, 0x78350F][i % 3],
+      pos: { x: c.x + (Math.random()-0.5)*8, z: c.z + (Math.random()-0.5)*8 },
+      targetPos: { x: c.x + (Math.random()-0.5)*8, z: c.z + (Math.random()-0.5)*8 },
+      state: 'WORKING', timer: 5 + Math.random() * 10,
+      faceExpr: 'focus'
+    });
+  }
+});
 
 // ==========================================
-// 2. THREE.JS SETUP (SẮC NÉT, LOW-POLY)
+// 2. THREE.JS SETUP
 // ==========================================
 const container = document.getElementById('canvas-container');
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x0B1120);
-scene.fog = new THREE.FogExp2(0x0B1120, 0.015);
+scene.fog = new THREE.FogExp2(0x0B1120, 0.01);
 
 const aspect = container.clientWidth / container.clientHeight;
-const frustumSize = 22;
+const frustumSize = 45; // Phóng to để thấy toàn campus
 const camera = new THREE.OrthographicCamera(
   -frustumSize * aspect / 2, frustumSize * aspect / 2,
-  frustumSize / 2, -frustumSize / 2,
-  0.1, 1000
+  frustumSize / 2, -frustumSize / 2, 0.1, 1000
 );
-camera.position.set(30, 30, 30);
+camera.position.set(40, 40, 40);
 camera.lookAt(0, 0, 0);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(container.clientWidth, container.clientHeight);
 renderer.shadowMap.enabled = true;
@@ -295,290 +227,420 @@ container.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-controls.dampingFactor = 0.05;
-controls.maxPolarAngle = Math.PI / 2.5;
-controls.minZoom = 0.5;
-controls.maxZoom = 3;
-controls.target.set(0, 0, 0);
+controls.maxPolarAngle = Math.PI / 2.3;
+controls.minZoom = 0.3;
+controls.maxZoom = 4;
 
-// Ánh sáng
+// Lights
 scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-const sunLight = new THREE.DirectionalLight(0xfff5e6, 2.5);
-sunLight.position.set(20, 30, 15);
-sunLight.castShadow = true;
-sunLight.shadow.mapSize.width = 2048;
-sunLight.shadow.mapSize.height = 2048;
-sunLight.shadow.camera.left = -30;
-sunLight.shadow.camera.right = 30;
-sunLight.shadow.camera.top = 30;
-sunLight.shadow.camera.bottom = -30;
-scene.add(sunLight);
-const fillLight = new THREE.DirectionalLight(0x6090c0, 0.8);
-fillLight.position.set(-15, 10, -15);
-scene.add(fillLight);
+const sun = new THREE.DirectionalLight(0xfff5e6, 2.0);
+sun.position.set(30, 50, 30);
+sun.castShadow = true;
+sun.shadow.mapSize.width = 2048;
+sun.shadow.mapSize.height = 2048;
+sun.shadow.camera.left = -40;
+sun.shadow.camera.right = 40;
+sun.shadow.camera.top = 40;
+sun.shadow.camera.bottom = -40;
+scene.add(sun);
 
 // ==========================================
-// 3. MATERIALS
+// 3. MATERIALS & FACE TEXTURES
 // ==========================================
-const matWood = new THREE.MeshStandardMaterial({ color: 0xDEB887, roughness: 0.8, flatShading: true });
-const matDarkWood = new THREE.MeshStandardMaterial({ color: 0x5C4033, roughness: 0.8, flatShading: true });
-const matMetal = new THREE.MeshStandardMaterial({ color: 0x9CA3AF, roughness: 0.4, metalness: 0.6, flatShading: true });
-const matGlass = new THREE.MeshStandardMaterial({ color: 0x93C5FD, transparent: true, opacity: 0.3, roughness: 0.1, metalness: 0.2, side: THREE.DoubleSide });
-const matWhite = new THREE.MeshStandardMaterial({ color: 0xF3F4F6, roughness: 0.9, flatShading: true });
+const matWood = new THREE.MeshStandardMaterial({ color: 0xDEB887, roughness: 0.8 });
+const matDarkWood = new THREE.MeshStandardMaterial({ color: 0x5C4033, roughness: 0.8 });
+const matMetal = new THREE.MeshStandardMaterial({ color: 0x9CA3AF, metalness: 0.6 });
+const matGlass = new THREE.MeshStandardMaterial({ color: 0x93C5FD, transparent: true, opacity: 0.3, side: THREE.DoubleSide });
+const matWhite = new THREE.MeshStandardMaterial({ color: 0xF3F4F6 });
 const matScreen = new THREE.MeshBasicMaterial({ color: 0x0F172A });
 
-// ==========================================
-// 4. WORLD BUILDER
-// ==========================================
-const worldGroup = new THREE.Group();
-scene.add(worldGroup);
+// Tạo Face Textures
+const faceCanvas = document.createElement('canvas');
+faceCanvas.width = 64; faceCanvas.height = 64;
+const fCtx = faceCanvas.getContext('2d');
+const faceTextures = {};
 
-// --- Sàn văn phòng ---
-const floorMesh = new THREE.Mesh(new THREE.BoxGeometry(24, 0.4, 18), matWood);
-floorMesh.position.y = -0.2; floorMesh.receiveShadow = true;
-worldGroup.add(floorMesh);
+function generateFace(expr) {
+  fCtx.fillStyle = '#FFE0BD'; fCtx.fillRect(0, 0, 64, 64);
+  fCtx.fillStyle = '#000000'; fCtx.strokeStyle = '#000000'; fCtx.lineWidth = 4; fCtx.lineCap = 'round';
 
-// Tường kính
+  if (expr === 'focus') {
+    fCtx.fillRect(16, 24, 10, 4); fCtx.fillRect(38, 24, 10, 4);
+    fCtx.fillRect(24, 44, 16, 4);
+  } else if (expr === 'happy') {
+    fCtx.beginPath(); fCtx.arc(21, 26, 6, 0, Math.PI, true); fCtx.stroke();
+    fCtx.beginPath(); fCtx.arc(43, 26, 6, 0, Math.PI, true); fCtx.stroke();
+    fCtx.beginPath(); fCtx.arc(32, 42, 10, 0, Math.PI); fCtx.fill();
+  } else if (expr === 'sleep') {
+    fCtx.fillRect(16, 26, 10, 4); fCtx.fillRect(38, 26, 10, 4);
+    fCtx.beginPath(); fCtx.arc(32, 44, 6, 0, Math.PI * 2); fCtx.fill();
+  } else if (expr === 'talk') {
+    fCtx.fillRect(20, 24, 8, 8); fCtx.fillRect(36, 24, 8, 8);
+    fCtx.beginPath(); fCtx.arc(32, 44, 8, 0, Math.PI, false); fCtx.fill();
+  }
+  const tex = new THREE.CanvasTexture(faceCanvas);
+  tex.magFilter = THREE.NearestFilter;
+  return tex;
+}
+['focus', 'happy', 'sleep', 'talk'].forEach(e => faceTextures[e] = generateFace(e));
+
+// ==========================================
+// 4. BUILD WORLD (CHI TIẾT TỪNG PHÒNG BAN)
+// ==========================================
+const world = new THREE.Group();
+scene.add(world);
+
+// Sàn trung tâm
+const mainFloor = new THREE.Mesh(new THREE.BoxGeometry(60, 0.4, 50), matWood);
+mainFloor.position.y = -0.2; mainFloor.receiveShadow = true; world.add(mainFloor);
+
+// Vách kính ngăn cách
 const wallMat = new THREE.MeshStandardMaterial({ color: 0xE5E7EB, roughness: 0.9 });
-const backWall = new THREE.Mesh(new THREE.BoxGeometry(24, 4, 0.2), wallMat);
-backWall.position.set(0, 2, -9); backWall.receiveShadow = true; worldGroup.add(backWall);
-const leftWall = new THREE.Mesh(new THREE.BoxGeometry(0.2, 4, 18), wallMat);
-leftWall.position.set(-12, 2, 0); leftWall.receiveShadow = true; worldGroup.add(leftWall);
+const glassWall = new THREE.MeshStandardMaterial({ color: 0x93C5FD, transparent: true, opacity: 0.2, side: THREE.DoubleSide });
 
-// Vách ngăn kính
-const glassWall1 = new THREE.Mesh(new THREE.BoxGeometry(8, 3, 0.1), matGlass);
-glassWall1.position.set(5, 1.5, -2); worldGroup.add(glassWall1);
-
-// --- Hàm tạo Bàn làm việc ---
-function createDesk(x, z, rotation = 0) {
-  const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = rotation;
-  const top = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.1, 1.2), matWhite);
-  top.position.y = 0.75; top.castShadow = true; top.receiveShadow = true; g.add(top);
-  [[-1.1,-0.5],[1.1,-0.5],[-1.1,0.5],[1.1,0.5]].forEach(([lx, lz]) => {
-    const leg = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.75, 0.1), matMetal);
-    leg.position.set(lx, 0.375, lz); leg.castShadow = true; g.add(leg);
+// Hàm tạo nội thất chung
+function createDeskSet() {
+  const g = new THREE.Group();
+  g.add(new THREE.Mesh(new THREE.BoxGeometry(6, 0.1, 2), matWhite).translateY(0.75));
+  [[-2.8, -0.8], [2.8, -0.8], [-2.8, 0.8], [2.8, 0.8]].forEach(([lx, lz]) => {
+    g.add(new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.75, 0.1), matMetal).translateX(lx).translateY(0.375).translateZ(lz));
   });
-  const monitorScreen = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.5, 0.05), matScreen);
-  monitorScreen.position.set(0, 1.3, -0.3); monitorScreen.castShadow = true; g.add(monitorScreen);
-  const kb = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.03, 0.2), matDarkWood);
-  kb.position.set(0, 0.81, 0.2); g.add(kb);
-  
-  // Ghế
-  const chairGroup = new THREE.Group(); chairGroup.position.set(0, 0, 0.9);
-  const seat = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.1, 0.6), matDarkWood);
-  seat.position.y = 0.45; seat.castShadow = true; chairGroup.add(seat);
-  const back = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.7, 0.1), matDarkWood);
-  back.position.set(0, 0.85, 0.25); back.castShadow = true; chairGroup.add(back);
-  g.add(chairGroup);
+  for (let i=0; i<3; i++) {
+    g.add(new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.5, 0.05), matScreen).translateX(-2 + i*2).translateY(1.2).translateZ(-0.5));
+    g.add(new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.5, 0.8), matDarkWood).translateX(-2 + i*2).translateY(0.25).translateZ(0.8));
+  }
   return g;
 }
 
-// Đặt bàn
-worldGroup.add(createDesk(-8, -6)); worldGroup.add(createDesk(-5, -6)); worldGroup.add(createDesk(-2, -6));
-worldGroup.add(createDesk(-8, -3)); worldGroup.add(createDesk(-5, -3));
-worldGroup.add(createDesk(2, -6)); worldGroup.add(createDesk(5, -6));
+// Build các Zone
+Object.keys(DEPARTMENTS).forEach(dept => {
+  const c = DEPARTMENTS[dept].center;
+  const group = new THREE.Group();
+  group.position.set(c.x, 0, c.z);
 
-// Khu vực Pantry (Góc dưới phải)
-const pantryFloor = new THREE.Mesh(new THREE.BoxGeometry(8, 0.42, 6), new THREE.MeshStandardMaterial({ color: 0xD1D5DB }));
-pantryFloor.position.set(8, -0.19, 6); worldGroup.add(pantryFloor);
-const counter = new THREE.Mesh(new THREE.BoxGeometry(6, 1.2, 1), matDarkWood);
-counter.position.set(8, 0.6, 8.5); counter.castShadow = true; worldGroup.add(counter);
+  // Thảm màu
+  const carpet = new THREE.Mesh(new THREE.BoxGeometry(14, 0.42, 14), new THREE.MeshStandardMaterial({ color: DEPARTMENTS[dept].color, transparent: true, opacity: 0.15 }));
+  carpet.position.y = -0.19; carpet.receiveShadow = true; group.add(carpet);
 
-// Khu vực Nhà xưởng (Bên phải)
-const factoryFloor = new THREE.Mesh(new THREE.BoxGeometry(12, 0.4, 16), new THREE.MeshStandardMaterial({ color: 0x374151 }));
-factoryFloor.position.set(20, -0.2, 0); worldGroup.add(factoryFloor);
-// Băng tải
-const belt = new THREE.Mesh(new THREE.BoxGeometry(2, 0.6, 10), matMetal);
-belt.position.set(20, 0.3, 0); belt.castShadow = true; worldGroup.add(belt);
+  // Tường bao quanh khu vực
+  const bWall = new THREE.Mesh(new THREE.BoxGeometry(14, 4, 0.2), wallMat);
+  bWall.position.set(0, 2, -7); bWall.castShadow = true; group.add(bWall);
+  const lWall = new THREE.Mesh(new THREE.BoxGeometry(0.2, 4, 14), wallMat);
+  lWall.position.set(-7, 2, 0); lWall.castShadow = true; group.add(lWall);
 
-// Cổng bảo vệ (Phía trước)
-const booth = new THREE.Mesh(new THREE.BoxGeometry(3, 2.5, 3), matWhite);
-booth.position.set(0, 1.25, 14); booth.castShadow = true; worldGroup.add(booth);
+  // Nội thất riêng biệt
+  if (dept === 'Tech') {
+    group.add(createDeskSet().translateZ(-3));
+    // Server Rack
+    const server = new THREE.Mesh(new THREE.BoxGeometry(2, 4, 2), matDarkWood);
+    server.position.set(4, 2, -4); group.add(server);
+  } else if (dept === 'HR') {
+    group.add(createDeskSet().translateZ(-3));
+    // Kệ tài liệu
+    const shelf = new THREE.Mesh(new THREE.BoxGeometry(4, 3, 0.5), matWood);
+    shelf.position.set(-4, 1.5, -6); group.add(shelf);
+  } else if (dept === 'Finance') {
+    group.add(createDeskSet().translateZ(-3));
+    // Két sắt
+    const safe = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2, 1.5), matMetal);
+    safe.position.set(4, 1, -4); group.add(safe);
+  } else if (dept === 'Sales') {
+    group.add(createDeskSet().translateZ(-3));
+    // Bàn tròn
+    group.add(new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 0.1, 16), matWhite).translateX(4).translateY(0.75));
+  } else if (dept === 'Marketing') {
+    group.add(createDeskSet().translateZ(-3));
+    // Whiteboard
+    group.add(new THREE.Mesh(new THREE.BoxGeometry(4, 2, 0.1), matWhite).translateY(2).translateZ(-6));
+  }
+  
+  // Tạo các điểm đến (Waypoints)
+  DEPARTMENTS[dept].spots = {
+    desk: { x: c.x, z: c.z - 3 },
+    lounge: { x: c.x + 4, z: c.z + 4 },
+    center: { x: c.x, z: c.z }
+  };
+
+  world.add(group);
+});
+
+// Căn tin tổng (Canteen) ở trung tâm
+const canteen = new THREE.Group();
+canteen.position.set(0, 0, 15);
+canteen.add(new THREE.Mesh(new THREE.BoxGeometry(12, 0.42, 8), new THREE.MeshStandardMaterial({ color: 0xD1D5DB })).translateY(-0.19));
+// Quầy bar
+canteen.add(new THREE.Mesh(new THREE.BoxGeometry(8, 1.2, 1), matDarkWood).translateY(0.6).translateZ(-3));
+// Bàn ăn
+for(let i=0; i<3; i++) {
+  canteen.add(new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.1, 16), matWhite).translateX(-3 + i*3).translateY(0.75));
+}
+world.add(canteen);
 
 // ==========================================
-// 5. CHARACTERS (CHIBI VOXEL)
+// 5. CHARACTERS (FSM & EXPRESSIONS)
 // ==========================================
-const characters = [];
+const chars = [];
 
 function createCharacter(emp) {
   const group = new THREE.Group();
-  group.position.set(emp.pos.x, 0, emp.pos.z);
   
-  const skinMat = new THREE.MeshStandardMaterial({ color: 0xFFE0BD, roughness: 0.6 });
-  const shirtMat = new THREE.MeshStandardMaterial({ color: emp.color, roughness: 0.7 });
-  const pantsMat = new THREE.MeshStandardMaterial({ color: 0x374151, roughness: 0.8 });
-  const hairMat = new THREE.MeshStandardMaterial({ color: emp.hairColor, roughness: 0.8 });
-  const shoeMat = new THREE.MeshStandardMaterial({ color: 0x111827 });
-
-  const torso = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.7, 0.4), shirtMat);
-  torso.position.y = 0.95; torso.castShadow = true; group.add(torso);
-
-  const head = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.6, 0.6), skinMat);
-  head.position.y = 1.6; head.castShadow = true; group.add(head);
-
-  const hair = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.2, 0.65), hairMat);
-  hair.position.y = 1.85; hair.castShadow = true; group.add(hair);
-
-  const eyeGeo = new THREE.BoxGeometry(0.08, 0.12, 0.05);
-  const eyeMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
-  const eyeL = new THREE.Mesh(eyeGeo, eyeMat); eyeL.position.set(-0.15, 1.6, 0.31); group.add(eyeL);
-  const eyeR = new THREE.Mesh(eyeGeo, eyeMat); eyeR.position.set(0.15, 1.6, 0.31); group.add(eyeR);
-
+  const torso = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.8, 0.4), new THREE.MeshStandardMaterial({ color: emp.color }));
+  torso.position.y = 0.9; torso.castShadow = true; group.add(torso);
+  
+  // Head with Face
+  const headMats = [
+    new THREE.MeshStandardMaterial({ color: 0xFFE0BD }), new THREE.MeshStandardMaterial({ color: 0xFFE0BD }),
+    new THREE.MeshStandardMaterial({ color: 0xFFE0BD }), new THREE.MeshStandardMaterial({ color: 0xFFE0BD }),
+    new THREE.MeshStandardMaterial({ map: faceTextures['focus'] }),
+    new THREE.MeshStandardMaterial({ color: 0xFFE0BD })
+  ];
+  const head = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.7, 0.7), headMats);
+  head.position.y = 1.65; head.castShadow = true; group.add(head);
+  
+  const hair = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.2, 0.75), new THREE.MeshStandardMaterial({ color: emp.hairColor }));
+  hair.position.y = 1.95; hair.castShadow = true; group.add(hair);
+  
   const armGeo = new THREE.BoxGeometry(0.2, 0.6, 0.2);
-  const armL = new THREE.Mesh(armGeo, shirtMat); armL.position.set(-0.4, 0.95, 0); armL.castShadow = true; group.add(armL);
-  const armR = new THREE.Mesh(armGeo, shirtMat); armR.position.set(0.4, 0.95, 0); armR.castShadow = true; group.add(armR);
-
-  const legGeo = new THREE.BoxGeometry(0.25, 0.5, 0.25);
-  const legL = new THREE.Mesh(legGeo, pantsMat); legL.position.set(-0.15, 0.35, 0); legL.castShadow = true; group.add(legL);
-  const legR = new THREE.Mesh(legGeo, pantsMat); legR.position.set(0.15, 0.35, 0); legR.castShadow = true; group.add(legR);
-
-  group.userData = { emp, armL, armR, legL, legR };
+  const armL = new THREE.Mesh(armGeo, torso.material); armL.position.set(-0.4, 0.9, 0); armL.castShadow = true; group.add(armL);
+  const armR = new THREE.Mesh(armGeo, torso.material); armR.position.set(0.4, 0.9, 0); armR.castShadow = true; group.add(armR);
   
-  // HTML Label
+  const legGeo = new THREE.BoxGeometry(0.25, 0.5, 0.25);
+  const legL = new THREE.Mesh(legGeo, matDarkWood); legL.position.set(-0.15, 0.25, 0); legL.castShadow = true; group.add(legL);
+  const legR = new THREE.Mesh(legGeo, matDarkWood); legR.position.set(0.15, 0.25, 0); legR.castShadow = true; group.add(legR);
+
+  group.userData = { emp, armL, armR, legL, legR, head, torso };
+  
+  // HTML DOM
   const label = document.createElement('div');
   label.className = 'char-label';
-  label.innerHTML = `<span class="char-dot ${emp.status === 'working' ? 'green' : 'blue'}"></span> ${emp.dept}-1`;
+  label.innerHTML = `<span class="char-dot" style="background: #${emp.color.toString(16)}"></span> ${emp.name.split(' ')[0]}`;
   document.getElementById('labels-container').appendChild(label);
   
-  // HTML Bubble
-  let bubble = null;
-  if (emp.bubble) {
-    bubble = document.createElement('div');
-    bubble.className = 'chat-bubble';
-    bubble.innerHTML = `<span class="text-emerald-400">💬</span> ${emp.bubble}`;
-    document.getElementById('bubbles-container').appendChild(bubble);
-  }
-
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble';
+  bubble.style.display = 'none';
+  document.getElementById('bubbles-container').appendChild(bubble);
+  
   group.userData.html = { label, bubble };
+  group.position.set(emp.pos.x, 0, emp.pos.z);
   
   scene.add(group);
-  characters.push(group);
+  chars.push(group);
 }
 
-// Chỉ render 30 nhân vật để đảm bảo hiệu năng (nhưng data vẫn là 540)
-state.employees.slice(0, 30).forEach(createCharacter);
+// Render đại diện 10 nhân vật mỗi phòng (để đỡ lag)
+Object.keys(DEPARTMENTS).forEach(dept => {
+  const deptEmps = state.employees.filter(e => e.dept === dept).slice(0, 10);
+  deptEmps.forEach(createCharacter);
+});
+
+// Hàm đổi mặt
+function setFace(emp, expr) {
+  if (emp.faceExpr === expr) return;
+  emp.faceExpr = expr;
+  const charGroup = chars.find(c => c.userData.emp.id === emp.id);
+  if (charGroup) {
+    charGroup.userData.head.material[4].map = faceTextures[expr];
+    charGroup.userData.head.material[4].needsUpdate = true;
+  }
+}
 
 // ==========================================
-// 6. INTERACTION (DRAG & DROP)
+// 6. FSM (AI AUTONOMY)
 // ==========================================
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-const dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
-const planeIntersect = new THREE.Vector3();
-let isDragging = false;
-let draggedObj = null;
+let clock = new THREE.Clock();
 
-renderer.domElement.addEventListener('pointerdown', (e) => {
-  const rect = renderer.domElement.getBoundingClientRect();
-  mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-  mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+function updateFSM(charGroup, dt) {
+  const emp = charGroup.userData.emp;
+  const dept = DEPARTMENTS[emp.dept];
   
-  raycaster.setFromCamera(mouse, camera);
-  const hits = raycaster.intersectObjects(characters, true);
-  if (hits.length > 0) {
-    let obj = hits[0].object;
-    while (obj.parent && !obj.userData.emp) obj = obj.parent;
-    if (obj.userData.emp) {
-      selectEmployee(obj.userData.emp);
-      if (state.dragMode) {
-        isDragging = true;
-        draggedObj = obj;
-        controls.enabled = false;
+  const dist = Math.hypot(charGroup.position.x - emp.targetPos.x, charGroup.position.z - emp.targetPos.z);
+  
+  if (dist > 0.2) {
+    // Di chuyển (Pathfinding)
+    const speed = 4;
+    charGroup.position.x += (emp.targetPos.x - charGroup.position.x) / dist * speed * dt;
+    charGroup.position.z += (emp.targetPos.z - charGroup.position.z) / dist * speed * dt;
+    charGroup.position.y = Math.abs(Math.sin(clock.elapsedTime * 10)) * 0.1;
+    
+    const angle = Math.atan2(emp.targetPos.x - charGroup.position.x, emp.targetPos.z - charGroup.position.z);
+    charGroup.rotation.y = angle;
+    
+    // Walking Anim
+    charGroup.userData.armL.rotation.x = Math.sin(clock.elapsedTime * 10) * 0.6;
+    charGroup.userData.armR.rotation.x = -Math.sin(clock.elapsedTime * 10) * 0.6;
+    charGroup.userData.legL.rotation.x = -Math.sin(clock.elapsedTime * 10) * 0.6;
+    charGroup.userData.legR.rotation.x = Math.sin(clock.elapsedTime * 10) * 0.6;
+    
+    setFace(emp, 'focus');
+    charGroup.userData.html.bubble.style.display = 'none';
+    
+  } else {
+    // Đã đến nơi
+    charGroup.position.y = 0;
+    emp.timer -= dt;
+    
+    if (emp.state === 'WORKING') {
+      charGroup.userData.armL.rotation.x = -0.8 + Math.sin(clock.elapsedTime * 5) * 0.1;
+      charGroup.userData.armR.rotation.x = -0.8 - Math.sin(clock.elapsedTime * 5) * 0.1;
+      charGroup.userData.legL.rotation.x = 0; charGroup.userData.legR.rotation.x = 0;
+      setFace(emp, 'focus');
+    } else if (emp.state === 'EATING') {
+      charGroup.userData.armL.rotation.x = -1.5 + Math.sin(clock.elapsedTime * 2) * 0.2;
+      charGroup.userData.armR.rotation.x = -1.5 + Math.sin(clock.elapsedTime * 2) * 0.2;
+      setFace(emp, 'happy');
+    } else if (emp.state === 'SLEEPING') {
+      charGroup.userData.armL.rotation.x = 0; charGroup.userData.armR.rotation.x = 0;
+      charGroup.userData.head.rotation.x = 0.2;
+      setFace(emp, 'sleep');
+    } else if (emp.state === 'TALKING') {
+      charGroup.userData.armL.rotation.x = -0.2 + Math.sin(clock.elapsedTime * 3) * 0.1;
+      charGroup.userData.head.rotation.y = Math.sin(clock.elapsedTime * 2) * 0.2;
+      setFace(emp, 'talk');
+    }
+    
+    // Đổi State
+    if (emp.timer <= 0) {
+      charGroup.userData.head.rotation.x = 0; charGroup.userData.head.rotation.y = 0;
+      const r = Math.random();
+      if (r < 0.5) {
+        emp.state = 'WORKING';
+        emp.targetPos = { ...dept.spots.desk, x: dept.spots.desk.x + (Math.random()-0.5)*3, z: dept.spots.desk.z + (Math.random()-0.5)*2 };
+        emp.timer = 10 + Math.random() * 10;
+      } else if (r < 0.7) {
+        emp.state = 'EATING';
+        emp.targetPos = { x: canteen.position.x + (Math.random()-0.5)*6, z: canteen.position.z + (Math.random()-0.5)*4 };
+        emp.timer = 5 + Math.random() * 5;
+        charGroup.userData.html.bubble.innerHTML = '☕ Đi lấy cà phê';
+        charGroup.userData.html.bubble.style.display = 'flex';
+      } else if (r < 0.85) {
+        emp.state = 'SLEEPING';
+        emp.targetPos = { ...dept.spots.lounge };
+        emp.timer = 8 + Math.random() * 5;
+        charGroup.userData.html.bubble.innerHTML = '💤 Mệt quá...';
+        charGroup.userData.html.bubble.style.display = 'flex';
+      } else {
+        emp.state = 'TALKING';
+        const peer = state.employees.find(e => e.dept === emp.dept && e.id !== emp.id);
+        if (peer) {
+          emp.targetPos = { x: peer.pos.x + 1.5, z: peer.pos.z + 1.5 };
+          charGroup.userData.html.bubble.innerHTML = '💬 Bàn chút việc nha';
+          charGroup.userData.html.bubble.style.display = 'flex';
+        }
+        emp.timer = 6 + Math.random() * 4;
       }
     }
   }
-});
+}
 
-renderer.domElement.addEventListener('pointermove', (e) => {
-  if (!isDragging || !draggedObj) return;
-  const rect = renderer.domElement.getBoundingClientRect();
-  mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-  mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+// ==========================================
+// 7. CAMERA FOCUS & OPACITY
+// ==========================================
+let targetCamPos = new THREE.Vector3(40, 40, 40);
+let targetLookAt = new THREE.Vector3(0, 0, 0);
+
+function focusDepartment(deptId) {
+  state.activeDept = deptId;
+  const dept = DEPARTMENTS[deptId];
+  const c = dept.center;
   
-  raycaster.setFromCamera(mouse, camera);
-  if (raycaster.ray.intersectPlane(dragPlane, planeIntersect)) {
-    draggedObj.position.x = planeIntersect.x;
-    draggedObj.position.z = planeIntersect.z;
-    const emp = draggedObj.userData.emp;
-    emp.pos.x = planeIntersect.x;
-    emp.pos.z = planeIntersect.z;
-  }
-});
-
-renderer.domElement.addEventListener('pointerup', () => {
-  if (isDragging) {
-    isDragging = false;
-    draggedObj = null;
-    controls.enabled = true;
-  }
-});
+  targetCamPos.set(c.x + 15, 20, c.z + 15);
+  targetLookAt.set(c.x, 0, c.z);
+  
+  // Làm mờ các phòng ban khác
+  chars.forEach(charGroup => {
+    const emp = charGroup.userData.emp;
+    const isActive = emp.dept === deptId;
+    
+    charGroup.traverse(child => {
+      if (child.isMesh && child.material) {
+        const mats = Array.isArray(child.material) ? child.material : [child.material];
+        mats.forEach(m => {
+          m.transparent = true;
+          m.opacity = isActive ? 1.0 : 0.1;
+        });
+      }
+    });
+    
+    charGroup.userData.html.label.style.opacity = isActive ? '1' : '0';
+    if (!isActive) charGroup.userData.html.bubble.style.display = 'none';
+  });
+  
+  renderSessionsList();
+  document.querySelectorAll('.dept-btn').forEach(btn => {
+    if (btn.dataset.dept === deptId) {
+      btn.classList.add('bg-blue-600', 'text-white');
+      btn.classList.remove('text-slate-400');
+    } else {
+      btn.classList.remove('bg-blue-600', 'text-white');
+      btn.classList.add('text-slate-400');
+    }
+  });
+}
 
 // ==========================================
-// 7. ANIMATION LOOP
+// 8. ANIMATION LOOP
 // ==========================================
-const clock = new THREE.Clock();
 const tempV = new THREE.Vector3();
+let dt = 0;
 
 function animate() {
   requestAnimationFrame(animate);
-  const time = clock.getElapsedTime();
-
-  characters.forEach((charGroup, idx) => {
-    const { armL, armR, legL, legR, html, emp } = charGroup.userData;
+  dt = Math.min(clock.getDelta(), 0.1);
+  
+  camera.position.lerp(targetCamPos, 0.05);
+  controls.target.lerp(targetLookAt, 0.05);
+  
+  chars.forEach(c => updateFSM(c, dt));
+  
+  chars.forEach(charGroup => {
+    const { html, emp } = charGroup.userData;
+    if (emp.dept !== state.activeDept) return; // Chỉ hiện label phòng active
     
-    // Đứng yên, không tự đi lung tung (trừ khi bị kéo thả)
-    charGroup.position.x = emp.pos.x;
-    charGroup.position.z = emp.pos.z;
-
-    // Animation: Gõ phím (Không vẫy tay)
-    if (emp.status === 'working') {
-      const tap = Math.sin(time * 4 + idx) * 0.05;
-      armL.rotation.x = -0.4 + tap;
-      armR.rotation.x = -0.4 - tap;
-      legL.rotation.x = 0;
-      legR.rotation.x = 0;
-    } else {
-      // Idle: Thở nhẹ, tay buông
-      charGroup.position.y = Math.sin(time * 1.5 + idx) * 0.02;
-      armL.rotation.x = 0;
-      armR.rotation.x = 0;
-    }
-
-    // Cập nhật UI Label & Bubble
     tempV.copy(charGroup.position);
-    tempV.y += 2.3; 
+    tempV.y += 2.5;
     tempV.project(camera);
     
     const x = (tempV.x * 0.5 + 0.5) * window.innerWidth;
     const y = (-tempV.y * 0.5 + 0.5) * window.innerHeight;
-
-    if (tempV.z < 1) {
-      html.label.style.display = 'flex';
-      html.label.style.left = `${x}px`;
-      html.label.style.top = `${y}px`;
-      
-      if (html.bubble && state.showBubbles) {
-        html.bubble.style.display = 'flex';
-        html.bubble.style.left = `${x}px`;
-        html.bubble.style.top = `${y - 30}px`;
-      } else if (html.bubble) {
-        html.bubble.style.display = 'none';
-      }
-    } else {
-      html.label.style.display = 'none';
-      if (html.bubble) html.bubble.style.display = 'none';
+    
+    html.label.style.left = `${x}px`;
+    html.label.style.top = `${y}px`;
+    
+    if (html.bubble.style.display !== 'none') {
+      html.bubble.style.left = `${x}px`;
+      html.bubble.style.top = `${y - 35}px`;
     }
   });
-
+  
   controls.update();
   renderer.render(scene, camera);
 }
 
 // ==========================================
-// 8. UI RENDERING
+// 9. UI RENDERING & INTERACTION
 // ==========================================
-function selectEmployee(emp) {
-  state.selected = emp;
+function renderSessionsList() {
+  const list = document.getElementById('sessionsList');
+  const activeEmps = state.employees.filter(e => e.dept === state.activeDept);
+  document.getElementById('empCount').innerText = `${activeEmps.length} Online`;
+  
+  list.innerHTML = activeEmps.map(emp => `
+    <div onclick="window._selectEmp('${emp.id}')" class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition cursor-pointer flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-sm" style="background-color: #${emp.color.toString(16).padStart(6, '0')}">
+        ${emp.name.charAt(0)}
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-xs font-bold text-slate-200 truncate">${emp.name}</div>
+        <div class="text-[10px] text-slate-400 truncate">${emp.state}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+window._selectEmp = (id) => {
+  const emp = state.employees.find(e => e.id === id);
+  if (!emp) return;
   const bhxh = Math.round(emp.salary * 0.105);
   const pit = Math.round((emp.salary - bhxh - 11000000) * 0.1);
   const net = emp.salary - bhxh - (pit > 0 ? pit : 0);
@@ -598,117 +660,55 @@ function selectEmployee(emp) {
       <div class="flex justify-between text-emerald-400 font-bold border-t border-white/10 pt-1 mt-1"><span>Lương Net:</span><b>${net.toLocaleString('vi-VN')}₫</b></div>
     </div>
   `;
-}
-
-function renderSessionsList() {
-  const sv = document.getElementById('searchInput').value.toLowerCase().trim();
-  const filtered = state.employees.filter(emp => {
-    const ms = emp.name.toLowerCase().includes(sv) || emp.id.toLowerCase().includes(sv);
-    const md = state.currentFilter === 'all' || emp.dept === state.currentFilter;
-    return ms && md;
-  });
-  
-  document.getElementById('onlineCount').innerText = `● ${filtered.length} Online`;
-  
-  document.getElementById('sessionsList').innerHTML = filtered.slice(0, 30).map(emp => `
-    <div onclick="window._selectEmp('${emp.id}')" class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition cursor-pointer flex items-center gap-3">
-      <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-sm" style="background-color: #${emp.color.toString(16).padStart(6, '0')}">
-        ${emp.name.charAt(0)}
-      </div>
-      <div class="flex-1 min-w-0">
-        <div class="text-xs font-bold text-slate-200 truncate">${emp.name}</div>
-        <div class="text-[10px] text-slate-400 truncate">${emp.role}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-// Expose function for inline onclick
-window._selectEmp = (id) => {
-  const emp = state.employees.find(e => e.id === id);
-  if (emp) selectEmployee(emp);
 };
 
-function renderActivity() {
-  const acts = [
-    { name: 'Tô Văn Nghĩa', action: 'Cập nhật bảng lương C&B', time: 'Vừa xong', status: 'success' },
-    { name: 'Hệ thống', action: 'Khởi chạy Realtime 540 Nhân sự', time: '1 phút trước', status: 'success' },
-    { name: 'Trần Thị Mai', action: 'Phê duyệt ngân sách vận hành', time: '5 phút trước', status: 'success' },
-    { name: 'Phạm Minh Khoa', action: 'Chờ duyệt: Đối soát BLLĐ 2019', time: '12 phút trước', status: 'warning' },
-  ];
+// Log Feed
+setInterval(() => {
+  const activeEmps = state.employees.filter(e => e.dept === state.activeDept);
+  const randomEmp = activeEmps[Math.floor(Math.random() * activeEmps.length)];
+  if (!randomEmp) return;
   
-  document.getElementById('activityFeed').innerHTML = acts.map(a => `
-    <div class="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1.5">
-      <div class="flex justify-between items-center">
-        <span class="text-xs font-bold text-white flex items-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full ${a.status === 'warning' ? 'bg-amber-500' : 'bg-emerald-500'}"></span> ${a.name}
-        </span>
-        <span class="text-[10px] text-slate-500">${a.time}</span>
-      </div>
-      <div class="text-[11px] text-slate-300">${a.action}</div>
-    </div>
-  `).join('');
-}
+  const actions = ['đang code', 'đang họp', 'đi lấy nước', 'đang ngủ gật', 'đang nói chuyện'];
+  const act = actions[Math.floor(Math.random() * actions.length)];
+  
+  const feed = document.getElementById('logFeed');
+  const log = document.createElement('div');
+  log.className = 'p-2 rounded bg-white/5 border border-white/5';
+  log.innerHTML = `<span class="text-blue-400 font-bold">${randomEmp.name.split(' ')[0]}</span> ${act}...`;
+  feed.prepend(log);
+  if (feed.children.length > 10) feed.lastChild.remove();
+}, 4000);
 
-// ==========================================
-// 9. EVENT LISTENERS (UI)
-// ==========================================
-document.getElementById('searchInput').addEventListener('input', renderSessionsList);
-
+// Controls Setup
 document.querySelectorAll('.dept-btn').forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll('.dept-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    state.currentFilter = btn.dataset.filter;
-    renderSessionsList();
-  };
+  btn.onclick = () => focusDepartment(btn.dataset.dept);
 });
 
+document.getElementById('btnHomeView').onclick = () => {
+  targetCamPos.set(40, 40, 40);
+  targetLookAt.set(0, 0, 0);
+  // Bỏ mờ tất cả
+  chars.forEach(charGroup => {
+    charGroup.traverse(child => {
+      if (child.isMesh && child.material) {
+        const mats = Array.isArray(child.material) ? child.material : [child.material];
+        mats.forEach(m => { m.transparent = false; m.opacity = 1.0; });
+      }
+    });
+    charGroup.userData.html.label.style.opacity = '1';
+  });
+};
+
 document.getElementById('btnZoomIn').onclick = () => {
-  camera.zoom = Math.min(camera.zoom * 1.2, 3);
+  camera.zoom = Math.min(camera.zoom * 1.2, 4);
   camera.updateProjectionMatrix();
   document.getElementById('zoomLevel').innerText = Math.round(camera.zoom * 100) + '%';
 };
 document.getElementById('btnZoomOut').onclick = () => {
-  camera.zoom = Math.max(camera.zoom / 1.2, 0.5);
+  camera.zoom = Math.max(camera.zoom / 1.2, 0.3);
   camera.updateProjectionMatrix();
   document.getElementById('zoomLevel').innerText = Math.round(camera.zoom * 100) + '%';
 };
-document.getElementById('btnHomeView').onclick = () => {
-  camera.position.set(30, 30, 30);
-  controls.target.set(0, 0, 0);
-  camera.zoom = 1;
-  camera.updateProjectionMatrix();
-  controls.update();
-  document.getElementById('zoomLevel').innerText = '100%';
-};
-
-document.getElementById('btnDragMode').onclick = () => {
-  state.dragMode = !state.dragMode;
-  document.getElementById('dragStatus').innerText = state.dragMode ? 'BẬT' : 'TẮT';
-  document.getElementById('dragStatus').className = state.dragMode ? 'text-cyan-400' : 'text-slate-500';
-};
-
-document.getElementById('btnToggleBubbles').onclick = () => {
-  state.showBubbles = !state.showBubbles;
-  document.getElementById('bubbleStatus').innerText = state.showBubbles ? 'BẬT' : 'TẮT';
-  document.getElementById('bubbleStatus').className = state.showBubbles ? 'text-emerald-400' : 'text-slate-500';
-};
-
-document.getElementById('btnAvatar').onclick = () => {
-  state.avatarControl = !state.avatarControl;
-  alert(state.avatarControl ? 'Đã bật chế độ Hoá Thân. Dùng phím W A S D để di chuyển nhân vật Tô Văn Nghĩa.' : 'Đã tắt chế độ Hoá Thân.');
-};
-
-window.addEventListener('keydown', (e) => {
-  if (!state.avatarControl) return;
-  const mainEmp = state.employees[0];
-  const speed = 0.5;
-  if (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp') mainEmp.pos.z -= speed;
-  if (e.key === 's' || e.key === 'S' || e.key === 'ArrowDown') mainEmp.pos.z += speed;
-  if (e.key === 'a' || e.key === 'A' || e.key === 'ArrowLeft') mainEmp.pos.x -= speed;
-  if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') mainEmp.pos.x += speed;
-});
 
 window.addEventListener('resize', () => {
   const aspect = container.clientWidth / container.clientHeight;
@@ -721,8 +721,7 @@ window.addEventListener('resize', () => {
 });
 
 // Khởi chạy
-renderSessionsList();
-renderActivity();
+focusDepartment('Tech');
 animate();
 </script>
 </body>
