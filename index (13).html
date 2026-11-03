@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1730">
+<title>PULSE 3D — Enterprise Digital Twin</title>
+<style>
+:root{--bg:#f3f6fb;--panel:#fff;--ink:#14213d;--muted:#6c7890;--line:#e5ebf4;--blue:#2563eb;--cyan:#06b6d4;--green:#16a34a;--amber:#d97706;--red:#dc2626;--nav:#0b1730}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{min-height:100vh;display:grid;grid-template-columns:245px 1fr}
+.sidebar{background:var(--nav);color:#dce7ff;padding:22px 16px;display:flex;flex-direction:column;gap:20px}
+.brand{display:flex;align-items:center;gap:11px;padding:0 8px}.brand-mark{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,#35c5f4,#3765ef);display:grid;place-items:center;color:white;font-weight:900;font-size:18px;box-shadow:0 8px 22px #1d4ed855}.brand strong{font-size:17px;letter-spacing:1.5px}.brand small{display:block;color:#91a6ca;font-size:10px;letter-spacing:1.4px}
+.company-switch{margin:0 4px;padding:12px;border:1px solid #ffffff20;border-radius:13px;background:#ffffff0b;color:#eaf1ff;text-align:left}.company-switch small{display:block;color:#9db0d2;font-size:10px;margin-bottom:4px}.company-switch b{font-size:12px}
+.nav-label{font-size:10px;letter-spacing:1.4px;color:#7890b8;padding:0 11px;margin:3px 0}.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;color:#aebdd8;text-align:left;padding:10px 12px;border-radius:10px;display:flex;gap:11px;align-items:center;font-size:13px}.nav button:hover,.nav button.active{background:#ffffff15;color:#fff}.nav button.active{box-shadow:inset 3px 0 #38bdf8}.nav .ico{width:19px;text-align:center;font-size:16px}.sidebar-foot{margin-top:auto;border-top:1px solid #ffffff1c;padding:14px 8px;color:#8da2c5;font-size:11px}
+.main{min-width:0}.topbar{height:70px;background:#ffffffd9;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}.crumb{font-weight:700}.crumb span{color:var(--muted);font-weight:500}.top-actions{display:flex;gap:10px;align-items:center}.pill{border:1px solid var(--line);background:white;padding:8px 11px;border-radius:10px;color:var(--muted);font-size:12px}.avatar{width:34px;height:34px;border-radius:50%;background:#dbeafe;color:#1d4ed8;display:grid;place-items:center;font-weight:800}
+.content{padding:24px 28px 40px;max-width:1700px;margin:auto}.heading{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:18px}.heading h1{margin:0;font-size:25px;letter-spacing:-.6px}.heading p{margin:5px 0 0;color:var(--muted)}.heading-actions{display:flex;gap:8px}.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 13px;font-weight:650;color:#34425d}.btn.primary{background:var(--blue);border-color:var(--blue);color:white}.btn:hover{filter:brightness(.97)}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:16px}.kpi{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:15px 16px;box-shadow:0 3px 12px #1e3a8a06}.kpi-top{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}.kpi-icon{width:29px;height:29px;border-radius:9px;background:#eff6ff;display:grid;place-items:center}.kpi-value{font-size:24px;font-weight:800;letter-spacing:-.6px;margin:7px 0 3px}.kpi-foot{font-size:11px;color:var(--muted)}.positive{color:var(--green)}.warning{color:var(--amber)}
+.workspace{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,.8fr);gap:15px;align-items:stretch}.scene-card,.detail-card,.lower-card{background:white;border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 18px #1e3a8a08;overflow:hidden}.card-head{padding:15px 17px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.card-head h2{font-size:14px;margin:0}.card-head p{font-size:11px;color:var(--muted);margin:3px 0 0}.scene-tools{display:flex;gap:6px}.scene-tools button{border:1px solid var(--line);background:#fff;color:#64748b;border-radius:8px;padding:6px 9px;font-size:11px}.scene-wrap{height:490px;position:relative;background:radial-gradient(ellipse at 50% 45%,#e8f5ff 0,#dceafa 45%,#d2e2f5 100%);overflow:hidden}.scene-wrap canvas{display:block;width:100%;height:100%;outline:none}.scene-hint{position:absolute;left:14px;bottom:13px;padding:7px 10px;background:#ffffffd9;border:1px solid #ffffff;border-radius:9px;color:#60718d;font-size:10px;pointer-events:none}.scene-badge{position:absolute;top:13px;left:14px;padding:7px 10px;border-radius:9px;background:#ffffffd9;color:#29405f;font-size:10px;font-weight:700;pointer-events:none}.scene-loading{position:absolute;inset:0;display:grid;place-items:center;color:#58708f;font-size:12px;pointer-events:none}
+.detail-card{display:flex;flex-direction:column}.detail-body{padding:16px;display:grid;gap:14px}.selected-title{display:flex;align-items:center;gap:11px}.selected-icon{width:42px;height:42px;border-radius:13px;background:#eff6ff;display:grid;place-items:center;font-size:21px}.selected-title h3{margin:0;font-size:16px}.selected-title p{margin:3px 0 0;color:var(--muted);font-size:11px}.status{margin-left:auto;font-size:10px;padding:5px 8px;border-radius:20px;background:#dcfce7;color:#15803d;font-weight:700}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.mini{padding:11px;border:1px solid var(--line);border-radius:11px}.mini small{display:block;color:var(--muted);font-size:10px}.mini b{font-size:19px;display:block;margin-top:4px}.section-label{font-size:10px;color:#8390a5;font-weight:800;letter-spacing:1px;text-transform:uppercase}.progress-row{display:grid;gap:6px}.progress-meta{display:flex;justify-content:space-between;font-size:11px}.track{height:7px;border-radius:20px;background:#edf1f7;overflow:hidden}.fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#38bdf8,#2563eb)}.alert{display:flex;gap:9px;padding:10px;border-radius:10px;background:#fff7ed;color:#9a5412;font-size:11px}.alert.red{background:#fef2f2;color:#b91c1c}.quick-links{display:grid;grid-template-columns:1fr 1fr;gap:7px}.quick-links button{border:1px solid var(--line);background:#fafcff;padding:9px;border-radius:9px;text-align:left;color:#43516a;font-size:11px}.quick-links button:hover{border-color:#93c5fd;background:#eff6ff}
+.lower{display:grid;grid-template-columns:1.1fr .9fr;gap:15px;margin-top:15px}.lower-card{padding:16px}.lower-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.lower-head h3{font-size:13px;margin:0}.lower-head span{font-size:10px;color:var(--muted)}.module-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.module{padding:11px 9px;border:1px solid var(--line);border-radius:11px;background:#fff;text-align:left;min-height:75px}.module:hover{background:#f7fbff;border-color:#bfdbfe}.module .m-ico{font-size:17px}.module b{display:block;font-size:11px;margin-top:5px}.module small{font-size:9px;color:var(--muted)}.activity{display:grid;gap:11px}.activity-item{display:flex;gap:10px;align-items:flex-start;font-size:11px}.activity-dot{width:8px;height:8px;border-radius:50%;background:#38bdf8;margin-top:4px;flex:none}.activity-item small{display:block;color:var(--muted);margin-top:2px}
+.modal-backdrop{position:fixed;inset:0;background:#07152dcc;display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.modal-backdrop.show{display:flex}.modal{width:min(560px,100%);background:#fff;border-radius:18px;box-shadow:0 25px 80px #0004;overflow:hidden}.modal-head{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h3{margin:0;font-size:16px}.modal-body{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:grid;gap:5px}.field label{font-size:11px;color:#63718a;font-weight:650}.field input,.field select{width:100%;border:1px solid #dce4ef;border-radius:9px;padding:10px;color:#1e293b;background:white}.field.full{grid-column:1/-1}.modal-foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}.toast{position:fixed;bottom:22px;right:22px;background:#10213e;color:white;padding:11px 15px;border-radius:10px;box-shadow:0 8px 30px #0003;opacity:0;transform:translateY(10px);transition:.2s;z-index:30;font-size:12px}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1150px){.app{grid-template-columns:205px 1fr}.kpis{grid-template-columns:repeat(3,1fr)}.workspace{grid-template-columns:1fr}.detail-card{min-height:0}.scene-wrap{height:430px}}
+@media(max-width:760px){.app{grid-template-columns:1fr}.sidebar{display:none}.topbar{padding:0 15px}.content{padding:18px 13px}.heading{flex-direction:column}.kpis{grid-template-columns:repeat(2,1fr)}.kpi:last-child{grid-column:span 2}.scene-wrap{height:350px}.lower{grid-template-columns:1fr}.module-grid{grid-template-columns:repeat(2,1fr)}.top-actions .pill{display:none}}
+</style>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"}}
+</script>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-mark">P</div><div><strong>PULSE 3D</strong><small>BUSINESS DIGITAL TWIN</small></div></div>
+  <button class="company-switch"><small>DOANH NGHIỆP ĐANG XEM</small><b>◈ Công ty Demo Việt Nam ▾</b></button>
+  <div><div class="nav-label">TỔNG QUAN</div><nav class="nav">
+    <button class="active" data-page="Tổng quan"><span class="ico">◫</span>Tổng quan 3D</button>
+    <button data-page="Bản đồ doanh nghiệp"><span class="ico">▦</span>Bản đồ doanh nghiệp</button>
+    <button data-page="Hiệu suất"><span class="ico">↗</span>Hiệu suất & KPI</button>
+    <button data-page="Quản trị rủi ro"><span class="ico">◉</span>Quản trị rủi ro</button>
+  </nav></div>
+  <div><div class="nav-label">QUẢN TRỊ NGHIỆP VỤ</div><nav class="nav">
+    <button data-page="Nhân sự HRM"><span class="ico">♙</span>Nhân sự HRM</button>
+    <button data-page="Tiền lương C&B"><span class="ico">₫</span>Tiền lương C&B</button>
+    <button data-page="Thuế & Bảo hiểm"><span class="ico">▤</span>Thuế & Bảo hiểm</button>
+    <button data-page="Tài chính & Kế toán"><span class="ico">▧</span>Tài chính & Kế toán</button>
+    <button data-page="Vận hành"><span class="ico">⚙</span>Vận hành</button>
+  </nav></div>
+  <div><div class="nav-label">QUẢN TRỊ HỆ THỐNG</div><nav class="nav">
+    <button data-page="Pháp luật Việt Nam"><span class="ico">§</span>Pháp luật Việt Nam</button>
+    <button data-page="Báo cáo & Phân tích"><span class="ico">▥</span>Báo cáo & Phân tích</button>
+    <button data-page="Cài đặt"><span class="ico">⚙</span>Cài đặt</button>
+  </nav></div>
+  <div class="sidebar-foot">Prototype v0.1 · Demo mode<br>Chưa kết nối dữ liệu thật</div>
+</aside>
+<main class="main">
+<header class="topbar"><div class="crumb">PULSE 3D <span>/ Tổng quan doanh nghiệp</span></div><div class="top-actions"><span class="pill">● DEMO DATA</span><span class="pill">◷ 03/11/2026</span><div class="avatar">AD</div></div></header>
+<div class="content">
+  <div class="heading"><div><h1>Trung tâm điều hành doanh nghiệp</h1><p>Khám phá doanh nghiệp của bạn trong không gian 3D tương tác.</p></div><div class="heading-actions"><button class="btn" id="resetBtn">↺ Khôi phục demo</button><button class="btn primary" id="editBtn">＋ Cập nhật dữ liệu</button></div></div>
+  <section class="kpis">
+    <div class="kpi"><div class="kpi-top"><span>Nhân sự</span><span class="kpi-icon">♙</span></div><div class="kpi-value" id="kpiEmployees">500</div><div class="kpi-foot"><span class="positive">●</span> Tổng nhân viên</div></div>
+    <div class="kpi"><div class="kpi-top"><span>Doanh thu</span><span class="kpi-icon">↗</span></div><div class="kpi-value" id="kpiRevenue">12,5 tỷ</div><div class="kpi-foot">Doanh thu kỳ hiện tại</div></div>
+    <div class="kpi"><div class="kpi-top"><span>Lợi nhuận</span><span class="kpi-icon">◈</span></div><div class="kpi-value" id="kpiProfit">2,8 tỷ</div><div class="kpi-foot">Sau chi phí vận hành</div></div>
+    <div class="kpi"><div class="kpi-top"><span>Quỹ lương</span><span class="kpi-icon">₫</span></div><div class="kpi-value" id="kpiPayroll">3,2 tỷ</div><div class="kpi-foot">Tổng ngân sách lương</div></div>
+    <div class="kpi"><div class="kpi-top"><span>Rủi ro cần chú ý</span><span class="kpi-icon">⚠</span></div><div class="kpi-value" id="kpiRisks">4</div><div class="kpi-foot"><span class="warning">●</span> Cảnh báo mô phỏng</div></div>
+  </section>
+  <section class="workspace">
+    <div class="scene-card">
+      <div class="card-head"><div><h2>◈ Enterprise Digital Twin</h2><p>Nhấn vào công trình hoặc nhân vật để xem dữ liệu liên quan</p></div><div class="scene-tools"><button id="homeView">⌂ Góc nhìn</button><button id="rotateBtn">⟳ Xoay: Bật</button></div></div>
+      <div class="scene-wrap" id="sceneWrap"><div class="scene-badge">● LIVE SIMULATION · DOANH NGHIỆP DEMO</div><div class="scene-loading" id="sceneLoading">Đang tải không gian 3D...</div><div class="scene-hint">🖱 Kéo để xoay · Cuộn để zoom · Nhấn đối tượng để xem chi tiết</div></div>
+    </div>
+    <aside class="detail-card">
+      <div class="card-head"><div><h2>Thông tin đối tượng</h2><p>Dữ liệu liên kết với mô hình 3D</p></div><span class="status">ĐANG HOẠT ĐỘNG</span></div>
+      <div class="detail-body" id="detailBody">
+        <div class="selected-title"><div class="selected-icon">🏢</div><div><h3>Tổng quan doanh nghiệp</h3><p>Toàn cảnh Công ty Demo Việt Nam</p></div></div>
+        <div class="detail-grid"><div class="mini"><small>Nhân sự</small><b id="dEmployees">500</b></div><div class="mini"><small>Phòng ban</small><b>8</b></div><div class="mini"><small>Doanh thu</small><b id="dRevenue">12,5 tỷ</b></div><div class="mini"><small>Rủi ro mở</small><b id="dRisks">4</b></div></div>
+        <div class="section-label">Chỉ số vận hành</div>
+        <div class="progress-row"><div class="progress-meta"><span>Hiệu suất mục tiêu</span><b>86%</b></div><div class="track"><div class="fill" style="width:86%"></div></div></div>
+        <div class="progress-row"><div class="progress-meta"><span>Tuân thủ nội bộ</span><b>94%</b></div><div class="track"><div class="fill" style="width:94%;background:linear-gradient(90deg,#34d399,#059669)"></div></div></div>
+        <div class="alert">⚠ <span><b>Nhắc nhở:</b> Có 4 cảnh báo demo cần được người phụ trách kiểm tra.</span></div>
+        <div class="section-label">Truy cập nhanh</div>
+        <div class="quick-links"><button data-open="Nhân sự HRM">♙ Hồ sơ nhân sự</button><button data-open="Tiền lương C&B">₫ Bảng lương</button><button data-open="Thuế & Bảo hiểm">▤ Thuế & BHXH</button><button data-open="Quản trị rủi ro">◉ Sổ đăng ký rủi ro</button></div>
+      </div>
+    </aside>
+  </section>
+  <section class="lower">
+    <div class="lower-card"><div class="lower-head"><h3>Phân hệ quản trị</h3><span>Chọn để mở phân hệ</span></div><div class="module-grid">
+      <button class="module" data-open="Nhân sự HRM"><span class="m-ico">♙</span><b>HRM</b><small>Hồ sơ · Hợp đồng</small></button>
+      <button class="module" data-open="Tiền lương C&B"><span class="m-ico">₫</span><b>Payroll & C&B</b><small>Lương · Phụ cấp</small></button>
+      <button class="module" data-open="Thuế & Bảo hiểm"><span class="m-ico">▤</span><b>Thuế & BHXH</b><small>Nghĩa vụ · Đối chiếu</small></button>
+      <button class="module" data-open="Tài chính & Kế toán"><span class="m-ico">▧</span><b>Finance</b><small>Thu · Chi · Lãi lỗ</small></button>
+      <button class="module" data-open="Hiệu suất"><span class="m-ico">↗</span><b>EPM</b><small>KPI · OKR · BSC</small></button>
+      <button class="module" data-open="Quản trị rủi ro"><span class="m-ico">◉</span><b>ERM</b><small>KRI · Kiểm soát</small></button>
+      <button class="module" data-open="Pháp luật Việt Nam"><span class="m-ico">§</span><b>Legal Engine</b><small>Luật · Hiệu lực</small></button>
+      <button class="module" data-open="Báo cáo & Phân tích"><span class="m-ico">▥</span><b>Analytics</b><small>Phân tích · Dự báo</small></button>
+    </div></div>
+    <div class="lower-card"><div class="lower-head"><h3>Hoạt động hệ thống</h3><span>Nhật ký minh họa</span></div><div class="activity" id="activity">
+      <div class="activity-item"><i class="activity-dot"></i><div><b>Digital Twin đã khởi tạo</b><small>Không gian doanh nghiệp demo · Vừa xong</small></div></div>
+      <div class="activity-item"><i class="activity-dot" style="background:#22c55e"></i><div><b>Dữ liệu HRM đã đồng bộ</b><small>500 hồ sơ nhân sự mô phỏng</small></div></div>
+      <div class="activity-item"><i class="activity-dot" style="background:#f59e0b"></i><div><b>4 cảnh báo rủi ro đang mở</b><small>Cần xác minh bởi người phụ trách</small></div></div>
+    </div></div>
+  </section>
+</div>
+</main>
+</div>
+
+<div class="modal-backdrop" id="editModal">
+  <div class="modal">
+    <div class="modal-head"><h3>✎ Cập nhật dữ liệu doanh nghiệp demo</h3><button class="btn" id="closeModal">✕</button></div>
+    <div class="modal-body">
+      <div class="field"><label for="inEmployees">Số lượng nhân viên</label><input id="inEmployees" type="number" min="0" max="1000000"></div>
+      <div class="field"><label for="inRisks">Số cảnh báo rủi ro</label><input id="inRisks" type="number" min="0" max="9999"></div>
+      <div class="field"><label for="inRevenue">Doanh thu (tỷ VNĐ)</label><input id="inRevenue" type="number" min="0" step=".1"></div>
+      <div class="field"><label for="inProfit">Lợi nhuận (tỷ VNĐ)</label><input id="inProfit" type="number" step=".1"></div>
+      <div class="field"><label for="inPayroll">Quỹ lương (tỷ VNĐ)</label><input id="inPayroll" type="number" min="0" step=".1"></div>
+      <div class="field"><label for="inDepartments">Số phòng ban</label><input id="inDepartments" type="number" min="1" max="1000"></div>
+      <div class="field full"><label>Ghi chú</label><input id="inNote" type="text" placeholder="Ví dụ: Cập nhật dữ liệu tháng 11/2026"></div>
+    </div>
+    <div class="modal-foot"><button class="btn" id="cancelEdit">Hủy</button><button class="btn primary" id="saveData">Lưu và cập nhật mô hình</button></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+const $ = id => document.getElementById(id);
+const initial = {employees:500,risks:4,revenue:12.5,profit:2.8,payroll:3.2,departments:8};
+let data = {...initial}, selected = 'company', rotate = true, scene, camera, renderer, controls, raycaster, pointer, clickable=[];
+let sceneObjects = {};
+const fmt = n => Number(n).toLocaleString('vi-VN');
+const money = n => `${Number(n).toLocaleString('vi-VN',{maximumFractionDigits:1})} tỷ`;
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
+function addActivity(title,sub){const row=document.createElement('div');row.className='activity-item';row.innerHTML=`<i class="activity-dot"></i><div><b></b><small></small></div>`;row.querySelector('b').textContent=title;row.querySelector('small').textContent=sub; $('activity').prepend(row);while($('activity').children.length>5)$('activity').lastElementChild.remove()}
+function updateUI(){
+ $('kpiEmployees').textContent=fmt(data.employees);$('kpiRevenue').textContent=money(data.revenue);$('kpiProfit').textContent=money(data.profit);$('kpiPayroll').textContent=money(data.payroll);$('kpiRisks').textContent=fmt(data.risks);
+ $('dEmployees').textContent=fmt(data.employees);$('dRevenue').textContent=money(data.revenue);$('dRisks').textContent=fmt(data.risks);
+ const size = Math.max(.75,Math.min(1.8,.75+data.employees/1000));
+ if(sceneObjects.hr){sceneObjects.hr.scale.set(size,1,size);sceneObjects.hr.userData.subtitle=`${fmt(data.employees)} nhân viên · ${data.departments} phòng ban`;}
+ if(sceneObjects.risk){const hot=data.risks>=7;sceneObjects.risk.material.color.set(hot?0xef4444:data.risks>=4?0xf59e0b:0x22c55e);sceneObjects.risk.material.emissive.set(hot?0x5c1010:0x000000);}
+ if(sceneObjects.finance){const h=Math.max(.6,Math.min(2.3,.6+data.profit/3));sceneObjects.finance.scale.y=h;sceneObjects.finance.position.y=.15+h*.5;}
+ if(selected!=='company')renderDetail(selected);else renderDetail('company');
+}
+function roundedBox(w,h,d,r,color){const mesh=new THREE.Mesh(new RoundedBoxGeometry(w,h,d,4,r),new THREE.MeshStandardMaterial({color,roughness:.78}));return mesh}
+function addLabel(text,x,y,z,color='#1e3a5f'){
+ const canvas=document.createElement('canvas');canvas.width=512;canvas.height=128;const ctx=canvas.getContext('2d');ctx.fillStyle='rgba(255,255,255,.88)';ctx.roundRect(8,8,496,112,22);ctx.fill();ctx.font='bold 42px Arial';ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,256,64);
+ const tex=new THREE.CanvasTexture(canvas);const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));sprite.scale.set(3.1,.78,1);sprite.position.set(x,y,z);scene.add(sprite);return sprite;
+}
+function makeBuilding(name,x,z,color,kind,scale=1){
+ const group=new THREE.Group();group.position.set(x,0,z);group.userData={id:kind,title:name};
+ const base=roundedBox(2.65,.28,2.2,.12,0x9bb5cf);base.position.y=.14;group.add(base);
+ const h=kind==='finance'?2.4:kind==='hr'?1.9:kind==='factory'?1.35:1.65;
+ const body=roundedBox(1.8,h,1.55,.12,color);body.position.y=.28+h/2;group.add(body);
+ const roof=roundedBox(1.95,.18,1.7,.08,0xeff6ff);roof.position.y=.28+h+.08;group.add(roof);
+ for(let row=0;row<Math.max(2,Math.floor(h/.42));row++)for(let col=0;col<3;col++){
+  const win=roundedBox(.28,.22,.035,.025,0x9be4f5);win.position.set(-.58+col*.58,.52+row*.42,.79);group.add(win);
+ }
+ const door=roundedBox(.36,.7,.06,.04,0x24466e);door.position.set(0,.63,.8);group.add(door);
+ const label=makeLabel(name,x, h+1.15,z);
+ scene.add(group);clickable.push(group);sceneObjects[kind]=group;return group;
+}
+function makeLabel(name,x,y,z){return addLabel(name,x,y,z)}
+function makeCharacter(x,z,shirt,role){
+ const g=new THREE.Group();g.position.set(x,0,z);g.userData={id:'person',title:role,subtitle:'Nhân vật đại diện trong mô hình 3D'};
+ const skin=new THREE.MeshStandardMaterial({color:0xf1c7a5,roughness:.9}), cloth=new THREE.MeshStandardMaterial({color:shirt,roughness:.85}), dark=new THREE.MeshStandardMaterial({color:0x26354b});
+ const head=new THREE.Mesh(new THREE.SphereGeometry(.23,20,16),skin);head.position.y=1.18;g.add(head);
+ const hair=new THREE.Mesh(new THREE.SphereGeometry(.235,16,10,0,Math.PI*2,0,Math.PI*.55),dark);hair.position.y=1.25;g.add(hair);
+ const body=roundedBox(.43,.52,.3,.11,shirt);body.position.y=.72;g.add(body);
+ const arm1=roundedBox(.14,.43,.14,.06,shirt),arm2=arm1.clone();arm1.position.set(-.3,.74,0);arm2.position.set(.3,.74,0);g.add(arm1,arm2);
+ const leg1=roundedBox(.16,.42,.18,.06,0x334b70),leg2=leg1.clone();leg1.position.set(-.12,.24,0);leg2.position.set(.12,.24,0);g.add(leg1,leg2);
+ const eyeMat=new THREE.MeshBasicMaterial({color:0x243247});for(const ex of [-.075,.075]){const eye=new THREE.Mesh(new THREE.SphereGeometry(.022,8,8),eyeMat);eye.position.set(ex,1.19,.205);g.add(eye);}
+ scene.add(g);clickable.push(g);return g;
+}
+function makeTree(x,z){const trunk=roundedBox(.18,.55,.18,.07,0x98704c);trunk.position.set(x,.28,z);scene.add(trunk);const top=new THREE.Mesh(new THREE.SphereGeometry(.48,12,10),new THREE.MeshStandardMaterial({color:0x70b88a,roughness:1}));top.position.set(x,.85,z);scene.add(top)}
+function buildScene(){
+ const wrap=$('sceneWrap');scene=new THREE.Scene();scene.background=new THREE.Color(0xdceafa);scene.fog=new THREE.Fog(0xdceafa,18,38);
+ camera=new THREE.PerspectiveCamera(42,wrap.clientWidth/wrap.clientHeight,.1,100);camera.position.set(11,10,13);
+ renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(wrap.clientWidth,wrap.clientHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;wrap.insertBefore(renderer.domElement,wrap.firstChild);
+ controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.target.set(0,0,0);controls.maxPolarAngle=Math.PI*.48;controls.minDistance=7;controls.maxDistance=24;
+ scene.add(new THREE.HemisphereLight(0xffffff,0x91a7c2,2.1));const sun=new THREE.DirectionalLight(0xffffff,2.1);sun.position.set(7,14,8);sun.castShadow=true;scene.add(sun);
+ const ground=new THREE.Mesh(new THREE.PlaneGeometry(40,32),new THREE.MeshStandardMaterial({color:0xd8e8dc,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-.04;ground.receiveShadow=true;scene.add(ground);
+ const roadMat=new THREE.MeshStandardMaterial({color:0xb9c9d7,roughness:1});const road=new THREE.Mesh(new THREE.BoxGeometry(23,.035,1.25),roadMat);road.position.set(0,.01,0);scene.add(road);const cross=new THREE.Mesh(new THREE.BoxGeometry(1.25,.04,17),roadMat);cross.position.set(0,.015,0);scene.add(cross);
+ const park=new THREE.Mesh(new THREE.CircleGeometry(2.5,32),new THREE.MeshStandardMaterial({color:0xb8d9b9,roughness:1}));park.rotation.x=-Math.PI/2;park.position.set(0,.01,0);scene.add(park);
+ makeBuilding('NHÂN SỰ',-5,-3,0x75a9df,'hr');makeBuilding('TÀI CHÍNH',0,-5,0x4f83d8,'finance');makeBuilding('VẬN HÀNH',5,-3,0x72b99b,'factory');makeBuilding('PHÁP CHẾ',-5,4,0x9c91d6,'legal');makeBuilding('KHO & LOGISTICS',5,4,0xe5b66d,'warehouse');
+ const hub=roundedBox(2.1,.45,2.1,.18,0x315c91);hub.position.set(0,.24,4);hub.userData={id:'company',title:'TRUNG TÂM DOANH NGHIỆP'};scene.add(hub);clickable.push(hub);sceneObjects.hub=hub;addLabel('PULSE HQ',0,1.4,4);
+ makeCharacter(-3.5,1,0x3978c8,'Nhân viên HR');makeCharacter(-2.5,1.5,0x1d9a8a,'Chuyên viên C&B');makeCharacter(2.7,1.5,0xe29a45,'Nhân viên vận hành');makeCharacter(3.6,2,0x8b78c9,'Quản lý bộ phận');
+ for(const [x,z] of [[-8,-7],[8,-7],[-8,7],[8,7],[-1,-9],[1,9]])makeTree(x,z);
+ raycaster=new THREE.Raycaster();pointer=new THREE.Vector2();renderer.domElement.addEventListener('pointerdown',onSceneClick);
+ $('sceneLoading').style.display='none';
+ window.addEventListener('resize',resizeScene);animate();
+}
+function resizeScene(){if(!renderer)return;const w=$('sceneWrap').clientWidth,h=$('sceneWrap').clientHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h)}
+function animate(){requestAnimationFrame(animate);if(rotate&&controls&&!controls.enabled===false)scene.rotation.y+=0;controls.update();renderer.render(scene,camera)}
+function onSceneClick(e){const rect=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-rect.left)/rect.width)*2-1;pointer.y=-((e.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(clickable,true);if(!hits.length)return;let obj=hits[0].object;while(obj&&!obj.userData.id)obj=obj.parent;if(obj){selected=obj.userData.id;renderDetail(selected);}}
+const detailMap={
+ company:{icon:'🏢',title:'Tổng quan doanh nghiệp',sub:'Toàn cảnh Công ty Demo Việt Nam',metrics:()=>[['Nhân sự',fmt(data.employees)],['Phòng ban',data.departments],['Doanh thu',money(data.revenue)],['Rủi ro mở',data.risks]],desc:'Mô hình doanh nghiệp tổng thể đang liên kết với các phân hệ quản trị.'},
+ hr:{icon:'♙',title:'Khối Nhân sự HRM',sub:()=>`${fmt(data.employees)} nhân viên · ${data.departments} phòng ban`,metrics:()=>[['Nhân viên',fmt(data.employees)],['Phòng ban',data.departments],['Quỹ lương',money(data.payroll)],['Cảnh báo HR',Math.max(0,Math.round(data.risks/2))]],desc:'Hồ sơ, hợp đồng, chấm công, C&B, tuyển dụng và vòng đời nhân viên.'},
+ finance:{icon:'▧',title:'Khối Tài chính',sub:'Theo dõi kết quả tài chính mô phỏng',metrics:()=>[['Doanh thu',money(data.revenue)],['Lợi nhuận',money(data.profit)],['Quỹ lương',money(data.payroll)],['Biên lợi nhuận',`${data.revenue?Math.round(data.profit/data.revenue*100):0}%`]],desc:'Doanh thu, chi phí, lợi nhuận, dòng tiền và ngân sách.'},
+ factory:{icon:'⚙',title:'Khối Vận hành',sub:'Nhà máy · quy trình · năng suất',metrics:()=>[['Nhân sự',fmt(data.employees)],['Hiệu suất','86%'],['Cảnh báo',data.risks],['Trạng thái','Hoạt động']],desc:'Theo dõi hoạt động, nguồn lực, năng suất và điểm nghẽn vận hành.'},
+ legal:{icon:'§',title:'Khối Pháp chế & Tuân thủ',sub:'Vietnam Legal Compliance',metrics:()=>[['Cảnh báo',data.risks],['Tuân thủ','94%'],['Bộ quy tắc','Demo'],['Hiệu lực','Cần xác minh']],desc:'Kho văn bản, phiên bản hiệu lực, đối tượng áp dụng và kiểm tra tuân thủ. Chưa phải công cụ tư vấn pháp lý.'},
+ warehouse:{icon:'▦',title:'Kho & Logistics',sub:'Quản trị hàng hóa và chuỗi cung ứng',metrics:()=>[['Đơn vị','Demo'],['Vận hành','Ổn định'],['Cảnh báo',Math.max(0,Math.round(data.risks/3))],['Kết nối','Chưa có']],desc:'Kho, hàng tồn, vận chuyển và quy trình cung ứng sẽ được tích hợp ở giai đoạn sau.'},
+ person:{icon:'🧑‍💼',title:'Nhân vật doanh nghiệp',sub:'Nhân vật đại diện trong Digital Twin',metrics:()=>[['Vai trò','Nhân sự'],['Hồ sơ','Demo'],['Phân quyền','Theo vai trò'],['Trạng thái','Mô phỏng']],desc:'Bản triển khai thật sẽ liên kết nhân vật với hồ sơ nhân viên và quyền xem dữ liệu.'}
+};
+function renderDetail(id){const d=detailMap[id]||detailMap.company;const m=typeof d.metrics==='function'?d.metrics():d.metrics;const sub=typeof d.sub==='function'?d.sub():d.sub;$('detailBody').innerHTML=`
+ <div class="selected-title"><div class="selected-icon">${d.icon}</div><div><h3>${d.title}</h3><p>${sub}</p></div><span class="status">DEMO</span></div>
+ <div class="detail-grid">${m.map(([a,b])=>`<div class="mini"><small>${a}</small><b>${b}</b></div>`).join('')}</div>
+ <div class="section-label">Thông tin nghiệp vụ</div><div style="font-size:11px;color:#64748b;line-height:1.7">${d.desc}</div>
+ <div class="alert ${data.risks>=7?'red':''}">⚠ <span><b>Lưu ý:</b> Số liệu hiện tại là dữ liệu minh họa, chưa phải số liệu kế toán, lương hoặc nghĩa vụ pháp lý đã xác nhận.</span></div>
+ <div class="section-label">Mở phân hệ liên quan</div><div class="quick-links"><button data-open="Nhân sự HRM">♙ Nhân sự HRM</button><button data-open="Tiền lương C&B">₫ Payroll & C&B</button><button data-open="Thuế & Bảo hiểm">▤ Thuế & BHXH</button><button data-open="Quản trị rủi ro">◉ Quản trị rủi ro</button></div>`;}
+function openEditor(){for(const [id,key] of [['inEmployees','employees'],['inRisks','risks'],['inRevenue','revenue'],['inProfit','profit'],['inPayroll','payroll'],['inDepartments','departments']])$(id).value=data[key];$('editModal').classList.add('show')}
+function closeEditor(){$('editModal').classList.remove('show')}
+$('editBtn').onclick=openEditor;$('closeModal').onclick=closeEditor;$('cancelEdit').onclick=closeEditor;
+$('saveData').onclick=()=>{const next={employees:+$('inEmployees').value,risks:+$('inRisks').value,revenue:+$('inRevenue').value,profit:+$('inProfit').value,payroll:+$('inPayroll').value,departments:+$('inDepartments').value};if(Object.values(next).some(v=>!Number.isFinite(v)||v<0)||next.departments<1){toast('Vui lòng nhập dữ liệu hợp lệ.');return;}data=next;updateUI();closeEditor();const note=$('inNote').value.trim()||'Người dùng cập nhật dữ liệu demo';addActivity('Dữ liệu doanh nghiệp vừa được cập nhật',note);toast('Đã cập nhật KPI và mô hình 3D.');};
+$('resetBtn').onclick=()=>{data={...initial};updateUI();addActivity('Khôi phục dữ liệu demo','Đã nạp lại bộ dữ liệu ban đầu');toast('Đã khôi phục dữ liệu demo.');};
+$('homeView').onclick=()=>{camera.position.set(11,10,13);controls.target.set(0,0,0);controls.update();};
+$('rotateBtn').onclick=()=>{rotate=!rotate;$('rotateBtn').textContent=`⟳ Xoay: ${rotate?'Bật':'Tắt'}`;};
+document.addEventListener('click',e=>{const btn=e.target.closest('[data-open]');if(btn){const name=btn.dataset.open;document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===name));toast(`Phân hệ "${name}" sẽ được triển khai ở bước tiếp theo.`);}const nav=e.target.closest('[data-page]');if(nav){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b===nav));toast(`Đã chọn: ${nav.dataset.page} · Prototype đang ở màn hình tổng quan.`);}});
+buildScene();updateUI();
+</script>
+</body>
+</html>
