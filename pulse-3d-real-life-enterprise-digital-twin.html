@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PULSE 3D — Enterprise Campus 540</title>
+<style>
+:root {
+  --bg: #f5f5f7;
+  --surface: rgba(255,255,255,0.82);
+  --surface-solid: #ffffff;
+  --border: rgba(0,0,0,0.06);
+  --ink: #1d1d1f;
+  --muted: #86868b;
+  --blue: #0071e3;
+  --blue-light: #2997ff;
+  --green: #34c759;
+  --orange: #ff9500;
+  --purple: #af52de;
+  --red: #ff3b30;
+  --teal: #5ac8fa;
+  --nav: rgba(255,255,255,0.72);
+  --shadow: 0 4px 24px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.08);
+  --radius: 20px;
+  --radius-sm: 12px;
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg); color: var(--ink); font-size: 13px; overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+button, input { font: inherit; }
+button { cursor: pointer; border: none; background: none; }
+
+/* Layout */
+.app { display: grid; grid-template-columns: 260px 1fr; height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+  background: var(--nav);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border-right: 1px solid var(--border);
+  padding: 24px 16px;
+  display: flex; flex-direction: column; gap: 20px;
+  z-index: 30;
+}
+.brand { display: flex; align-items: center; gap: 12px; padding: 0 8px; }
+.brand-mark {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, #0071e3, #42a5f5);
+  display: grid; place-items: center; color: #fff; font-weight: 900; font-size: 16px;
+  box-shadow: 0 2px 12px rgba(0,113,227,0.25);
+}
+.brand strong { font-size: 15px; letter-spacing: -0.3px; }
+.brand small { display: block; font-size: 9px; color: var(--muted); letter-spacing: 0.8px; margin-top: 1px; }
+
+.nav-group { display: flex; flex-direction: column; gap: 6px; }
+.nav-label {
+  font-size: 9px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.8px; padding: 6px 8px 2px;
+}
+.nav { display: grid; gap: 3px; }
+.nav button {
+  text-align: left; padding: 9px 10px; border-radius: var(--radius-sm);
+  font-size: 12.5px; font-weight: 500; color: #424245;
+  display: flex; align-items: center; gap: 10px; transition: all 0.15s;
+}
+.nav button:hover { background: rgba(0,0,0,0.04); color: var(--ink); }
+.nav button.active {
+  background: rgba(0,113,227,0.08); color: var(--blue); font-weight: 600;
+  box-shadow: inset 0 0 0 0.5px rgba(0,113,227,0.12);
+}
+.nav .ico { width: 20px; text-align: center; font-size: 14px; opacity: 0.85; }
+
+.sidebar-foot {
+  margin-top: auto; border-top: 1px solid var(--border); padding-top: 12px;
+  color: var(--muted); font-size: 10px; display: flex; justify-content: space-between;
+}
+
+/* Main */
+.main { min-width: 0; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
+.topbar {
+  height: 56px; background: var(--nav);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; position: sticky; top: 0; z-index: 20;
+}
+.crumb { font-weight: 700; font-size: 14px; letter-spacing: -0.2px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+.crumb span { color: var(--muted); font-weight: 500; }
+.top-actions { display: flex; align-items: center; gap: 12px; }
+.pill {
+  border: 1px solid var(--border); background: rgba(0,0,0,0.03);
+  padding: 5px 12px; border-radius: 20px; font-size: 11px; color: var(--muted); font-weight: 500;
+  display: flex; align-items: center; gap: 6px;
+}
+.pill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); }
+.avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, #0071e3, #5ac8fa); color: #fff;
+  display: grid; place-items: center; font-weight: 700; font-size: 12px;
+  box-shadow: 0 2px 8px rgba(0,113,227,0.2);
+}
+
+/* Content */
+.content { padding: 20px 24px 32px; max-width: 1800px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 18px; }
+.heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+.heading h1 { font-size: 24px; letter-spacing: -0.8px; font-weight: 700; }
+.heading p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.heading-actions { display: flex; gap: 10px; }
+.btn {
+  border: 1px solid var(--border); background: #fff; border-radius: var(--radius-sm);
+  padding: 8px 16px; font-weight: 600; color: var(--ink); font-size: 12px;
+  box-shadow: var(--shadow); transition: all 0.15s; display: flex; align-items: center; gap: 6px;
+}
+.btn:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.btn.primary {
+  background: var(--blue); color: #fff; border-color: transparent;
+  box-shadow: 0 4px 16px rgba(0,113,227,0.25);
+}
+.btn.primary:hover { background: #0077ed; }
+
+/* KPI */
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 14px; }
+.kpi {
+  background: var(--surface-solid); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 6px;
+  transition: transform 0.2s;
+}
+.kpi:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.kpi-top { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); font-weight: 600; }
+.kpi-icon { width: 28px; height: 28px; border-radius: 8px; background: rgba(0,113,227,0.08); display: grid; place-items: center; color: var(--blue); font-size: 13px; }
+.kpi-value { font-size: 24px; font-weight: 800; letter-spacing: -0.6px; color: var(--ink); }
+.kpi-foot { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+
+/* Workspace */
+.workspace { display: grid; grid-template-columns: 1fr 320px; gap: 18px; align-items: stretch; }
+.scene-card {
+  background: var(--surface-solid); border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow);
+}
+.card-head {
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(0,0,0,0.015);
+}
+.card-head h2 { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.card-head p { font-size: 11px; color: var(--muted); margin: 2px 0 0; }
+.scene-tools { display: flex; gap: 6px; }
+.scene-tools button {
+  border: 1px solid var(--border); background: rgba(0,0,0,0.03); border-radius: 8px;
+  padding: 5px 10px; font-size: 11px; color: var(--muted); font-weight: 600;
+}
+.scene-tools button:hover { background: rgba(0,0,0,0.06); color: var(--ink); }
+.scene-wrap {
+  height: 520px; position: relative; background: linear-gradient(180deg, #eef2f7 0%, #f5f5f7 100%);
+  overflow: hidden;
+}
+.scene-wrap canvas { display: block; width: 100%; height: 100%; outline: none; }
+.scene-badge {
+  position: absolute; top: 14px; left: 14px; padding: 7px 12px; border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+  border: 1px solid var(--border); font-size: 10px; font-weight: 700; color: var(--blue);
+  pointer-events: none; display: flex; align-items: center; gap: 6px;
+  box-shadow: var(--shadow);
+}
+.scene-hint {
+  position: absolute; left: 14px; bottom: 14px; padding: 7px 12px;
+  background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--muted); font-size: 10px; pointer-events: none; box-shadow: var(--shadow);
+}
+.floor-badge {
+  position: absolute; top: 14px; right: 14px; padding: 7px 14px; border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.9); backdrop-filter: blur(12px);
+  border: 1px solid var(--border); font-size: 11px; font-weight: 700; color: var(--ink);
+  pointer-events: none; box-shadow: var(--shadow); letter-spacing: 0.2px;
+}
+
+/* Detail panel */
+.detail-card {
+  background: var(--surface-solid); border: 1px solid var(--border); border-radius: var(--radius);
+  display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow);
+}
+.detail-body { padding: 18px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto; max-height: 520px; }
+.selected-title { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 14px; }
+.selected-icon {
+  width: 44px; height: 44px; border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #0071e3, #5ac8fa); color: #fff;
+  display: grid; place-items: center; font-size: 18px;
+}
+.selected-title h3 { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; }
+.selected-title p { font-size: 11px; color: var(--muted); margin: 2px 0 0; }
+.status-pill {
+  font-size: 9px; padding: 3px 8px; border-radius: 20px;
+  background: rgba(52,199,89,0.1); color: var(--green); border: 1px solid rgba(52,199,89,0.2);
+  font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px;
+}
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mini-card {
+  padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: rgba(0,0,0,0.015);
+}
+.mini-card small { display: block; color: var(--muted); font-size: 9px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.4px; }
+.mini-card b { font-size: 15px; display: block; margin-top: 3px; color: var(--ink); letter-spacing: -0.3px; }
+.section-label { font-size: 10px; color: var(--muted); font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; }
+.progress-row { display: flex; flex-direction: column; gap: 5px; }
+.progress-meta { display: flex; justify-content: space-between; font-size: 11px; color: #424245; }
+.track { height: 5px; border-radius: 10px; background: rgba(0,0,0,0.06); overflow: hidden; }
+.fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--blue), var(--teal)); }
+.alert-box {
+  display: flex; gap: 10px; padding: 12px; border-radius: var(--radius-sm);
+  background: rgba(255,149,0,0.06); border: 1px solid rgba(255,149,0,0.15);
+  color: #c78000; font-size: 11px;
+}
+
+/* Dept chips under scene */
+.dept-chips { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 18px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.01); }
+.dept-chip {
+  padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border);
+  background: #fff; font-size: 11px; font-weight: 600; color: #424245; cursor: pointer;
+  transition: all 0.15s; display: flex; align-items: center; gap: 6px;
+}
+.dept-chip:hover { border-color: var(--blue); color: var(--blue); box-shadow: 0 2px 8px rgba(0,113,227,0.08); }
+.dept-chip.active { background: var(--blue); color: #fff; border-color: transparent; box-shadow: 0 2px 10px rgba(0,113,227,0.2); }
+.dept-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.6; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: rgba(29,29,31,0.92); color: #fff; padding: 11px 18px; border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg); opacity: 0; transform: translateY(10px); transition: all 0.25s;
+  z-index: 200; font-size: 12px; font-weight: 600; pointer-events: none;
+  backdrop-filter: blur(12px);
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* Responsive */
+@media (max-width: 1200px) { .workspace { grid-template-columns: 1fr; } .detail-card { display: none; } }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+}}
+</script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">P</div>
+      <div>
+        <strong>PULSE Twin</strong>
+        <small>Enterprise OS</small>
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Digital Twin</div>
+      <nav class="nav">
+        <button class="active" data-page="overview"><span class="ico">◫</span>Overview</button>
+        <button data-page="hrm"><span class="ico">♙</span>Nhân sự HRM</button>
+        <button data-page="payroll"><span class="ico">₫</span>Payroll C&B</button>
+        <button data-page="finance"><span class="ico">▧</span>Tài chính</button>
+        <button data-page="legal"><span class="ico">§</span>Pháp lý & BHXH</button>
+        <button data-page="risk"><span class="ico">◉</span>Rủi ro ERM</button>
+      </nav>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">3D Campus</div>
+      <nav class="nav">
+        <button data-page="floor1"><span class="ico">1</span>Tầng 1 · Reception & Public</button>
+        <button data-page="floor2"><span class="ico">2</span>Tầng 2 · HR & Admin</button>
+        <button data-page="floor3"><span class="ico">3</span>Tầng 3 · Finance & Accounting</button>
+        <button data-page="floor4"><span class="ico">4</span>Tầng 4 · Business & Operations</button>
+        <button data-page="floor5"><span class="ico">5</span>Tầng 5 · Technology & Management</button>
+        <button data-page="floor6"><span class="ico">6</span>Tầng 6 · Executive & Facilities</button>
+        <button data-page="b1"><span class="ico">B1</span>Tầng hầm · Bãi xe</button>
+      </nav>
+    </div>
+    <div class="sidebar-foot">
+      <span>PULSE Engine v3.0</span>
+      <span style="color:var(--green)">● Synced</span>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="crumb">Digital Twin <span>/</span> Tổng quan doanh nghiệp</div>
+      <div class="top-actions">
+        <span class="pill"><i class="pill-dot"></i> 540 AVATARS · <span id="dataBadge" style="color:var(--orange)">SIMULATION DATA</span></span>
+        <span class="pill" id="simClock">◷ 07:30</span>
+        <div class="avatar">TN</div>
+      </div>
+    </header>
+
+    <div class="content" id="mainContent">
+      <div class="heading">
+        <div>
+          <h1>PULSE 3D — Enterprise Campus 540</h1>
+          <p>Enterprise Campus 540 · Văn phòng 6 tầng + B1 · khuôn viên xanh, tiện ích, mô phỏng hoạt động theo thời gian thực.</p>
+        </div>
+        <div class="heading-actions">
+          <button class="btn" id="btnPause">⏸ Pause</button>
+          <button class="btn" id="btnSpeed">⏩ 1x</button>
+          <button class="btn" id="btnExplode">⤓ Exploded</button>
+          <button class="btn" id="btnReset">⌂ Reset View</button>
+          <button class="btn primary" id="btnAvatar">🏃 WASD Mode</button>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi">
+          <div class="kpi-top"><span>Tổng nhân sự</span><span class="kpi-icon">♙</span></div>
+          <div class="kpi-value" id="employeeKpi">540</div>
+          <div class="kpi-foot"><span style="color:var(--green)">●</span> 100% định danh 3D</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><span>Doanh thu Q4</span><span class="kpi-icon">↗</span></div>
+          <div class="kpi-value">45.8 tỷ</div>
+          <div class="kpi-foot"><span style="color:var(--blue)">↑ 12.4%</span> so với Q3</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><span>Lợi nhuận ròng</span><span class="kpi-icon">◈</span></div>
+          <div class="kpi-value">11.2 tỷ</div>
+          <div class="kpi-foot">Biên lợi nhuận 24%</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><span>Quỹ lương</span><span class="kpi-icon">₫</span></div>
+          <div class="kpi-value">8.5 tỷ</div>
+          <div class="kpi-foot">Đã bao gồm BHXH & Thuế</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><span>Cảnh báo rủi ro</span><span class="kpi-icon">⚠</span></div>
+          <div class="kpi-value" style="color:var(--orange)">3</div>
+          <div class="kpi-foot"><span style="color:var(--orange)">●</span> Cần kiểm soát</div>
+        </div>
+      </div>
+
+      <div class="workspace">
+        <div class="scene-card">
+          <div class="card-head">
+            <div>
+              <h2>◈ 3D Campus View</h2>
+              <p>540 nhân vật · 6 tầng theo phân cấp doanh nghiệp · Campus & Office Digital Twin · SIMULATION</p>
+            </div>
+            <div class="scene-tools">
+              <button id="btnZoomOut">➖</button>
+              <button id="btnZoomIn">➕</button>
+              <button id="btnCutaway">◫ Cutaway</button>
+              <button id="btnDay">☀️ Giờ</button>
+              <button id="btnQLow">LOW</button>
+              <button id="btnQMed">MED</button>
+              <button id="btnQHigh" style="color:var(--blue)">HIGH</button>
+            </div>
+          </div>
+          <div class="scene-wrap" id="sceneWrap">
+            <div class="scene-badge"><i class="pill-dot"></i> LIVE · MULTI-FLOOR COLLISION ON</div>
+            <div class="scene-hint">Kéo trái xoay · Lăn chuột zoom · Phải-kéo pan · Click nhân viên/tài sản để xem hồ sơ · WASD Mode: W/A/S/D + Shift + Q/E + Esc</div>
+            <div class="floor-badge" id="floorBadge">TẦNG 1 · LOBBY</div>
+          </div>
+          <div class="dept-chips" id="deptChips"></div>
+        </div>
+
+        <aside class="detail-card">
+          <div class="card-head">
+            <h2>Digital Profile</h2>
+            <span class="status-pill">SYNCED</span>
+          </div>
+          <div class="detail-body" id="detailBody">
+            <div style="color:var(--muted); font-size:12px; text-align:center; padding: 40px 0;">
+              Chọn nhân vật trong scene 3D<br>để xem hồ sơ chi tiết
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast">Thao tác thành công</div>
+
+<script>
+  // PHASE 9 — Supabase HRM Adapter config (publishable key, RLS-first)
+  window.PULSE_CONFIG = {
+    supabaseUrl: 'https://hkvwotyemrjydottqsay.supabase.co',
+    supabaseAnonKey: 'sb_publishable_xVSdaizQWFsCPeX79Peu1w_PWVyO2na',
+    employeesTable: 'v_employee_twin'
+  };
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+/* ================================================================
+   STATE
+   ================================================================ */
+const state = {
+  activeDept: 'All',
+  selectedEmp: null,
+  avatarMode: false,
+  simMin: 7.5*60,
+  simSpeed: 1,          // hệ số tốc độ thời gian mô phỏng
+  simPaused: false,
+  quality: 'HIGH',
+  cutaway: false,       // Floor Cutaway: nhìn xuyên tường/khe trần
+  exploded: false,      // Exploded View: tách tầng
+  frame: 0,
+  lights: null,
+  wasdFloor: 0,
+  wasdTargetY: null,
+  savedCam: null,
+};
+const EXP_GAP = 10;     // khoảng cách tách tầng khi Exploded View
+const FLOOR_COUNT = 6;
+const FLOOR_H = 14;
+const B_W = 42;
+const B_D = 32;
+const floors = [];
+const wallColliders = [];
+const employees = [];
+const campusAssets = [];
+const liteAvatarGeo = new THREE.CapsuleGeometry(0.28, 1.15, 3, 6);
+let scene, camera, renderer, controls, raycaster, pointer;
+let clock = new THREE.Clock();
+
+/* ================================================================
+   INIT 3D
+   ================================================================ */
+function init() {
+  const container = document.getElementById('sceneWrap');
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xeef2f7);
+  scene.fog = new THREE.Fog(0xeef2f7, 80, 250);
+
+  camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.1, 400);
+  camera.position.set(115, 105, 145);
+
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  container.appendChild(renderer.domElement);
+
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  controls.maxPolarAngle = Math.PI/2.02;
+  controls.minDistance = 1.8;
+  controls.maxDistance = 280;
+  controls.target.set(0, 18, 0);
+  controls.zoomSpeed = 1.2;
+  controls.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN };
+
+  raycaster = new THREE.Raycaster();
+  pointer = new THREE.Vector2();
+  renderer.domElement.addEventListener('click', onClick);
+  window.addEventListener('resize', onResize);
+  setupWASDInput();
+
+  setupLights();
+  buildGround();
+  buildBuilding();
+  placeProps();
+  buildCampus();
+  spawnEmployees();
+  setupUI();
+  animate();
+}
+
+function setupLights() {
+  const hemi = new THREE.HemisphereLight(0xffffff, 0xeef2f7, 1.6);
+  scene.add(hemi);
+
+  const sun = new THREE.DirectionalLight(0xfff5e6, 2.0);
+  sun.position.set(30, 80, 40);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(2048,2048);
+  sun.shadow.camera.left = -60; sun.shadow.camera.right = 60;
+  sun.shadow.camera.top = 60; sun.shadow.camera.bottom = -60;
+  sun.shadow.bias = -0.0003;
+  sun.shadow.normalBias = 0.02;
+  scene.add(sun);
+
+  const fill = new THREE.DirectionalLight(0xdde8ff, 0.5);
+  fill.position.set(-30, 40, -30);
+  scene.add(fill);
+  state.lights = { hemi, sun, fill };
+}
+
+/* ================================================================
+   MATERIALS (Apple-style)
+   ================================================================ */
+const M = {
+  white: new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.35, metalness: 0.05 }),
+  wall: new THREE.MeshStandardMaterial({ color: 0xf5f5f7, roughness: 0.45, metalness: 0.05 }),
+  glass: new THREE.MeshPhysicalMaterial({
+    color: 0xc8e0ff, metalness: 0.05, roughness: 0.05, transmission: 0.6, thickness: 1.0,
+    transparent: true, opacity: 0.35, envMapIntensity: 1,
+  }),
+  glassDark: new THREE.MeshPhysicalMaterial({
+    color: 0x1a2332, metalness: 0.2, roughness: 0.15, transmission: 0.3, thickness: 0.8,
+    transparent: true, opacity: 0.75,
+  }),
+  steel: new THREE.MeshStandardMaterial({ color: 0xd1d1d6, roughness: 0.25, metalness: 0.85 }),
+  steelDark: new THREE.MeshStandardMaterial({ color: 0x8e8e93, roughness: 0.3, metalness: 0.8 }),
+  floor: new THREE.MeshStandardMaterial({ color: 0xe8e8ed, roughness: 0.4, metalness: 0.15 }),
+  floorWood: new THREE.MeshStandardMaterial({ color: 0xd4c4a8, roughness: 0.55, metalness: 0.0 }),
+  skin: new THREE.MeshStandardMaterial({ color: 0xf5d0b0, roughness: 0.55 }),
+  suit: new THREE.MeshStandardMaterial({ color: 0x1c1c1e, roughness: 0.65, metalness: 0.1 }),
+  suitBlue: new THREE.MeshStandardMaterial({ color: 0x1d3557, roughness: 0.6, metalness: 0.1 }),
+  shirt: new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5 }),
+  pant: new THREE.MeshStandardMaterial({ color: 0x2c2c2e, roughness: 0.75 }),
+  hair: new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.9 }),
+  hairBrown: new THREE.MeshStandardMaterial({ color: 0x3d2b1f, roughness: 0.9 }),
+  ledBlue: new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0x0071e3, emissiveIntensity: 1.8 }),
+  ledGreen: new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0x34c759, emissiveIntensity: 1.8 }),
+  ledAmber: new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0xff9500, emissiveIntensity: 1.8 }),
+  ground: new THREE.MeshStandardMaterial({ color: 0x8eaa91, roughness: 0.95 }),
+};
+
+function addM(parent, geo, mat, x,y,z, opts={}) {
+  const m = new THREE.Mesh(geo, mat);
+  m.position.set(x,y,z);
+  if (opts.rx) m.rotation.x = opts.rx;
+  if (opts.ry) m.rotation.y = opts.ry;
+  if (opts.rz) m.rotation.z = opts.rz;
+  if (opts.s) m.scale.setScalar(opts.s);
+  if (opts.sx||opts.sy||opts.sz) m.scale.set(opts.sx??1, opts.sy??1, opts.sz??1);
+  m.castShadow = opts.cast!==false;
+  m.receiveShadow = opts.recv!==false;
+  parent.add(m);
+  return m;
+}
+
+/* ================================================================
+   GROUND
+   ================================================================ */
+function buildGround() {
+  const g = new THREE.Group();
+  addM(g, new THREE.PlaneGeometry(300,300), M.ground, 0,-0.02,0, {rx:-Math.PI/2, cast:false});
+  const grid = new THREE.GridHelper(300, 60, 0xb7c8bd, 0xdce6dd);
+  grid.position.y = 0.005; g.add(grid);
+  scene.add(g);
+}
+
+/* ================================================================
+   BUILDING (Apple-style glass & steel)
+   ================================================================ */
+function addCollider(x0,y0,z0,x1,y1,z1) {
+  wallColliders.push({x0:Math.min(x0,x1), y0:Math.min(y0,y1), z0:Math.min(z0,z1), x1:Math.max(x0,x1), y1:Math.max(y0,y1), z1:Math.max(z0,z1)});
+}
+
+function buildBuilding() {
+  const building = new THREE.Group();
+  // Foundation
+  addM(building, new THREE.BoxGeometry(B_W+4, 0.8, B_D+4), M.steel, 0, 0.4, 0);
+  // Core elevator shaft (glass)
+  addM(building, new THREE.BoxGeometry(7, FLOOR_H*FLOOR_COUNT+2, 7), M.glassDark, 0, (FLOOR_H*FLOOR_COUNT+2)/2+0.8, 0, {cast:false});
+  // Corner columns (steel)
+  for (const cx of [-B_W/2+1.2, B_W/2-1.2]) for (const cz of [-B_D/2+1.2, B_D/2-1.2]) {
+    addM(building, new THREE.CylinderGeometry(0.6, 0.6, FLOOR_H*FLOOR_COUNT+2, 12), M.steel, cx, (FLOOR_H*FLOOR_COUNT+2)/2+0.8, cz);
+  }
+  scene.add(building);
+
+  for (let f=0; f<FLOOR_COUNT; f++) {
+    const yBase = 0.8 + f*FLOOR_H;
+    const fg = new THREE.Group();
+    // Floor slab (polished concrete)
+    addM(fg, new THREE.BoxGeometry(B_W, 0.35, B_D), M.floor, 0, yBase, 0, {cast:false});
+    // Ceiling
+    addM(fg, new THREE.BoxGeometry(B_W, 0.3, B_D), M.white, 0, yBase+FLOOR_H-0.15, 0, {cast:false});
+    // LED ceiling panels
+    for (let ix=-2; ix<=2; ix++) for (let iz=-1; iz<=1; iz++) {
+      addM(fg, new THREE.BoxGeometry(6, 0.06, 6), M.ledBlue, ix*7.5, yBase+FLOOR_H-0.32, iz*8, {cast:false, recv:false});
+    }
+    // Glass walls (front/back)
+    addM(fg, new THREE.BoxGeometry(B_W-1.5, FLOOR_H-1, 0.2), M.glass, 0, yBase+FLOOR_H/2, B_D/2-0.1, {cast:false});
+    addM(fg, new THREE.BoxGeometry(B_W-1.5, FLOOR_H-1, 0.2), M.glass, 0, yBase+FLOOR_H/2, -B_D/2+0.1, {cast:false});
+    addM(fg, new THREE.BoxGeometry(0.2, FLOOR_H-1, B_D-1.5), M.glass, -B_W/2+0.1, yBase+FLOOR_H/2, 0, {cast:false});
+    addM(fg, new THREE.BoxGeometry(0.2, FLOOR_H-1, B_D-1.5), M.glass, B_W/2-0.1, yBase+FLOOR_H/2, 0, {cast:false});
+    // Floor LED strip
+    addM(fg, new THREE.BoxGeometry(B_W, 0.12, 0.3), M.ledBlue, 0, yBase+FLOOR_H-0.5, B_D/2, {cast:false});
+    addM(fg, new THREE.BoxGeometry(B_W, 0.12, 0.3), M.ledBlue, 0, yBase+FLOOR_H-0.5, -B_D/2, {cast:false});
+    // Floor label
+    addLabel(`TẦNG ${f+1}`, 0, yBase+FLOOR_H+0.6, B_D/2+1.5, 7);
+
+    scene.add(fg);
+    floors.push({index:f, yBase, yTop:yBase+FLOOR_H, group:fg});
+    addCollider(-B_W/2+0.5, yBase, -B_D/2+0.5, B_W/2-0.5, yBase+FLOOR_H, B_D/2-0.5);
+    // Core blocker
+    addCollider(-3, yBase, -3, 3, yBase+FLOOR_H, 3);
+  }
+
+  // External glass elevator
+  const ex = B_W/2 + 3.5;
+  addM(scene, new THREE.BoxGeometry(0.12, FLOOR_H*FLOOR_COUNT+3, 7), M.glass, ex, (FLOOR_H*FLOOR_COUNT+3)/2+0.8, 0, {cast:false});
+  addM(scene, new THREE.BoxGeometry(0.12, FLOOR_H*FLOOR_COUNT+3, 7), M.glass, ex+5, (FLOOR_H*FLOOR_COUNT+3)/2+0.8, 0, {cast:false});
+  addM(scene, new THREE.BoxGeometry(5.24, 0.12, 7), M.glass, ex+2.5, 0.8, 0, {cast:false});
+  addM(scene, new THREE.BoxGeometry(5.24, 0.12, 7), M.glass, ex+2.5, 0.8+FLOOR_H*FLOOR_COUNT, 0, {cast:false});
+  for (let f=0; f<FLOOR_COUNT; f++) {
+    const yb = 0.8 + f*FLOOR_H;
+    addM(scene, new THREE.BoxGeometry(3.4, 3.2, 0.1), M.steel, ex+2.5, yb+2.2, 3.55);
+    addM(scene, new THREE.BoxGeometry(0.1, 0.2, 3.5), M.ledGreen, ex+2.5, yb+0.25, 0, {cast:false});
+  }
+  addLabel('🛗 ELEVATOR', ex+2.5, FLOOR_H*FLOOR_COUNT+3, 4, 8);
+}
+
+function addLabel(text, x, y, z, w=8) {
+  const c = document.createElement('canvas'); c.width=512; c.height=128;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = 'rgba(255,255,255,0.92)';
+  ctx.beginPath(); ctx.roundRect(4,4,504,120,24); ctx.fill();
+  ctx.strokeStyle = 'rgba(0,0,0,0.08)'; ctx.lineWidth=3; ctx.stroke();
+  ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, sans-serif';
+  ctx.fillStyle = '#1d1d1f'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(text, 256, 68, 480);
+  const tex = new THREE.CanvasTexture(c); tex.anisotropy = 4;
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({map:tex, transparent:true, depthWrite:false}));
+  sp.scale.set(w, w/4, 1); sp.position.set(x,y,z); scene.add(sp);
+}
+
+/* ================================================================
+   PROPS PER FLOOR (Apple-style minimal)
+   ================================================================ */
+function deskApple(x, z, yBase, accent=0x0071e3) {
+  const g = new THREE.Group();
+  // Table top (white oak)
+  addM(g, new THREE.BoxGeometry(3.2, 0.08, 1.5), new THREE.MeshStandardMaterial({color:0xf2f0e9, roughness:0.45}), 0, 1.22, 0);
+  // Legs
+  const legMat = M.steel;
+  for (const [lx,lz] of [[-1.3,0.5],[1.3,0.5],[-1.3,-0.5],[1.3,-0.5]]) {
+    addM(g, new THREE.CylinderGeometry(0.04,0.04,1.18,8), legMat, lx,0.59,lz);
+  }
+  // iMac style screen
+  addM(g, new THREE.BoxGeometry(1.4, 0.9, 0.06), new THREE.MeshStandardMaterial({color:0x1c1c1e, roughness:0.3}), 0, 1.85, -0.45);
+  addM(g, new THREE.BoxGeometry(1.28, 0.78, 0.04), new THREE.MeshStandardMaterial({color:0x0071e3, emissive:0x0071e3, emissiveIntensity:0.8, roughness:1}), 0, 1.85, -0.41, {cast:false});
+  addM(g, new THREE.CylinderGeometry(0.08,0.12,0.35,10), legMat, 0, 1.42, -0.45);
+  // Chair (ergonomic, minimal)
+  addM(g, new THREE.BoxGeometry(1.05, 0.1, 1.05), new THREE.MeshStandardMaterial({color:0x8e8e93, roughness:0.7}), 0, 0.82, 1.6);
+  addM(g, new THREE.BoxGeometry(1.05, 0.95, 0.1), new THREE.MeshStandardMaterial({color:0x8e8e93, roughness:0.7}), 0, 1.42, 2.1);
+  addM(g, new THREE.CylinderGeometry(0.05,0.05,0.55,8), legMat, 0, 0.28, 1.6);
+  g.position.set(x, yBase, z); scene.add(g);
+}
+
+function sofaApple(x, z, yBase, ry=0) {
+  const g = new THREE.Group();
+  const mat = new THREE.MeshStandardMaterial({color:0xc7c7cc, roughness:0.85});
+  addM(g, new THREE.BoxGeometry(3.5, 0.55, 1.1), mat, 0, 0.65, 0);
+  addM(g, new THREE.BoxGeometry(3.5, 1.05, 0.15), mat, 0, 1.35, 0.48);
+  addM(g, new THREE.BoxGeometry(0.15, 1.05, 1.1), mat, -1.75, 1.35, 0);
+  addM(g, new THREE.BoxGeometry(0.15, 1.05, 1.1), mat, 1.75, 1.35, 0);
+  g.position.set(x, yBase, z); g.rotation.y = ry; scene.add(g);
+}
+
+function plantApple(x, z, yBase) {
+  const g = new THREE.Group();
+  addM(g, new THREE.CylinderGeometry(0.5, 0.55, 0.8, 12), new THREE.MeshStandardMaterial({color:0xd1d1d6, roughness:0.5}), 0, 0.4, 0);
+  addM(g, new THREE.SphereGeometry(0.75, 12, 12), new THREE.MeshStandardMaterial({color:0x2d6a4f, roughness:0.9}), 0, 1.3, 0);
+  addM(g, new THREE.SphereGeometry(0.5, 10, 10), new THREE.MeshStandardMaterial({color:0x40916c, roughness:0.9}), 0.3, 1.7, 0.2);
+  g.position.set(x, yBase, z); scene.add(g);
+}
+
+/* ================================================================
+   PHASE 5 — INTERIOR ASSET LIBRARY (click được, có hồ sơ)
+   ================================================================ */
+let intAssetSeq = 0;
+function regInteriorAsset(group, name, type, description, floor, x, z) {
+  const id = 'AST-INT-' + String(++intAssetSeq).padStart(3,'0');
+  group.userData.assetId = id;
+  campusAssets.push({id, name, type, description, floor, x, z});
+  return group;
+}
+/* Điểm họp trên từng tầng (Phase 7 — state MEETING) */
+const MEETING_SPOTS = [
+  {floor:0, x:-14, z:-11}, {floor:1, x:14, z:-11}, {floor:2, x:14, z:-11},
+  {floor:3, x:-14, z:-11}, {floor:3, x:14, z:-11}, {floor:4, x:14, z:-11}, {floor:5, x:6, z:6},
+];
+
+function chairAt(x, z, y) {
+  addM(scene, new THREE.BoxGeometry(0.55,0.1,0.55), new THREE.MeshStandardMaterial({color:0x8e8e93,roughness:.75}), x, y+0.78, z);
+  addM(scene, new THREE.BoxGeometry(0.55,0.7,0.08), new THREE.MeshStandardMaterial({color:0x8e8e93,roughness:.75}), x, y+1.15, z+0.26);
+  addM(scene, new THREE.CylinderGeometry(0.04,0.04,0.75,6), M.steel, x, y+0.38, z);
+}
+function meetingRoom(x, z, y, name, w=8, d=6) {
+  const g = new THREE.Group(); g.position.set(x, y, z);
+  addM(g, new THREE.BoxGeometry(w,2.9,0.15), M.wall, 0,1.45,-d/2, {cast:false});
+  addM(g, new THREE.BoxGeometry(0.15,2.9,d), M.wall, -w/2,1.45,0, {cast:false});
+  addM(g, new THREE.BoxGeometry(0.15,2.9,d), M.wall,  w/2,1.45,0, {cast:false});
+  addM(g, new THREE.BoxGeometry(w,2.9,0.1), M.glass, 0,1.45,d/2, {cast:false});
+  addM(g, new THREE.CylinderGeometry(1.5,1.5,0.12,16), new THREE.MeshStandardMaterial({color:0xf2f0e9}), 0,1.12,0);
+  for (let i=0;i<6;i++) { const a=i*Math.PI/3; chairAt(x+Math.cos(a)*2.3, z+Math.sin(a)*2.3, y); }
+  scene.add(g);
+  regInteriorAsset(g, name, 'Phòng họp', `${name} tại tầng ${y===floors[0].yBase?1:Math.round((y-0.8)/FLOOR_H)+1} — đặt lịch qua PULSE Meeting.`);
+  addLabel(name, x, y+3.5, z+d/2+1, 6);
+}
+function glassOffice(x, z, y, name, desc, w=7, d=5) {
+  const g = new THREE.Group(); g.position.set(x, y, z);
+  for (const [ox,oz,sx,sz] of [[0,-d/2,w,0.12],[-w/2,0,0.12,d],[w/2,0,0.12,d]])
+    addM(g, new THREE.BoxGeometry(sx||0.12,2.9,sz||0.12), M.glass, ox,1.45,oz, {cast:false});
+  deskApple(x, z-0.5, y, 0x0071e3);
+  chairAt(x, z+1.2, y);
+  scene.add(g);
+  regInteriorAsset(g, name, 'Văn phòng', desc);
+  addLabel(name, x, y+3.5, z+d/2+1, 6);
+}
+function cabinetRow(x, z, y, n, name) {
+  const g = new THREE.Group(); g.position.set(x, y, z);
+  for (let i=0;i<n;i++) addM(g, new THREE.BoxGeometry(2.2,2.2,0.9), new THREE.MeshStandardMaterial({color:0xb8b8bd,roughness:.6}), i*2.5, 1.1, 0);
+  scene.add(g);
+  regInteriorAsset(g, name, 'Lưu trữ', `${name} — tủ hồ sơ/chứng từ, kiểm soát truy cập theo phòng ban.`);
+  addLabel(name, x+n*1.25, y+2.9, z+1, 5);
+}
+function pantryZone(x, z, y, name) {
+  const g = new THREE.Group(); g.position.set(x, y, z);
+  addM(g, new THREE.BoxGeometry(6,0.9,1.2), new THREE.MeshStandardMaterial({color:0xf2f0e9,roughness:.4}), 0,0.45,0);
+  addM(g, new THREE.BoxGeometry(1.1,2.2,1.1), M.steel, -3.5,1.1,0);      // tủ lạnh
+  for (let i=0;i<3;i++) {
+    addM(g, new THREE.CylinderGeometry(1.1,1.1,0.1,12), new THREE.MeshStandardMaterial({color:0xffffff}), 2+i*3, 1.1, 3);
+    addM(g, new THREE.CylinderGeometry(0.08,0.08,1.05,8), M.steel, 2+i*3, 0.55, 3);
+    chairAt(x+2+i*3, z+4.4, y); chairAt(x+2+i*3, z+1.6, y);
+  }
+  scene.add(g);
+  regInteriorAsset(g, name, 'Pantry & Ẩm thực', `${name} — khu pantry/nhà ăn nội bộ, phục vụ suốt giờ làm việc.`);
+  addLabel(name, x+2, y+2.8, z+4, 6);
+}
+function deskRows(cx, cz, y, n, accent, cols=4) {
+  for (let i=0;i<n;i++) deskApple(cx + ((i%cols)-(cols-1)/2)*4.2, cz + Math.floor(i/cols)*4, y, accent);
+}
+function stairMark(x, z, y) {
+  addM(scene, new THREE.BoxGeometry(3.4,0.18,0.18), M.steel, x, y+0.1, z);
+  addM(scene, new THREE.BoxGeometry(3.4,0.18,0.18), M.steel, x, y+0.7, z);
+  addLabel('THANG BỘ', x, y+2.2, z+0.8, 4);
+}
+function wcMark(x, z, y) { addLabel('WC', x, y+2.4, z, 3); }
+
+/* ================================================================
+   PHASE 4 — SIX-FLOOR INTERIORS (theo phân cấp doanh nghiệp)
+   ================================================================ */
+function placeProps() {
+  // ============ TẦNG 1 — RECEPTION & PUBLIC AREA ============
+  let y = floors[0].yBase;
+  sofaApple(-10, -6, y, 0); sofaApple(8, -6, y, 0); sofaApple(0, -8, y, 0);
+  plantApple(-16, 10, y); plantApple(16, 10, y); plantApple(-16, -10, y); plantApple(16, -10, y);
+  const recep = new THREE.Group(); recep.position.set(-8, y, 10);
+  addM(recep, new THREE.BoxGeometry(8, 1.1, 2.2), new THREE.MeshStandardMaterial({color:0xffffff, roughness:0.3}), 0, 0.55, 0);
+  addM(recep, new THREE.BoxGeometry(7.6, 0.06, 2.0), new THREE.MeshStandardMaterial({color:0xf2f0e9, roughness:0.3}), 0, 1.14, 0);
+  scene.add(recep);
+  regInteriorAsset(recep, 'Quầy lễ tân', 'Lobby', 'Quầy lễ tân chính — tiếp đón khách, hướng dẫn và kiểm soát ra vào.');
+  addLabel('RECEPTION', -8, y+2.5, 11.2, 7);
+  for (let i=0;i<3;i++) addM(scene, new THREE.BoxGeometry(0.35,1.1,1.6), M.steelDark, -1.5+i*1.5, y+0.55, 12.5); // cổng turnstile
+  const sec = new THREE.Group(); sec.position.set(12, y, 10);
+  addM(sec, new THREE.BoxGeometry(6,2.9,0.15), M.wall, 0,1.45,-2.5, {cast:false});
+  addM(sec, new THREE.BoxGeometry(0.15,2.9,5), M.wall, 3,1.45,0, {cast:false});
+  addM(sec, new THREE.BoxGeometry(2.4,1.0,1.1), new THREE.MeshStandardMaterial({color:0x8e8e93}), 0,0.5,0);
+  scene.add(sec);
+  regInteriorAsset(sec, 'Phòng bảo vệ', 'An ninh', 'Chốt an ninh tầng trệt — camera, kiểm soát cổng và xử lý sự cố.');
+  addLabel('PHÒNG BẢO VỆ', 12, y+3.4, 12, 5);
+  meetingRoom(-14, -11, y, 'PHÒNG HỌP KHÁCH HÀNG');
+  addM(scene, new THREE.BoxGeometry(4, 1.4, 0.1), new THREE.MeshStandardMaterial({color:0x1c1c1e}), -17, y+1.8, 14.8); // bảng thông báo
+  stairMark(17, -13, y); wcMark(-17, -13, y);
+  addLabel('KHU CHỜ KHÁCH', 0, y+2.6, -10, 6);
+
+  // ============ TẦNG 2 — HR & ADMINISTRATION ============
+  y = floors[1].yBase;
+  deskRows(-10, -6, y, 12, 0x34c759, 4);
+  deskRows(-10, 2, y, 8, 0x34c759, 4);
+  const interview = new THREE.Group(); interview.position.set(-14, y, -12);
+  addM(interview, new THREE.BoxGeometry(5,2.9,0.15), M.wall, 0,1.45,-2.5, {cast:false});
+  addM(interview, new THREE.BoxGeometry(0.15,2.9,5), M.wall, -2.5,1.45,0, {cast:false});
+  addM(interview, new THREE.CylinderGeometry(1,1,0.1,12), new THREE.MeshStandardMaterial({color:0xf2f0e9}), 0,1.05,0);
+  chairAt(-15.4, -11, y); chairAt(-12.6, -11, y);
+  scene.add(interview);
+  regInteriorAsset(interview, 'Phòng phỏng vấn', 'HR', 'Phòng phỏng vấn ứng viên — lịch hủy/đặt qua module Recruitment.');
+  addLabel('PHÒNG PHỎNG VẤN', -14, y+3.4, -9.5, 5);
+  const training = new THREE.Group(); training.position.set(14, y, 8);
+  addM(training, new THREE.BoxGeometry(4.5,2.6,0.1), new THREE.MeshStandardMaterial({color:0x1c1c1e}), 0,2.2,-4);
+  addM(training, new THREE.BoxGeometry(4.2,2.3,0.06), new THREE.MeshStandardMaterial({color:0x34c759,emissive:0x34c759,emissiveIntensity:0.6}), 0,2.2,-3.94, {cast:false});
+  for (let r=0;r<3;r++) for (let c=0;c<4;c++) chairAt(11.5+c*1.7, 5.5-r*1.8, y);
+  scene.add(training);
+  regInteriorAsset(training, 'Phòng đào tạo', 'HR', 'Phòng Training — màn chiếu, chỗ ngồi 20 người, phục vụ onboarding.');
+  addLabel('PHÒNG ĐÀO TẠO', 14, y+3.4, 12.6, 6);
+  cabinetRow(-16, 13, y, 5, 'HỒ SƠ NHÂN SỰ');
+  cabinetRow(13, -13, y, 4, 'KHO VĂN PHÒNG PHẨM');
+  meetingRoom(14, -11, y, 'HR MEETING ROOM');
+  stairMark(17, -13, y); wcMark(-17, -13, y);
+
+  // ============ TẦNG 3 — FINANCE & ACCOUNTING ============
+  y = floors[2].yBase;
+  deskRows(-10, -6, y, 12, 0xff9500, 4);
+  deskRows(-10, 2, y, 10, 0xff9500, 4);
+  cabinetRow(-16, 13, y, 6, 'TỦ CHỨNG TỪ');
+  cabinetRow(-16, 9.5, y, 6, 'CHỨNG TỪ AP/AR');
+  glassOffice(14, 8, y, 'TREASURY', 'Phòng Quỹ — két sắt, kiểm soát truy cập hai lớp.');
+  meetingRoom(14, -11, y, 'FINANCE MEETING');
+  addM(scene, new THREE.BoxGeometry(1.4,1.3,1.2), M.steel, -17, y+0.65, 5); // máy in
+  stairMark(17, -13, y); wcMark(-17, -13, y);
+
+  // ============ TẦNG 4 — BUSINESS & OPERATIONS ============
+  y = floors[3].yBase;
+  deskRows(-12, -8, y, 12, 0xaf52de, 4);   // Sales
+  deskRows(8, -8, y, 8, 0xff9500, 4);      // Marketing
+  deskRows(-6, 6, y, 12, 0x8e8e93, 4);     // Operations/PM
+  for (let r=0;r<2;r++) for (let c=0;c<3;c++)
+    addM(scene, new THREE.BoxGeometry(3.5, 4.2, 1.2), new THREE.MeshStandardMaterial({color:0xa05a2c, roughness:0.8}), 12+c*4.5, y+2.1, 6+r*5); // kệ logistics
+  meetingRoom(-14, -11, y, 'MEETING ROOM A');
+  meetingRoom(14, -11, y, 'MEETING ROOM B');
+  sofaApple(0, 12, y, 0); plantApple(-16, -12, y); plantApple(16, -12, y);
+  const collab = new THREE.Group(); collab.position.set(-16, y, 10);
+  addM(collab, new THREE.CylinderGeometry(1.6,1.6,0.1,12), new THREE.MeshStandardMaterial({color:0xf2f0e9}), 0,1.05,0);
+  chairAt(-17.6, 10, y); chairAt(-14.4, 10, y); chairAt(-16, 11.8, y);
+  scene.add(collab);
+  regInteriorAsset(collab, 'Khu cộng tác nhóm', 'Operations', 'Bàn đứng cộng tác (collaboration huddle) cho trao đổi nhanh.');
+  stairMark(17, -13, y); wcMark(-17, -13, y);
+
+  // ============ TẦNG 5 — TECHNOLOGY & MANAGEMENT ============
+  y = floors[4].yBase;
+  deskRows(0, -8, y, 16, 0x0071e3, 5);     // Dev zone
+  deskRows(-12, 4, y, 8, 0x0071e3, 4);     // IT Support
+  const server = new THREE.Group(); server.position.set(12, y, -10);
+  for (let r=0;r<3;r++) {
+    addM(server, new THREE.BoxGeometry(2,5,2), new THREE.MeshStandardMaterial({color:0xd1d1d6,roughness:0.3,metalness:0.5}), r*3.5, 2.5, 0);
+    for (let l=0;l<8;l++) addM(server, new THREE.BoxGeometry(1.7,0.12,0.08), (l%2)?M.ledGreen:M.ledBlue, r*3.5, 0.5+l*0.55, 1.05, {cast:false});
+  }
+  scene.add(server);
+  regInteriorAsset(server, 'Server Room', 'IT', 'Phòng máy chủ — rack 3 tủ, giám sát nhiệt & UPS qua PULSE IT.');
+  addLabel('SERVER ROOM', 15.5, y+5.8, -8, 6);
+  glassOffice(-14, -11, y, 'DIRECTOR OFFICE', 'Văn phòng Giám đốc CNTT — họp 1-1, review kỹ thuật.');
+  meetingRoom(14, -11, y, 'EXEC MEETING');
+  const dataRoom = new THREE.Group(); dataRoom.position.set(14, y, 8);
+  addM(dataRoom, new THREE.BoxGeometry(5,2.9,0.12), M.glass, 0,1.45,-2.5, {cast:false});
+  addM(dataRoom, new THREE.BoxGeometry(0.12,2.9,5), M.glass, -2.5,1.45,0, {cast:false});
+  addM(dataRoom, new THREE.BoxGeometry(1.8,2.6,1.4), M.steelDark, 0,1.3,0);
+  scene.add(dataRoom);
+  regInteriorAsset(dataRoom, 'Data Management', 'IT', 'Kho dữ liệu & backup — kiểm soát truy cập theo quyền.');
+  stairMark(17, -13, y); wcMark(-17, -13, y);
+
+  // ============ TẦNG 6 — EXECUTIVE & EMPLOYEE FACILITIES ============
+  y = floors[5].yBase;
+  // Board room (giữ bàn tròn đặc trưng)
+  addM(scene, new THREE.CylinderGeometry(2.6, 2.6, 0.12, 20), new THREE.MeshStandardMaterial({color:0xf2f0e9}), 0, y+1.15, 6);
+  for (let i=0;i<6;i++) { const a=i*Math.PI/3; chairAt(Math.cos(a)*3.9, 6+Math.sin(a)*3.9, y); }
+  addM(scene, new THREE.BoxGeometry(5, 2.8, 0.1), new THREE.MeshStandardMaterial({color:0x1c1c1e}), 0, y+3, -B_D/2+0.3);
+  addM(scene, new THREE.BoxGeometry(4.5, 2.4, 0.06), new THREE.MeshStandardMaterial({color:0x0071e3, emissive:0x0071e3, emissiveIntensity:0.7}), 0, y+3, -B_D/2+0.38, {cast:false});
+  glassOffice(-14, -11, y, 'CEO OFFICE', 'Văn phòng CEO — tiếp khách cấp cao, ký tài liệu.');
+  const medbed = new THREE.Group(); medbed.position.set(-12, y, 0);
+  addM(medbed, new THREE.BoxGeometry(7, 1.05, 4.5), new THREE.MeshStandardMaterial({color:0xffffff}), 0, 0.525, 0);
+  addM(medbed, new THREE.BoxGeometry(6.6, 0.06, 4.2), new THREE.MeshStandardMaterial({color:0xe8e8ed}), 0, 1.08, 0);
+  addM(medbed, new THREE.CylinderGeometry(0.35,0.35,0.08,12), new THREE.MeshStandardMaterial({color:0xff3b30}), 0, 1.15, -2);
+  scene.add(medbed);
+  regInteriorAsset(medbed, 'Medical Room', 'Y tế', 'Phòng y tế — giường cấp cứu, túi cứu thương, nhân viên y tế trực.');
+  addLabel('MEDICAL ROOM', -12, y+2.6, 2.4, 6);
+  pantryZone(-13, 10, y, 'PANTRY & CAFETERIA');
+  for (let i=0;i<3;i++) { // bàn ăn cafeteria
+    addM(scene, new THREE.BoxGeometry(3.2,0.1,1.4), new THREE.MeshStandardMaterial({color:0xf2f0e9}), 6+i*5, y+1.05, 10);
+    addM(scene, new THREE.CylinderGeometry(0.08,0.08,1,8), M.steel, 6+i*5, y+0.5, 10);
+    chairAt(6+i*5, 11.6, y); chairAt(6+i*5, 8.4, y);
+  }
+  sofaApple(14, -10, y, 0); sofaApple(14, -6, y, 0); // executive lounge
+  addLabel('EXECUTIVE LOUNGE', 14, y+2.8, -3, 6);
+  addM(scene, new THREE.BoxGeometry(3, 0.9, 1.7), new THREE.MeshStandardMaterial({color:0x2d6a4f,roughness:.8}), 0, y+0.45, -12); // recreation (bàn game)
+  addLabel('RECREATION & REST AREA', 0, y+2.6, -13.5, 7);
+  stairMark(17, -13, y); wcMark(-17, -13, y);
+
+  // Thang máy tương tác trên từng tầng (click → điều hướng tầng)
+  for (let f=0; f<FLOOR_COUNT; f++) {
+    const b = new THREE.Mesh(new THREE.BoxGeometry(2.6,3,2.6), new THREE.MeshBasicMaterial({transparent:true, opacity:0.02}));
+    b.position.set(B_W/2-3.5, floors[f].yBase+1.5, 3.6);
+    b.userData = {assetId:'NAV-ELEV-'+f};
+    scene.add(b);
+  }
+}
+
+/* ================================================================
+   ENTERPRISE CAMPUS — LANDSCAPE, AMENITIES & ASSET PICKING
+   ================================================================ */
+function assetGroup(id, name, type, x, z, description) {
+  const g = new THREE.Group(); g.position.set(x,0,z);
+  g.userData = {assetId:id}; scene.add(g);
+  campusAssets.push({id,name,type,description,x,z}); return g;
+}
+function tree(x,z,scale=1) {
+  const g=assetGroup('TREE-'+campusAssets.length,'Cây xanh cảnh quan','Cảnh quan',x,z,'Cây bóng mát trong khuôn viên PULSE');
+  g.position.set(x,0,z); g.scale.setScalar(scale);
+  addM(g,new THREE.CylinderGeometry(.22,.34,2.2,8),new THREE.MeshStandardMaterial({color:0x79553a}),0,1.1,0);
+  addM(g,new THREE.SphereGeometry(1.35,10,8),new THREE.MeshStandardMaterial({color:0x3d8b58,roughness:.95}),0,3,0);
+  addM(g,new THREE.SphereGeometry(.85,9,7),new THREE.MeshStandardMaterial({color:0x62a96e,roughness:.95}),.65,3.45,.1);
+}
+function buildingAmenity(id,name,type,x,z,w,d,color,desc) {
+  const g=assetGroup(id,name,type,x,z,desc);
+  const mat=new THREE.MeshStandardMaterial({color,roughness:.68});
+  addM(g,new THREE.BoxGeometry(w,4.5,d),mat,0,2.25,0);
+  addM(g,new THREE.BoxGeometry(w+.5,.25,d+.5),M.steel,0,4.6,0);
+  addM(g,new THREE.BoxGeometry(w*.72,1.25,.12),M.glassDark,0,2.15,d/2+.07,{cast:false});
+  addLabel(name.toUpperCase(),x,5.35,z+d/2+1,5.5);
+  return g;
+}
+function buildCampus(){
+  // Asphalt loop road and pedestrian promenades
+  const asphalt=new THREE.MeshStandardMaterial({color:0x454b50,roughness:1});
+  const concrete=new THREE.MeshStandardMaterial({color:0xc9c9c2,roughness:.95});
+  const grass=new THREE.MeshStandardMaterial({color:0x6eaa75,roughness:1});
+  addM(scene,new THREE.PlaneGeometry(250,22),asphalt,0,.015,66,{rx:-Math.PI/2,cast:false});
+  addM(scene,new THREE.PlaneGeometry(22,210),asphalt,76,.02,0,{rx:-Math.PI/2,cast:false});
+  addM(scene,new THREE.PlaneGeometry(220,12),concrete,0,.025,48,{rx:-Math.PI/2,cast:false});
+  addM(scene,new THREE.PlaneGeometry(12,190),concrete,61,.03,0,{rx:-Math.PI/2,cast:false});
+  // Green lawns around the headquarters
+  for(const [x,z,w,d] of [[-72,0,42,90],[72,-65,55,42],[-65,65,45,35],[15,78,70,28]])
+    addM(scene,new THREE.PlaneGeometry(w,d),grass,x,.012,z,{rx:-Math.PI/2,cast:false});
+  // Road markings
+  for(let i=-5;i<=5;i++) addM(scene,new THREE.BoxGeometry(5,.035,.22),new THREE.MeshBasicMaterial({color:0xf4f0d8}),i*12,.06,66,{cast:false});
+  // Plaza + fountain pool and animated fountain jets
+  const water=new THREE.MeshPhysicalMaterial({color:0x49b9d3,roughness:.12,metalness:.12,transparent:true,opacity:.78});
+  const fountain=assetGroup('AST-FNT-001','Đài phun nước trung tâm','Tiện ích cảnh quan',-43,8,'Đài phun nước tại quảng trường chính, có hồ tròn và vòi phun trang trí.');
+  addM(fountain,new THREE.CylinderGeometry(9,9,.45,48),new THREE.MeshStandardMaterial({color:0xd5d8d8}),0,.25,0);
+  addM(fountain,new THREE.CylinderGeometry(8.2,8.2,.12,48),water,0,.52,0);
+  addM(fountain,new THREE.CylinderGeometry(.75,1.1,1.1,20),M.steel,0,1,0);
+  for(let i=0;i<8;i++){const a=i*Math.PI/4;addM(fountain,new THREE.CylinderGeometry(.07,.11,2.5,8),water,Math.cos(a)*2,1.65,Math.sin(a)*2,{rz:Math.cos(a)*-.35,rx:Math.sin(a)*.35});}
+  // Tree-lined paths
+  for(let i=0;i<9;i++){tree(-78+i*9,-42,1.05);tree(-78+i*9,42,.9);tree(46,-78+i*9,.95);tree(94,-78+i*9,.9);}
+  for(let i=0;i<6;i++){tree(-48-i*5,78,.85);tree(20+i*9,82,.9);}
+  // Guardhouse and controlled entrance
+  buildingAmenity('AST-GATE-001','Nhà bảo vệ','An ninh',-62,58,13,9,0xd9e3e8,'Chốt an ninh kiểm soát cổng vào, khách và phương tiện.');
+  // Coffee, cafeteria and food court cluster
+  buildingAmenity('AST-HLC-001','Highlands Coffee','Cửa hàng cà phê',48,28,22,15,0x8a4b2d,'Không gian cà phê Highlands, có quầy order và bàn ghế ngoài trời.');
+  buildingAmenity('AST-STB-001','Starbucks','Cửa hàng cà phê',78,28,20,15,0x315b48,'Quán cà phê Starbucks, khu ngồi trong nhà và ngoài trời.');
+  buildingAmenity('AST-FD-001','Căn tin nhân viên','Ẩm thực nội bộ',45,-28,25,17,0xd8b77a,'Căn tin phục vụ bữa trưa và suất ăn theo ca cho nhân viên.');
+  buildingAmenity('AST-FC-001','Food Court','Khu ẩm thực',80,-28,25,17,0xe6a45b,'Food Court với nhiều quầy đồ ăn, bàn nhóm và khu ăn uống chung.');
+  // Outdoor tables and umbrellas
+  for(let i=0;i<5;i++){const x=48+i*7;addM(scene,new THREE.CylinderGeometry(1.6,1.6,.12,12),new THREE.MeshStandardMaterial({color:0xf5f1e8}),x,.8,49);addM(scene,new THREE.CylinderGeometry(.08,.08,1.7,8),M.steel,x,.0+0.0,49);addM(scene,new THREE.ConeGeometry(2.2,.7,12),new THREE.MeshStandardMaterial({color:i%2?0xc84e42:0xf0e2c8}),x,2,49);}
+  // Sports court
+  const court=assetGroup('AST-SPORT-001','Sân thể thao đa năng','Thể thao',-70,-75,'Sân thể thao ngoài trời có vạch sân, lưới và khu vận động nhân viên.');
+  addM(court,new THREE.BoxGeometry(48,.25,28),new THREE.MeshStandardMaterial({color:0x287fbd}),0,.15,0);
+  for(const x of [-23.5,23.5]) addM(court,new THREE.BoxGeometry(.18,.04,27),M.white,x,.3,0);
+  addM(court,new THREE.BoxGeometry(47,.04,.18),M.white,0,.3,0);
+  addM(court,new THREE.BoxGeometry(.12,2,28),M.white,0,1,0);
+  // Landscape lake
+  const lake=assetGroup('AST-LAKE-001','Hồ cảnh quan','Cảnh quan',-105,-15,'Hồ cảnh quan với mặt nước xanh, lối dạo và cây xanh xung quanh.');
+  addM(lake,new THREE.CylinderGeometry(18,18,.35,48),new THREE.MeshStandardMaterial({color:0x9aa69b}),0,.16,0);
+  addM(lake,new THREE.CylinderGeometry(16.8,16.8,.18,48),water,0,.38,0);
+  // Parking rows, cars and accessible spaces
+  const park=assetGroup('AST-PARK-001','Bãi đỗ xe','Hạ tầng',105,-68,'Bãi đỗ ô tô và xe máy có phân luồng, vạch đỗ và lối đi bộ.');
+  addM(park,new THREE.BoxGeometry(58,.2,48),asphalt,0,.1,0);
+  for(let r=0;r<4;r++) for(let c=0;c<5;c++){
+    const x=-22+c*11,z=-17+r*11;
+    addM(park,new THREE.BoxGeometry(2.5,.035,7.5),M.white,x,.23,z,{cast:false});
+    if((r+c)%3!==0){const car=new THREE.Group();const body=new THREE.Mesh(new THREE.BoxGeometry(2.1,.8,4.4),new THREE.MeshStandardMaterial({color:[0xffffff,0x4b6c91,0xc85b50,0x30343b][(r+c)%4]}));body.position.y=.75;car.add(body);const top=new THREE.Mesh(new THREE.BoxGeometry(1.65,.65,2.1),M.glass);top.position.y=1.4;car.add(top);car.position.set(x,.2,z);park.add(car);}
+  }
+  // Basement B1 access ramp + label; underground level represented as an accessible campus asset
+  const ramp=assetGroup('AST-B1-001','Lối xuống tầng hầm B1','Giao thông nội bộ',-48,-36,'Đường dốc xuống tầng hầm B1, kết nối bãi xe và khu kỹ thuật.');
+  addM(ramp,new THREE.BoxGeometry(16,.35,32),asphalt,0,-.15,0,{rz:-.12});
+  // Open-top cutaway garage bay makes the B1 level visible in the campus overview.
+  const b1=assetGroup('AST-B1-GARAGE','Tầng hầm B1 — bãi xe','Tầng hầm',-48,-105,'Tầng hầm B1 mô phỏng khu đỗ xe, kỹ thuật và lối kết nối thang máy.');
+  addM(b1,new THREE.BoxGeometry(42,.35,25),new THREE.MeshStandardMaterial({color:0x68727a}),0,.18,0);
+  for(const x of [-21,21]) addM(b1,new THREE.BoxGeometry(.35,4,25),M.glassDark,x,2,0);
+  addM(b1,new THREE.BoxGeometry(42,4,.35),M.glassDark,0,2,-12.5);
+  for(let i=0;i<5;i++){const car=new THREE.Group();addM(car,new THREE.BoxGeometry(2.4,.8,4.6),new THREE.MeshStandardMaterial({color:[0xf1f3f5,0x55718d,0xb85c50,0x252a31,0xd2b16c][i]}),0,.85,0);addM(car,new THREE.BoxGeometry(1.8,.65,2.2),M.glass,0,1.55,-.1);car.position.set(-15+i*7.5,.35,2);b1.add(car);}
+  addLabel('B1 · PARKING & TECHNICAL',-48,5,-105,5.5);
+  // Campus wayfinding pylons
+  const sign=assetGroup('AST-SIGN-001','Biển chỉ dẫn PULSE','Hạ tầng',-43,31,'Biển chỉ dẫn khuôn viên và các khối tiện ích.');
+  addM(sign,new THREE.BoxGeometry(8,3,.5),M.steel,0,1.5,0);
+  addLabel('PULSE CAMPUS',-43,3.5,31,5.5);
+}
+function selectAsset(id){
+  const a=campusAssets.find(x=>x.id===id); if(!a)return;
+  document.getElementById('detailBody').innerHTML=`
+    <div class="selected-title"><div class="selected-icon" style="background:#e8f3ff;color:#0071e3">▦</div><div><h3>${a.name}</h3><p>${a.type} · PULSE Campus</p></div></div>
+    <div class="detail-grid"><div class="mini-card"><small>Mã tài sản</small><b>${a.id}</b></div><div class="mini-card"><small>Phân loại</small><b>${a.type}</b></div><div class="mini-card"><small>Tọa độ X</small><b>${Number(a.x).toFixed(1)}</b></div><div class="mini-card"><small>Tọa độ Z</small><b>${Number(a.z).toFixed(1)}</b></div></div>
+    <div class="section-label">Thông tin tài sản / tiện ích</div><div class="alert-box">ℹ <span>${a.description}</span></div>`;
+  toast(`Đã chọn: ${a.name}`);
+}
+
+/* ================================================================
+   EMPLOYEES (Corporate realistic, low-poly)
+   ================================================================ */
+const DEPT_DATA = {
+  Reception:  {floor:0, cx:-8, cz:9,  label:'Lễ tân',       color:0x5ac8fa, css:'#5ac8fa', count:12, roles:['Receptionist','Concierge']},
+  Security:   {floor:0, cx:10, cz:9,  label:'An ninh',       color:0xff3b30, css:'#ff3b30', count:30, roles:['Guard','Patrol']},
+  Facilities: {floor:0, cx:0,  cz:-10,label:'Hành chính',    color:0x8e8e93, css:'#8e8e93', count:52, roles:['Maintenance','Admin Clerk']},
+  Guest:      {floor:0, cx:0,  cz:5,  label:'Khách',         color:0xb1b1b6, css:'#b1b1b6', count:8,  roles:['Visitor']},
+  HR:         {floor:1, cx:-10,cz:-4, label:'HR & Admin',    color:0x34c759, css:'#34c759', count:28, roles:['HRBP','Recruiter','C&B','Trainer']},
+  Finance:    {floor:2, cx:-10,cz:-4, label:'Finance',       color:0xff9500, css:'#ff9500', count:34, roles:['Accountant','Treasury','AP/AR','Internal Control']},
+  Sales:      {floor:3, cx:-12,cz:-7, label:'Sales',         color:0xaf52de, css:'#af52de', count:55, roles:['Account Exec','SDR','CSM','BizDev']},
+  Marketing:  {floor:3, cx:8,  cz:-8, label:'Marketing',     color:0xff9500, css:'#ff9500', count:35, roles:['Content','Designer','Media']},
+  Production: {floor:3, cx:-4, cz:8,  label:'Operations',    color:0x8e8e93, css:'#8e8e93', count:110,roles:['Operator','QC','Supervisor','PM']},
+  Warehouse:  {floor:3, cx:13, cz:10, label:'Logistics',      color:0x5856d6, css:'#5856d6', count:70, roles:['Storekeeper','Picker','Coordinator']},
+  Tech:       {floor:4, cx:0,  cz:-7, label:'Engineering',   color:0x0071e3, css:'#0071e3', count:90, roles:['Backend','Frontend','DevOps','QA Lead','IT Support','DBA']},
+  Board:      {floor:5, cx:6,  cz:0,  label:'Ban điều hành', color:0x0071e3, css:'#0071e3', count:8,  roles:['Director','Secretary']},
+  Medical:    {floor:5, cx:-12,cz:-8, label:'Y tế',          color:0xff3b30, css:'#ff3b30', count:8,  roles:['Nurse','Paramedic']},
+};
+
+const FAM = ['Nguyễn','Trần','Lê','Phạm','Hoàng','Vũ','Đặng','Bùi','Hồ','Đỗ'];
+const MID = ['Văn','Thị','Minh','Hoàng','Quang','Thu','Mai'];
+const GIV = ['Nghĩa','An','Nam','Khoa','Thảo','Linh','Tú','Hà','Dũng','Tuấn','Hạnh','Phương','Long','Yến','Trang'];
+const used = new Set();
+function mkName(force) {
+  if (force) return force;
+  for (let t=0;t<200;t++) {
+    const n = `${FAM[Math.random()*FAM.length|0]} ${MID[Math.random()*MID.length|0]} ${GIV[Math.random()*GIV.length|0]}`;
+    if (!used.has(n)) { used.add(n); return n; }
+  }
+  return 'Nhân sự '+(used.size+1);
+}
+
+function clampPos(x, z, y) {
+  const m = 2.5;
+  let nx = Math.max(-B_W/2+m, Math.min(B_W/2-m, x));
+  let nz = Math.max(-B_D/2+m, Math.min(B_D/2-m, z));
+  if (Math.abs(nx)<3.5 && Math.abs(nz)<3.5) { if (Math.abs(nx)>Math.abs(nz)) nx = nx>0?3.5:-3.5; else nz = nz>0?3.5:-3.5; }
+  return {x:nx, z:nz};
+}
+
+function buildEmp(emp) {
+  const g = new THREE.Group();
+  const y = emp.y;
+  // 24 avatar đầu tiên dùng model chi tiết; 516 avatar còn lại dùng capsule low-poly để giữ FPS.
+  if (!emp.detailed) {
+    const mat = new THREE.MeshStandardMaterial({color:emp.color, roughness:0.78});
+    const body = new THREE.Mesh(liteAvatarGeo, mat);
+    body.position.y = 0.95; body.castShadow = false; body.receiveShadow = true;
+    g.add(body);
+    g.position.set(emp.x, y, emp.z); g.scale.setScalar(0.78);
+    scene.add(g); emp.mesh = g; emp.liteBody = body;
+    return;
+  }
+  // Phase 6 — trang phục theo phòng ban (không đồng loạt giống nhau)
+  const OUTFITS = {
+    Tech: 0x3a6b8a, Sales: 0x1d3557, Marketing: 0x9a4d76, HR: 0x4a7c59,
+    Finance: 0x6b5b3f, Production: 0x2f6b4f, Warehouse: 0x55601f,
+    Security: 0x1f2a44, Board: 0x1c1c1e, Reception: 0x3f6b8a,
+    Medical: 0xffffff, Facilities: 0x6b6250, Guest: 0x8a8a8f,
+  };
+  const suitMat = new THREE.MeshStandardMaterial({color: OUTFITS[emp.dept] ?? 0x1c1c1e, roughness:0.65, metalness:0.1});
+  const suit = emp.gender==='F' ? new THREE.MeshStandardMaterial({color:0x4a4a4c, roughness:0.65}) : suitMat;
+  const pant = emp.gender==='F' ? new THREE.MeshStandardMaterial({color:0x2c2c2e, roughness:0.75}) : M.pant;
+
+  // Shoes
+  addM(g, new THREE.BoxGeometry(0.26,0.12,0.5), new THREE.MeshStandardMaterial({color:0x1c1c1e}), -0.15,0.06,0.1);
+  addM(g, new THREE.BoxGeometry(0.26,0.12,0.5), new THREE.MeshStandardMaterial({color:0x1c1c1e}), 0.15,0.06,0.1);
+  // Legs
+  addM(g, new THREE.BoxGeometry(0.28,0.85,0.3), pant, -0.15,0.5,0);
+  addM(g, new THREE.BoxGeometry(0.28,0.85,0.3), pant, 0.15,0.5,0);
+  // Torso
+  addM(g, new THREE.BoxGeometry(0.72,0.9,0.36), suit, 0,1.22,0);
+  // Shirt
+  addM(g, new THREE.BoxGeometry(0.26,0.5,0.04), M.shirt, 0,1.35,0.18);
+  // Tie
+  if (emp.gender==='M') addM(g, new THREE.BoxGeometry(0.1,0.55,0.02), new THREE.MeshStandardMaterial({color:emp.color}), 0,1.3,0.2);
+  // ID badge
+  addM(g, new THREE.BoxGeometry(0.16,0.22,0.015), new THREE.MeshStandardMaterial({color:0xffffff}), 0.22,1.25,0.19, {cast:false});
+  // Arms
+  addM(g, new THREE.BoxGeometry(0.18,0.75,0.18), suit, -0.48,1.28,0);
+  addM(g, new THREE.BoxGeometry(0.18,0.75,0.18), suit, 0.48,1.28,0);
+  // Hands
+  addM(g, new THREE.SphereGeometry(0.08,8,8), M.skin, -0.48,0.88,0.05);
+  addM(g, new THREE.SphereGeometry(0.08,8,8), M.skin, 0.48,0.88,0.05);
+  // Neck
+  addM(g, new THREE.CylinderGeometry(0.1,0.12,0.2,8), M.skin, 0,1.72,0);
+  // Head
+  addM(g, new THREE.SphereGeometry(0.32,16,16), M.skin, 0,2.05,0);
+  // Face (subtle, professional)
+  const faceCanvas = document.createElement('canvas'); faceCanvas.width=128; faceCanvas.height=128;
+  const fctx = faceCanvas.getContext('2d');
+  fctx.fillStyle = '#f5d0b0'; fctx.fillRect(0,0,128,128);
+  fctx.fillStyle = '#2c2c2e'; fctx.fillRect(36,52,12,4); fctx.fillRect(80,52,12,4);
+  fctx.strokeStyle = '#5a5a5c'; fctx.lineWidth=2; fctx.beginPath(); fctx.moveTo(56,84); fctx.lineTo(72,84); fctx.stroke();
+  const ftex = new THREE.CanvasTexture(faceCanvas);
+  const face = new THREE.Mesh(new THREE.PlaneGeometry(0.38,0.38), new THREE.MeshBasicMaterial({map:ftex, transparent:true, depthWrite:false, side:THREE.DoubleSide}));
+  face.position.set(0,2.05,0.28); face.renderOrder=10; g.add(face);
+  // Hair
+  const hmat = Math.random()<0.4 ? M.hairBrown : M.hair;
+  if (emp.hairStyle===0) {
+    addM(g, new THREE.BoxGeometry(0.68,0.18,0.58), hmat, 0.04,2.32,-0.04);
+    addM(g, new THREE.BoxGeometry(0.2,0.32,0.22), hmat, 0.18,2.22,0);
+  } else if (emp.hairStyle===1) {
+    addM(g, new THREE.SphereGeometry(0.34,14,14), hmat, 0,2.18,-0.06);
+    g.children[g.children.length-1].scale.set(1.02,0.78,1.02);
+  } else {
+    addM(g, new THREE.BoxGeometry(0.64,0.14,0.56), hmat, 0,2.34,-0.02);
+  }
+  if (emp.gender==='F') {
+    addM(g, new THREE.BoxGeometry(0.52,0.75,0.16), hmat, 0,1.82,-0.32);
+  }
+  // Glasses
+  if (emp.glasses) {
+    const gm = new THREE.MeshStandardMaterial({color:0x1c1c1e, roughness:0.2, metalness:0.5});
+    addM(g, new THREE.TorusGeometry(0.1,0.015,6,14), gm, -0.12,2.08,0.3, {cast:false});
+    addM(g, new THREE.TorusGeometry(0.1,0.015,6,14), gm, 0.12,2.08,0.3, {cast:false});
+    addM(g, new THREE.BoxGeometry(0.1,0.015,0.015), gm, 0,2.1,0.3, {cast:false});
+  }
+  // Shadow
+  const blob = new THREE.Mesh(new THREE.CircleGeometry(0.55,14), new THREE.MeshBasicMaterial({color:0x000000, transparent:true, opacity:0.18}));
+  blob.rotation.x=-Math.PI/2; blob.position.y=0.02; g.add(blob);
+
+  g.position.set(emp.x, y, emp.z);
+  g.scale.setScalar(emp.height);
+  scene.add(g);
+  emp.mesh = g;
+}
+
+function spawnEmployees() {
+  let idc = 0;
+  Object.entries(DEPT_DATA).forEach(([dept, cfg]) => {
+    for (let i=0; i<cfg.count; i++) {
+      const female = Math.random()<0.4;
+      const yBase = floors[cfg.floor].yBase;
+      const emp = {
+        id: 'P'+String(++idc).padStart(3,'0'),
+        detailed: idc<=528 && (idc-1)%22===0,
+        name: idc===1?'Tô Văn Nghĩa':mkName(),
+        dept, role: cfg.roles[i%cfg.roles.length],
+        color: cfg.color, css: cfg.css,
+        gender: female?'F':'M',
+        hairStyle: Math.random()*3|0,
+        glasses: Math.random()<0.35,
+        height: 0.95+Math.random()*0.08,
+        floor: cfg.floor, homeFloor:cfg.floor, x:0, y:yBase+0.05, homeY:yBase+0.05, z:0,
+        tx:0, tz:0, state:'WORK', timer: 2+Math.random()*10,
+        moving:false, bbTimer:0, controlled:false, gone:false, transit:null,
+      };
+      // PHASE 8 — mỗi nhân viên có BÀN LÀM VIỆC cố định (desk-aware navigation)
+      const cols = Math.max(3, Math.ceil(Math.sqrt(cfg.count*1.4)));
+      const gx = cfg.cx + ((i%cols)-(cols-1)/2)*2.6;
+      const gz = cfg.cz + Math.floor(i/cols)*2.6 - 2;
+      const dc = clampPos(gx, gz, emp.y);
+      emp.desk = {x: dc.x, z: dc.z};
+      emp.x = dc.x; emp.z = dc.z; emp.tx = dc.x; emp.tz = dc.z;
+      buildEmp(emp);
+      employees.push(emp);
+    }
+  });
+}
+
+/* ================================================================
+   FSM + COLLISION
+   ================================================================ */
+/* ================================================================
+   FSM + COLLISION — nâng cấp: lịch ngày, thang máy, tan ca
+   ================================================================ */
+const LIFT = { x: B_W/2-4.5, z: 0 };   // điểm sảnh thang máy trên mỗi tầng
+const BREAK_SPOTS = [{x:48,z:48},{x:78,z:48},{x:45,z:-15},{x:80,z:-15},{x:-43,z:8}];
+function floorY(f) { return f<0 ? 0.05 : floors[f].yBase+0.05; }
+
+function phaseOf(m) {
+  if (m < 7*60) return 'NIGHT';          // ngoài giờ
+  if (m < 8*60) return 'ARRIVE';         // 07:00–08:00 nhân viên đến
+  if (m < 11.5*60) return 'WORK';        // 08:00–11:30 làm việc
+  if (m < 13*60) return 'LUNCH';         // 11:30–13:00 ăn trưa
+  if (m < 17*60) return 'WORK';          // 13:00–17:00 làm việc & họp
+  if (m < 18*60) return 'AFTER';         // 17:00–18:00 tan ca
+  return 'NIGHT';
+}
+
+function workSpot(e) {
+  // Phase 8: nhân viên quay về ĐÚNG bàn của mình, không ngẫu nhiên
+  return e.desk ? {x:e.desk.x, z:e.desk.z} : (()=>{ const cfg = DEPT_DATA[e.dept]; return {x: cfg.cx, z: cfg.cz}; })();
+}
+function randState(e) {
+  const ph = phaseOf(state.simMin), r = Math.random();
+  if (e.dept==='Guest') return (ph==='NIGHT'||ph==='AFTER') ? 'GONE' : (r<0.5?'WORK':'WANDER'); // khách chỉ ở lobby/khu chờ
+  if (e.dept==='Security') return (ph==='NIGHT') ? (r<0.75?'PATROL':'WORK') : (r<0.6?'WORK':'PATROL');
+  if (ph==='LUNCH') return r<0.55?'BREAK':'WORK';
+  if (ph==='AFTER'||ph==='NIGHT') return r<0.5?'GONE':'WORK';
+  if (e.dept==='Reception') return r<0.7?'WORK':'WANDER';
+  // Phase 7 — họp định kỳ trong giờ làm việc (09–11h & 13–15h đậm hơn)
+  if ((state.simMin>9*60 && state.simMin<11.5*60) || (state.simMin>13*60 && state.simMin<15*60)) {
+    if (r<0.12) return 'MEETING';
+  }
+  if (r<0.55) return 'WORK'; if (r<0.73) return 'WANDER'; if (r<0.90) return 'TALK'; return 'BREAK';
+}
+function nextTarget(e, st) {
+  // Trả về {floor, x, z} — KHÔNG đổi floor/y trực tiếp (tránh teleport).
+  const j=(p,r=2)=>({x:p.x+(Math.random()-.5)*r*2, z:p.z+(Math.random()-.5)*r*2});
+  if (st==='WORK') return {floor:e.homeFloor, ...workSpot(e)};
+  if (st==='BREAK') return {floor:-1, ...BREAK_SPOTS[Math.random()*BREAK_SPOTS.length|0]};
+  if (st==='WANDER') return {floor: (e.dept==='Guest'||e.dept==='Security') ? 0 : (Math.random()<0.6 ? e.homeFloor : Math.floor(Math.random()*FLOOR_COUNT)), ...j({x:0,z:0},12)};
+  if (st==='MEETING') { const s = MEETING_SPOTS[Math.random()*MEETING_SPOTS.length|0]; return {floor:s.floor, x:s.x+(Math.random()-.5)*2.5, z:s.z+(Math.random()-.5)*2.5}; }
+  if (st==='TALK') {
+    const peer=employees.find(o=>o.dept===e.dept && o!==e && !o.moving && !o.gone);
+    if (peer) return {floor:peer.floor, x:peer.x+1.2, z:peer.z+1.2};
+    return {floor:e.homeFloor, ...workSpot(e)};
+  }
+  if (st==='PATROL') return {floor:0, ...j({x:10,z:8},6)};
+  return {floor:e.homeFloor, ...workSpot(e)};
+}
+function setState(e, st) {
+  e.state=st; e.timer = 4+Math.random()*10;
+  if (st==='GONE') { e.gone=true; e.mesh.visible=false; return; }
+  e.gone=false;
+  e.mesh.visible = state.activeDept==='All' || e.dept===state.activeDept;
+  const t = nextTarget(e,st);
+  if (t.floor!==e.floor) {
+    // Đổi tầng → đi bộ tới sảnh thang máy, rồi đi thang máy xuống/lên (không teleport)
+    e.transit = { phase:'toLift', target:t, fromY:0, toY:0, t:0 };
+    e.tx=LIFT.x; e.tz=LIFT.z;
+  } else {
+    const c = (st==='BREAK') ? {x:t.x,z:t.z} : clampPos(t.x, t.z, e.y);
+    e.tx=c.x; e.tz=c.z;
+  }
+}
+function updateEmp(e, dt) {
+  if (e.controlled) { e.moving=false; return; }
+  // Tan ca rồi: chờ đến sáng hôm sau mới "đến công ty" trở lại
+  if (e.gone) {
+    if (phaseOf(state.simMin)==='ARRIVE' && Math.random()<0.02) {
+      e.gone=false; e.mesh.visible = state.activeDept==='All' || e.dept===state.activeDept;
+      e.floor=e.homeFloor; e.y=e.homeY; e.x=LIFT.x; e.z=LIFT.z; e.transit=null;
+      setState(e,'WORK');
+    }
+    return;
+  }
+  const outdoor = e.floor===-1;
+  const dx=e.tx-e.x, dz=e.tz-e.z, dist=Math.hypot(dx,dz);
+  e.moving = dist>0.6;
+
+  if (e.transit && e.transit.phase==='riding') {
+    // Trong thang máy: y nội suy đều theo thời gian — không xuyên sàn
+    const tr=e.transit; tr.t += dt*0.28;
+    const k=Math.min(tr.t,1);
+    e.y = tr.fromY + (tr.toY-tr.fromY)*k;
+    e.moving=false;
+    e.mesh.position.y = e.y + Math.sin(Date.now()*0.004)*0.02;
+    if (tr.t>=1) {
+      e.floor = tr.target.floor; e.y = floorY(e.floor===-1?0:e.floor);
+      const dest = tr.target; e.transit=null;
+      if (dest.floor===-1) { e.tx=dest.x; e.tz=dest.z; }
+      else { const c=clampPos(dest.x,dest.z,e.y); e.tx=c.x; e.tz=c.z; }
+    }
+  } else if (e.moving) {
+    const sp = (e.state==='PATROL'?4.5:3.2)*dt;
+    const nx=e.x+dx/dist*sp, nz=e.z+dz/dist*sp;
+    const c = outdoor ? {x:Math.max(-125,Math.min(125,nx)),z:Math.max(-125,Math.min(125,nz))} : clampPos(nx, nz, e.y);
+    e.x=c.x; e.z=c.z;
+    e.mesh.rotation.y = Math.atan2(dx, dz);
+    e.mesh.position.y = e.y + Math.abs(Math.sin(Date.now()*0.008+e.x))*0.055;
+    if (e.liteBody) e.liteBody.rotation.z = Math.sin(Date.now()*0.006+e.x)*0.08;
+    // Đến sảnh thang máy → bắt đầu "đi thang"
+    if (e.transit && e.transit.phase==='toLift' && dist<0.9) {
+      e.transit.phase='riding';
+      e.transit.fromY=e.y;
+      e.transit.toY=floorY(e.transit.target.floor===-1?0:e.transit.target.floor);
+      e.transit.t=0;
+    }
+  } else {
+    // Phase 6 — tư thế ngồi tại bàn (WORK) và phòng họp (MEETING), đứng ở trạng thái khác
+    const sitting = (e.state==='WORK' && !e.transit) || e.state==='MEETING';
+    e.mesh.position.y = e.y + (sitting ? -0.42 : 0) + (e.state==='WORK' ? Math.sin(Date.now()*0.002+e.x)*0.014 : 0);
+    if (e.liteBody) e.liteBody.rotation.z = Math.sin(Date.now()*0.0015+e.z)*0.025;
+    e.timer-=dt;
+    if (e.timer<=0) setState(e, randState(e));
+  }
+  // Exploded View: nhân viên theo đúng tầng đang tách
+  e.mesh.position.y += (e.floor>=0 && state.exploded) ? e.floor*EXP_GAP : 0;
+  e.mesh.position.x = e.x;
+  e.mesh.position.z = e.z;
+}
+
+/* ================================================================
+   INTERACTION
+   ================================================================ */
+function onClick(ev) {
+  const rect = renderer.domElement.getBoundingClientRect();
+  pointer.x = ((ev.clientX-rect.left)/rect.width)*2-1;
+  pointer.y = -((ev.clientY-rect.top)/rect.height)*2+1;
+  raycaster.setFromCamera(pointer, camera);
+  const hits = raycaster.intersectObjects(scene.children, true);
+  for (const h of hits) {
+    const obj = h.object;
+    // Find employee group
+    let p = obj.parent;
+    while (p && p!==scene) {
+      const emp = employees.find(e=>e.mesh===p);
+      if (emp) { selectEmp(emp); return; }
+      p = p.parent;
+    }
+    let a = obj;
+    while (a && a!==scene) {
+      if (a.userData && a.userData.assetId) {
+        const id = a.userData.assetId;
+        // Phase 8 — click thang máy để điều hướng tầng
+        if (id.startsWith('NAV-ELEV-')) {
+          const f = Math.min(FLOOR_COUNT-1, Math.max(0, parseInt(id.split('-').pop())));
+          if (state.avatarMode) { state.wasdFloor=f; state.wasdTargetY=floors[f].yBase+1.68; camera.position.set(LIFT.x, state.wasdTargetY, 3.6); }
+          else focusFloor(f);
+          toast(`Thang máy → Tầng ${f+1}`);
+          return;
+        }
+        selectAsset(id); return;
+      }
+      a = a.parent;
+    }
+  }
+}
+function selectEmp(e) {
+  state.selectedEmp = e;
+  const roomOf = {Tech:'Dev Zone',Sales:'Sales Floor',Marketing:'MKT Studio',HR:'People Hub',Finance:'Finance Office',Production:'Ops Floor',Warehouse:'Logistics',Medical:'Medical Room',Reception:'Lobby',Board:'Boardroom',Security:'Security Desk',Facilities:'Facilities'};
+  document.getElementById('detailBody').innerHTML = `
+    <div class="selected-title">
+      <div class="selected-icon" style="background:${e.css}">${e.name.split(' ').pop()[0]}</div>
+      <div>
+        <h3>${e.name}</h3>
+        <p>${e.role} · ${e.dept} · ${e.floor>=0?'Tầng '+(e.floor+1):'Khuôn viên'}</p>
+      </div>
+      <span class="status-pill" style="background:rgba(255,149,0,0.1);color:var(--orange);border-color:rgba(255,149,0,0.25)">SIM DATA</span>
+    </div>
+    <div class="detail-grid">
+      <div class="mini-card"><small>Mã nhân viên (mô phỏng)</small><b>${e.id}</b></div>
+      <div class="mini-card"><small>Phòng ban</small><b>${e.hrmDept||e.dept}</b></div>
+      <div class="mini-card"><small>Chức danh</small><b>${e.role}</b></div>
+      <div class="mini-card"><small>Khu vực</small><b>${roomOf[e.dept]||'—'}</b></div>
+      <div class="mini-card"><small>Mã NV (HRM)</small><b>${e.employeeCode||e.id}</b></div>
+      <div class="mini-card"><small>Giới tính</small><b>${e.gender==='F'?'Nữ':'Nam'}</b></div>
+    </div>
+    <div class="section-label">Hiệu suất & Trạng thái</div>
+    <div class="progress-row">
+      <div class="progress-meta"><span>KPI Performance</span><b>94%</b></div>
+      <div class="track"><div class="fill" style="width:94%"></div></div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-meta"><span>OKR Completion</span><b>88%</b></div>
+      <div class="track"><div class="fill" style="width:88%; background:linear-gradient(90deg, var(--green), #30d158)"></div></div>
+    </div>
+    <div class="alert-box" style="margin-top:4px">
+      ⚠ <span>SIMULATION DATA — hồ sơ nhân vật mô phỏng, không phải dữ liệu HRM thật. Thông tin lương, BHXH, thuế TNCN và hồ sơ cá nhân chỉ được xem trong hệ thống HRM theo phân quyền.</span>
+    </div>
+  `;
+  toast(`Đã chọn: ${e.name}`);
+}
+
+function onResize() {
+  const container = document.getElementById('sceneWrap');
+  if (!container || !camera || !renderer) return;
+  camera.aspect = container.clientWidth/container.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(container.clientWidth, container.clientHeight);
+}
+
+/* ================================================================
+   UI
+   ================================================================ */
+function setupUI() {
+  // Dept chips
+  const chips = document.getElementById('deptChips');
+  const allBtn = document.createElement('button');
+  allBtn.className = 'dept-chip active'; allBtn.innerHTML = '<span class="dot"></span>Tất cả';
+  allBtn.onclick = () => focusDept('All', allBtn);
+  chips.appendChild(allBtn);
+  Object.entries(DEPT_DATA).forEach(([key,cfg]) => {
+    const b = document.createElement('button');
+    b.className = 'dept-chip';
+    b.innerHTML = `<span class="dot" style="background:${cfg.css}"></span>${cfg.label}`;
+    b.onclick = () => focusDept(key, b);
+    chips.appendChild(b);
+  });
+
+  // Nav sidebar floor buttons
+  document.querySelectorAll('.nav button[data-page^="floor"], .nav button[data-page="b1"]').forEach(btn => {
+    btn.onclick = () => {
+      if (btn.dataset.page==='b1') { focusB1(); }
+      else { const f = parseInt(btn.dataset.page.replace('floor',''))-1; focusFloor(f); }
+      document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    };
+  });
+
+  document.getElementById('btnReset').onclick = () => {
+    controls.target.set(0, 18, 0); camera.position.set(115, 105, 145); controls.update();
+    toast('Đã reset góc nhìn');
+  };
+  document.getElementById('btnZoomIn').onclick = () => {
+    const dir = new THREE.Vector3().subVectors(camera.position, controls.target).multiplyScalar(0.85);
+    camera.position.copy(controls.target).add(dir);
+  };
+  document.getElementById('btnZoomOut').onclick = () => {
+    const dir = new THREE.Vector3().subVectors(camera.position, controls.target).multiplyScalar(1.15);
+    camera.position.copy(controls.target).add(dir);
+  };
+  document.getElementById('btnDay').onclick = () => {
+    state.simMin = (state.simMin + 120)%1440;
+    const h = Math.floor(state.simMin/60)%24;
+    const m = Math.floor(state.simMin%60);
+    toast(`Giờ mô phỏng: ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`);
+  };
+
+  // Simulation clock: pause / speed
+  document.getElementById('btnPause').onclick = () => {
+    state.simPaused = !state.simPaused;
+    document.getElementById('btnPause').textContent = state.simPaused ? '▶ Play' : '⏸ Pause';
+    toast(state.simPaused ? 'Đã tạm dừng mô phỏng' : 'Tiếp tục mô phỏng');
+  };
+  const SPEEDS = [1, 4, 12, 60];
+  document.getElementById('btnSpeed').onclick = () => {
+    const i = (SPEEDS.indexOf(state.simSpeed)+1) % SPEEDS.length;
+    state.simSpeed = SPEEDS[i];
+    document.getElementById('btnSpeed').textContent = `⏩ ${state.simSpeed}x`;
+  };
+
+  // Floor Cutaway & Exploded View
+  document.getElementById('btnCutaway').onclick = () => toggleCutaway();
+  document.getElementById('btnExplode').onclick = () => toggleExplode();
+
+  // Quality presets
+  const qBtns = {LOW:'btnQLow', MEDIUM:'btnQMed', HIGH:'btnQHigh'};
+  Object.entries(qBtns).forEach(([q,id]) => {
+    document.getElementById(id).onclick = () => {
+      setQuality(q);
+      Object.values(qBtns).forEach(bid=>document.getElementById(bid).style.color='');
+      document.getElementById(id).style.color='var(--blue)';
+      toast(`Chất lượng đồ họa: ${q}`);
+    };
+  });
+
+  // First-person WASD mode
+  document.getElementById('btnAvatar').onclick = () => toggleWASD();
+}
+
+function focusDept(dept, btn) {
+  state.activeDept = dept;
+  document.querySelectorAll('.dept-chip').forEach(c => c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (dept==='All') {
+    controls.target.set(0, 40, 0); camera.position.set(115, 105, 145);
+  } else {
+    const cfg = DEPT_DATA[dept];
+    const y = floors[cfg.floor].yBase + FLOOR_H/2;
+    controls.target.set(cfg.cx, y, cfg.cz);
+    camera.position.set(cfg.cx+22, y+18, cfg.cz+28);
+  }
+  controls.update();
+  // Dim other employees
+  employees.forEach(e => {
+    const active = dept==='All' || e.dept===dept;
+    e.mesh.visible = active && !e.gone;
+  });
+}
+
+function focusB1() {
+  controls.target.set(-48, 1.5, -105); camera.position.set(-5, 43, -65); controls.update();
+  document.getElementById('floorBadge').textContent = 'TẦNG HẦM B1 · PARKING & TECHNICAL';
+}
+
+function focusFloor(f) {
+  const y = floors[f].yBase + FLOOR_H/2;
+  controls.target.set(0, y, 0);
+  camera.position.set(28, y+20, 36);
+  controls.update();
+  document.getElementById('floorBadge').textContent = `TẦNG ${f+1}`;
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* ================================================================
+   BUILDING VIEW MODES — CUTAWAY & EXPLODED
+   ================================================================ */
+function toggleCutaway() {
+  state.cutaway = !state.cutaway;
+  // Tường kính chuyển gần trong suốt; ẩn trần để nhìn xuyên bố cục nội thất
+  M.glass.opacity = state.cutaway ? 0.06 : 0.35;
+  floors.forEach(f => f.group && f.group.traverse(o => {
+    if (o.isMesh && o.material===M.white && o.geometry.parameters && o.geometry.parameters.height===0.3) {
+      o.visible = !state.cutaway;
+    }
+  }));
+  document.getElementById('btnCutaway').style.color = state.cutaway ? 'var(--blue)' : '';
+  toast(state.cutaway ? 'Floor Cutaway: đã ẩn trần & làm mờ tường kính' : 'Đã tắt Floor Cutaway');
+}
+function toggleExplode() {
+  state.exploded = !state.exploded;
+  floors.forEach(f => { if (f.group) f.group.position.y = state.exploded ? f.index*EXP_GAP : 0; });
+  document.getElementById('btnExplode').style.color = state.exploded ? 'var(--blue)' : '';
+  toast(state.exploded ? 'Exploded View: đã tách 6 tầng' : 'Đã gộp về vị trí kiến trúc gốc');
+}
+
+/* ================================================================
+   QUALITY PRESETS — LOW / MEDIUM / HIGH
+   ================================================================ */
+function setQuality(q) {
+  state.quality = q;
+  const L = state.lights;
+  if (q==='LOW') {
+    renderer.setPixelRatio(1);
+    if (L) L.sun.castShadow = false;
+  } else if (q==='MEDIUM') {
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+    if (L) { L.sun.castShadow = true; L.sun.shadow.mapSize.set(1024,1024); if (L.sun.shadow.map) { L.sun.shadow.map.dispose(); L.sun.shadow.map = null; } }
+  } else {
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    if (L) { L.sun.castShadow = true; L.sun.shadow.mapSize.set(2048,2048); if (L.sun.shadow.map) { L.sun.shadow.map.dispose(); L.sun.shadow.map = null; } }
+  }
+}
+
+/* ================================================================
+   DAY & NIGHT CYCLE
+   ================================================================ */
+const DAY_BG = new THREE.Color(0xeef2f7), NIGHT_BG = new THREE.Color(0x0d1521);
+function applyTimeOfDay() {
+  const L = state.lights; if (!L) return;
+  const t = state.simMin/1440;
+  const ang = (t-0.25)*Math.PI*2;                 // 06:00 bình minh, 18:00 hoàng hôn
+  const day = Math.max(0, Math.sin(ang));          // 0 ban đêm → 1 giữa trưa
+  L.sun.position.set(Math.cos(ang)*60, Math.max(8, Math.sin(ang)*80), 40);
+  L.sun.intensity = 0.12 + 1.88*day;
+  L.hemi.intensity = 0.3 + 1.3*day;
+  L.fill.intensity = 0.15 + 0.35*day;
+  const bg = NIGHT_BG.clone().lerp(DAY_BG, day);
+  scene.background = bg; scene.fog.color = bg;
+  // Đèn trần LED sáng mạnh hơn khi trời tối
+  const led = 1.0 + (1-day)*1.6;
+  M.ledBlue.emissiveIntensity = led; M.ledGreen.emissiveIntensity = led; M.ledAmber.emissiveIntensity = led;
+}
+
+/* ================================================================
+   FIRST-PERSON WASD CAMERA
+   ================================================================ */
+const wasdKeys = {};
+let wasdDrag = false, wasdLX = 0, wasdLY = 0;
+function setupWASDInput() {
+  window.addEventListener('keydown', e => {
+    wasdKeys[e.code] = true;
+    if (e.code==='Escape' && state.avatarMode) toggleWASD();
+  });
+  window.addEventListener('keyup', e => wasdKeys[e.code] = false);
+  renderer.domElement.addEventListener('pointerdown', e => { if (state.avatarMode) { wasdDrag = true; wasdLX = e.clientX; wasdLY = e.clientY; } });
+  window.addEventListener('pointermove', e => {
+    if (!state.avatarMode || !wasdDrag) return;
+    const yaw = (e.clientX-wasdLX)*0.0032, pitch = (e.clientY-wasdLY)*0.0032;
+    wasdLX = e.clientX; wasdLY = e.clientY;
+    const eu = new THREE.Euler().setFromQuaternion(camera.quaternion, 'YXZ');
+    eu.y -= yaw; eu.x = Math.max(-1.35, Math.min(1.35, eu.x - pitch));
+    camera.quaternion.setFromEuler(eu);
+  });
+  window.addEventListener('pointerup', () => wasdDrag = false);
+}
+function toggleWASD() {
+  state.avatarMode = !state.avatarMode;
+  const b = document.getElementById('btnAvatar');
+  if (state.avatarMode) {
+    state.savedCam = { pos: camera.position.clone(), tgt: controls.target.clone() };
+    controls.enabled = false;
+    state.wasdFloor = 0; state.wasdTargetY = floors[0].yBase + 1.68;
+    camera.position.set(-8, floors[0].yBase+1.68, 10);
+    camera.lookAt(0, floors[0].yBase+1.5, 0);
+    b.textContent = '🚶 Thoát WASD (Esc)';
+    toast('WASD Mode: W/A/S/D di chuyển · Shift chạy · kéo chuột quay đầu · Q/E đổi tầng · Esc thoát');
+  } else {
+    controls.enabled = true;
+    if (state.savedCam) { camera.position.copy(state.savedCam.pos); controls.target.copy(state.savedCam.tgt); controls.update(); }
+    b.textContent = '🏃 WASD Mode';
+    toast('Đã quay về Orbit Camera');
+  }
+}
+function updateWASD(dt) {
+  const dir = new THREE.Vector3(); camera.getWorldDirection(dir); dir.y = 0;
+  if (dir.lengthSq() < 1e-4) dir.set(0,0,-1); dir.normalize();
+  const right = new THREE.Vector3().crossVectors(dir, new THREE.Vector3(0,1,0)).negate();
+  const run = wasdKeys.ShiftLeft || wasdKeys.ShiftRight;
+  const sp = (run ? 10 : 4.5) * dt;
+  if (wasdKeys.KeyW) camera.position.addScaledVector(dir, sp);
+  if (wasdKeys.KeyS) camera.position.addScaledVector(dir, -sp);
+  if (wasdKeys.KeyA) camera.position.addScaledVector(right, -sp);
+  if (wasdKeys.KeyD) camera.position.addScaledVector(right, sp);
+  // Đổi tầng bằng "thang máy" Q/E
+  if (wasdKeys.KeyQ && state.wasdFloor>0) { state.wasdFloor--; state.wasdTargetY = floors[state.wasdFloor].yBase+1.68; wasdKeys.KeyQ=false; toast('Thang máy → Tầng '+(state.wasdFloor+1)); }
+  if (wasdKeys.KeyE && state.wasdFloor<FLOOR_COUNT-1) { state.wasdFloor++; state.wasdTargetY = floors[state.wasdFloor].yBase+1.68; wasdKeys.KeyE=false; toast('Thang máy → Tầng '+(state.wasdFloor+1)); }
+  if (state.wasdTargetY!==null) {
+    camera.position.y += (state.wasdTargetY-camera.position.y)*Math.min(1, dt*3);
+    if (Math.abs(camera.position.y-state.wasdTargetY)<0.02) state.wasdTargetY=null;
+  }
+  // Va chạm đơn giản: trong nhà thì giới hạn trong mặt bằng, ngoài trời giới hạn khuôn viên
+  const m = 1.2, inside = Math.abs(camera.position.x)<B_W/2 && Math.abs(camera.position.z)<B_D/2 && state.wasdTargetY===null;
+  if (inside) { camera.position.x = Math.max(-B_W/2+m, Math.min(B_W/2-m, camera.position.x)); camera.position.z = Math.max(-B_D/2+m, Math.min(B_D/2-m, camera.position.z)); }
+  else { camera.position.x = Math.max(-125, Math.min(125, camera.position.x)); camera.position.z = Math.max(-125, Math.min(125, camera.position.z)); }
+}
+
+/* ================================================================
+   ANIMATE
+   ================================================================ */
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = Math.min(clock.getDelta(), 0.05);
+  state.frame++;
+
+  // Simulation clock: 6 phút mô phỏng / giây thực × hệ số tốc độ
+  if (!state.simPaused) {
+    state.simMin = (state.simMin + dt*6*state.simSpeed) % 1440;
+  }
+  if (state.frame % 5 === 0) {
+    const h = Math.floor(state.simMin/60)%24, m = Math.floor(state.simMin%60);
+    document.getElementById('simClock').textContent = `◷ ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')} · ${phaseOf(state.simMin)}`;
+    applyTimeOfDay();
+  }
+
+  // WASD first-person
+  if (state.avatarMode) updateWASD(dt);
+  else controls.update();
+
+  // LOD hành vi: avatar gần camera cập nhật mỗi frame, avatar xa cập nhật 1/4 frame
+  const camPos = camera.position;
+  for (let i=0; i<employees.length; i++) {
+    const e = employees[i];
+    const near = e.detailed || camPos.distanceToSquared(e.mesh.position) < 70*70;
+    if (near) updateEmp(e, dt);
+    else if (state.frame % 4 === i % 4) updateEmp(e, dt*4);
+  }
+
+  renderer.render(scene, camera);
+
+  // Cập nhật floor badge theo chiều cao camera (throttle 15 frame)
+  if (state.frame % 15 === 0 && !state.avatarMode) {
+    const cy = camera.position.y;
+    let cf = 1;
+    for (let f=0; f<FLOOR_COUNT; f++) { const yb = 0.8+f*FLOOR_H + (state.exploded?f*EXP_GAP:0); if (cy>=yb && cy<yb+FLOOR_H) cf=f+1; }
+    const names = ['RECEPTION & PUBLIC','HR & ADMIN','FINANCE & ACCOUNTING','BUSINESS & OPERATIONS','TECHNOLOGY & MGMT','EXECUTIVE & FACILITIES'];
+    document.getElementById('floorBadge').textContent = `TẦNG ${cf} · ${names[cf-1]}${state.exploded?' · EXPLODED':''}${state.cutaway?' · CUTAWAY':''}`;
+  } else if (state.avatarMode && state.frame % 15 === 0) {
+    document.getElementById('floorBadge').textContent = `FIRST-PERSON · TẦNG ${state.wasdFloor+1}`;
+  }
+}
+
+/* ================================================================
+   PHASE 9 — SUPABASE HRM ADAPTER
+   Nguyên tắc bảo mật (§20–22):
+   - Chỉ READ qua REST với anon key + RLS (không service role ở frontend).
+   - Không truy vấn toàn bộ bảng nhân sự: giới hạn cột & limit 600.
+   - Không đưa lương/BHXH/CCCD vào 3D — chỉ ánh xạ tên, mã NV, phòng ban, chức danh.
+   - Chưa cấu hình hoặc lỗi → giữ nguyên dữ liệu mô phỏng DEMO/SIMULATION.
+   Cấu hình (tiêm trước khi import script, hoặc set bằng console):
+     window.PULSE_CONFIG = {
+       supabaseUrl: 'https://<project>.supabase.co',
+       supabaseAnonKey: '<anon-key>',
+       employeesTable: 'v_employee_twin'   // view đã tạo theo schema pulse_* (không truy vấn bảng gốc)
+     };
+   ================================================================ */
+const HRM_ADAPTER = {
+  cfg: (typeof window !== 'undefined' && window.PULSE_CONFIG) || {},
+  get enabled() { return !!(this.cfg.supabaseUrl && this.cfg.supabaseAnonKey); },
+  // Ánh xạ tên phòng ban thật → zone 3D tương ứng
+  deptZone(name) {
+    const s = (name || '').toLowerCase();
+    const map = [
+      [['kỹ','it','tech','phan mem','công nghệ'], 'Tech'],
+      [['kinh doanh','sales','business','bd'], 'Sales'],
+      [['marketing','truyền thông','media'], 'Marketing'],
+      [['nhân sự','hr','human','tuyển','đào tạo','admin','hành chính'], 'HR'],
+      [['tài chính','kế toán','finance','kế to'], 'Finance'],
+      [['vận hành','sản xuất','operation','ops','dự án','project'], 'Production'],
+      [['kho','logistics','vận chuyển','thu mua','procure'], 'Warehouse'],
+      [['an ninh','bảo vệ','security'], 'Security'],
+      [['lễ tân','reception','tiếp khách'], 'Reception'],
+      [['y tế','medical','sức khỏe'], 'Medical'],
+      [['ban giám đốc','board','điều hành','executive','ceo'], 'Board'],
+    ];
+    for (const [keys, zone] of map) if (keys.some(k => s.includes(k))) return zone;
+    return 'Facilities';
+  },
+  async fetchEmployees() {
+    if (!this.enabled) return null;
+    try {
+      const q = (this.cfg.employeesTable || 'v_employee_twin') +
+        '?select=id,employee_code,full_name,gender,department,position&limit=600';
+      const res = await fetch(`${this.cfg.supabaseUrl}/rest/v1/${q}`, {
+        headers: { apikey: this.cfg.supabaseAnonKey, Authorization: 'Bearer ' + this.cfg.supabaseAnonKey },
+      });
+      if (!res.ok) { console.warn('HRM adapter: HTTP', res.status); return null; }
+      return await res.json();
+    } catch (err) { console.warn('HRM adapter offline — giữ chế độ DEMO', err); return null; }
+  },
+  async bind() {
+    const rows = await this.fetchEmployees();
+    if (!rows || !rows.length) {
+      toast('HRM: chưa kết nối Supabase — vận hành với dữ liệu DEMO/SIMULATION');
+      return;
+    }
+    rows.slice(0, employees.length).forEach((row, i) => {
+      const e = employees[i];
+      if (row.full_name) e.name = row.full_name;
+      if (row.position) e.role = row.position;
+      if (row.department) e.hrmDept = row.department;
+      e.hrmId = row.id;
+      e.employeeCode = row.employee_code;
+      e.isDemo = false;
+    });
+    state.dataSource = 'REAL HRM DATA';
+    state.hrmCount = rows.length;
+    const kpi = document.getElementById('employeeKpi');
+    if (kpi) kpi.textContent = String(rows.length);
+    const badge = document.getElementById('dataBadge');
+    if (badge) { badge.textContent = 'REAL HRM DATA'; badge.style.color = 'var(--green)'; }
+    toast(`HRM: đã ánh xạ ${Math.min(rows.length, employees.length)} hồ sơ thật vào Digital Twin`);
+  },
+};
+window.HRM_ADAPTER = HRM_ADAPTER;
+
+// Start
+init();
+if (typeof HRM_ADAPTER !== 'undefined') HRM_ADAPTER.bind();
+</script>
+</body>
+</html>
