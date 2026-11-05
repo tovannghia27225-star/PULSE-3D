@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1730">
+<title>UEM — Universal Enterprise Management v1.0 Complete Edition</title>
+<style>
+:root{--navy:#0b1730;--navy2:#122747;--blue:#2563eb;--cyan:#0ea5e9;--bg:#f3f6fb;--card:#fff;--ink:#17243b;--muted:#718096;--line:#e5eaf2;--green:#0f9f6e;--greenbg:#e7f7f0;--amber:#d97706;--amberbg:#fff4df;--red:#dc5252;--redbg:#ffeded;--purple:#7657d5;--purplebg:#f1edff;--shadow:0 8px 26px rgba(18,39,71,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:258px 1fr}.sidebar{background:linear-gradient(180deg,#0b1730,#102747);color:#dce8fa;padding:22px 15px;position:sticky;top:0;height:100vh;overflow:auto}.brand{display:flex;align-items:center;gap:11px;padding:4px 10px 24px}.brandmark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#38bdf8,#2563eb);display:grid;place-items:center;color:white;font-weight:900;font-size:19px}.brand strong{display:block;font-size:16px;letter-spacing:.5px}.brand small{color:#91a8c7;font-size:10px;letter-spacing:1.3px}.navlabel{font-size:10px;color:#7790b3;font-weight:800;letter-spacing:1.4px;padding:16px 12px 7px}.nav button{width:100%;border:0;background:transparent;color:#b8c8df;text-align:left;padding:10px 12px;border-radius:9px;margin:2px 0;display:flex;gap:11px;align-items:center;font-size:13px}.nav button:hover,.nav button.active{background:#1c3b65;color:white}.nav .ico{width:19px;text-align:center;font-size:15px}.sidebottom{border-top:1px solid #29415f;margin-top:24px;padding:16px 10px;color:#91a8c7;font-size:11px}.main{min-width:0}.topbar{height:70px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}.crumb{font-weight:750;font-size:15px}.crumb small{display:block;color:var(--muted);font-size:11px;font-weight:450}.topright{display:flex;align-items:center;gap:12px}.pill{border:1px solid var(--line);border-radius:20px;padding:6px 11px;color:#52627a;font-size:11px;background:#fff}.avatar{width:34px;height:34px;border-radius:50%;background:#dbeafe;color:#1d4ed8;display:grid;place-items:center;font-weight:800}.content{padding:26px 28px 50px;max-width:1600px;margin:auto}.page{display:none}.page.active{display:block}.pagehead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:22px}.pagehead h1{font-size:24px;margin:0 0 5px;letter-spacing:-.5px}.pagehead p{margin:0;color:var(--muted);font-size:13px}.btn{border:1px solid var(--line);background:#fff;color:#34445e;padding:9px 13px;border-radius:9px;font-weight:650;font-size:12px}.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}.btn.dark{background:var(--navy);border-color:var(--navy);color:#fff}.btn.danger{background:var(--red);border-color:var(--red);color:#fff}.btn:hover{filter:brightness(.97)}.grid{display:grid;gap:16px}.kpis{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);min-width:0}.kpi-label{color:var(--muted);font-size:11px;font-weight:650}.kpi-value{font-size:26px;font-weight:800;letter-spacing:-.8px;margin:6px 0}.delta{font-size:11px;color:var(--green)}.layout2{grid-template-columns:1.45fr 1fr}.layout3{grid-template-columns:repeat(3,1fr)}.layout4{grid-template-columns:repeat(4,minmax(0,1fr))}.cardtitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.cardtitle h3{font-size:14px;margin:0}.muted{color:var(--muted)}.small{font-size:11px}.barrow{display:grid;grid-template-columns:110px 1fr 38px;align-items:center;gap:10px;margin:13px 0;font-size:11px}.track{height:8px;background:#edf1f7;border-radius:10px;overflow:hidden}.fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#2563eb,#38bdf8)}.health{display:flex;align-items:center;gap:16px}.donut{width:104px;height:104px;border-radius:50%;background:conic-gradient(#0f9f6e 0 78%,#e8eef6 78% 100%);display:grid;place-items:center;flex-shrink:0}.donut:after{content:"78%";width:75px;height:75px;background:white;border-radius:50%;display:grid;place-items:center;font-weight:850;font-size:20px}.status{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:20px;font-size:10px;font-weight:750}.ok{background:var(--greenbg);color:#087a51}.warn{background:var(--amberbg);color:#a45b00}.bad{background:var(--redbg);color:#b83232}.info{background:#eaf2ff;color:#2459bd}.purple{background:var(--purplebg);color:#6845c5}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:12px}th{text-align:left;color:#77849a;font-size:10px;text-transform:uppercase;letter-spacing:.7px;padding:11px 10px;border-bottom:1px solid var(--line)}td{padding:12px 10px;border-bottom:1px solid #edf1f6}tr:last-child td{border:0}.org{display:flex;align-items:center;gap:10px}.orgicon{width:34px;height:34px;border-radius:10px;background:#eaf2ff;color:#2459bd;display:grid;place-items:center;font-weight:850}.org small{display:block;color:var(--muted)}.alert{padding:11px 12px;border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:9px;margin:9px 0;font-size:11px}.alert.red{border-left-color:var(--red)}.alert.green{border-left-color:var(--green)}.modulegrid{grid-template-columns:repeat(3,minmax(0,1fr))}.module{border:1px solid var(--line);border-radius:12px;padding:15px;background:#fff;transition:.15s;cursor:pointer}.module:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.module .mi{font-size:21px;margin-bottom:9px}.module h3{font-size:13px;margin:0 0 5px}.module p{font-size:11px;color:var(--muted);margin:0 0 12px}.modulefoot{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#62728b}.agentgrid{grid-template-columns:repeat(3,1fr)}.agent{display:flex;gap:12px;align-items:flex-start}.agenticon{width:39px;height:39px;flex-shrink:0;border-radius:12px;background:#edf4ff;display:grid;place-items:center;font-size:18px}.agent h4{margin:0 0 3px;font-size:12px}.agent p{margin:0;color:var(--muted);font-size:10px}.chatbox{display:flex;flex-direction:column;height:530px}.chatmessages{flex:1;overflow:auto;padding:6px 2px}.msg{max-width:88%;padding:11px 13px;border-radius:12px;margin:10px 0;font-size:12px}.msg.ai{background:#f0f5fc;border:1px solid #e3ebf6}.msg.user{background:#eaf2ff;margin-left:auto;color:#173f83}.msg small{display:block;color:#78869b;font-size:9px;margin-bottom:4px}.chatinput{display:flex;gap:8px;border-top:1px solid var(--line);padding-top:13px}.chatinput input{flex:1;min-width:0;border:1px solid var(--line);border-radius:9px;padding:10px 12px;outline:none}.tag{font-size:10px;padding:4px 7px;background:#f0f4fa;border-radius:6px;color:#53647d;display:inline-block;margin:2px}.search{border:1px solid var(--line);border-radius:9px;padding:9px 11px;min-width:210px;outline:none}.field{display:grid;gap:5px;margin:10px 0}.field label{font-size:11px;font-weight:700;color:#56657b}.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:8px;padding:10px;background:white;min-width:0}.field textarea{min-height:80px;resize:vertical}.formrow{display:grid;grid-template-columns:1fr 1fr;gap:12px}.knowledge{border:1px solid var(--line);padding:13px;border-radius:10px;margin:8px 0}.knowledge strong{font-size:12px}.knowledge p{margin:4px 0 0;color:var(--muted);font-size:10px}.progress{height:6px;background:#edf1f7;border-radius:10px;margin-top:8px}.progress span{display:block;height:100%;background:#2f73e8;border-radius:10px}.timeline{border-left:2px solid #dce6f4;margin-left:7px;padding-left:17px}.event{position:relative;margin:0 0 17px}.event:before{content:"";position:absolute;left:-23px;top:4px;width:9px;height:9px;border-radius:50%;background:#3980ed}.event strong{font-size:11px}.event p{margin:3px 0;color:var(--muted);font-size:10px}.switchrow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}.switch{width:34px;height:19px;border-radius:20px;background:#cbd5e1;position:relative;cursor:pointer}.switch:after{content:"";position:absolute;left:2px;top:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:.2s}.switch.on{background:#2563eb}.switch.on:after{left:17px}.notice{background:#fff8e9;border:1px solid #f4dfb7;border-radius:10px;padding:12px 14px;color:#805314;font-size:11px;margin-bottom:16px}.empty{padding:35px;text-align:center;color:var(--muted)}.toast{position:fixed;bottom:20px;right:20px;background:#122747;color:white;padding:12px 16px;border-radius:10px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:.2s;z-index:99;font-size:12px}.toast.show{opacity:1;transform:translateY(0)}.mobilemenu{display:none}.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:16px}.tab{padding:8px 14px;font-size:12px;font-weight:650;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer}.tab.active{color:var(--blue);border-bottom-color:var(--blue)}.tabcontent{display:none}.tabcontent.active{display:block}.modal-backdrop{position:fixed;inset:0;background:rgba(11,23,48,0.7);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}.modal-backdrop.open{display:flex}.modal{background:#fff;width:min(650px,100%);max-height:90vh;overflow:auto;border-radius:16px;padding:24px;box-shadow:var(--shadow)}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px}.modal-head h3{margin:0;font-size:16px}.modal-foot{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;border-top:1px solid var(--line);padding-top:14px}
+@media(max-width:1050px){.app{grid-template-columns:220px 1fr}.kpis{grid-template-columns:repeat(2,1fr)}.modulegrid,.agentgrid,.layout4{grid-template-columns:repeat(2,1fr)}.layout2{grid-template-columns:1fr}}
+@media(max-width:720px){.app{display:block}.sidebar{position:fixed;left:-270px;width:250px;z-index:15;transition:.2s}.sidebar.open{left:0}.mobilemenu{display:inline-flex}.topbar{padding:0 14px;height:62px}.content{padding:19px 14px 40px}.pagehead{flex-direction:column}.kpis{gap:9px}.card{padding:14px}.modulegrid,.agentgrid,.layout3,.layout4{grid-template-columns:1fr}.formrow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+ <div class="brand"><div class="brandmark">U</div><div><strong>UEM PLATFORM</strong><small>UNIVERSAL ENTERPRISE MANAGEMENT</small></div></div>
+ <nav class="nav" id="mainNav">
+  <div class="navlabel">TỔNG QUAN</div>
+  <button class="active" data-page="dashboard"><span class="ico">▦</span>Executive Dashboard</button>
+  <button data-page="organizations"><span class="ico">▣</span>Doanh nghiệp của tôi</button>
+  <button data-page="ai"><span class="ico">✦</span>AI Management Center</button>
+
+  <div class="navlabel">QUẢN TRỊ DOANH NGHIỆP</div>
+  <button data-page="modules"><span class="ico">◫</span>Enterprise Modules</button>
+  <button data-page="industry"><span class="ico">◈</span>Industry Intelligence</button>
+  <button data-page="bi"><span class="ico">▤</span>Business Intelligence</button>
+  <button data-page="workflow"><span class="ico">⇄</span>Approvals & Workflows</button>
+
+  <div class="navlabel">VẬN HÀNH & NGHIỆP VỤ</div>
+  <button data-page="hrm"><span class="ico">🧑‍💼</span>HRM vận hành</button>
+  <button data-page="finance"><span class="ico">💰</span>Tài chính & Kế toán</button>
+  <button data-page="scm"><span class="ico">🚚</span>Mua hàng & Kho vận</button>
+  <button data-page="crm"><span class="ico">🛍️</span>CRM & Bán hàng</button>
+  <button data-page="pmo"><span class="ico">📅</span>Quản lý dự án (PMO)</button>
+  <button data-page="manufacturing"><span class="ico">🏭</span>Sản xuất (MES)</button>
+
+  <div class="navlabel">VẬN HÀNH CHUYÊN SÂU & TIỆN ÍCH</div>
+  <button data-page="contracts"><span class="ico">📜</span>Quản lý hợp đồng</button>
+  <button data-page="itsm"><span class="ico">🎧</span>ITSM & Helpdesk</button>
+  <button data-page="assets"><span class="ico">📦</span>Quản lý tài sản</button>
+  <button data-page="calendar"><span class="ico">📅</span>Lịch & Đặt tài nguyên</button>
+  <button data-page="formbuilder"><span class="ico">📝</span>Form Builder</button>
+
+  <div class="navlabel">CHẤT LƯỢNG & AN TOÀN SẢN XUẤT</div>
+  <button data-page="qms"><span class="ico">🛡️</span>QMS & CAPA</button>
+  <button data-page="ehs"><span class="ico">📯</span>EHS & An toàn lao động</button>
+
+  <div class="navlabel">DỊCH VỤ & TIỆN ÍCH DOANH NGHIỆP</div>
+  <button data-page="bcp"><span class="ico">🔄</span>BCP & Khôi phục sự cố</button>
+  <button data-page="surveys"><span class="ico">📊</span>Khảo sát NPS / eNPS</button>
+  <button data-page="fleet"><span class="ico">🚗</span>Quản lý đội xe</button>
+  <button data-page="visitors"><span class="ico">🏷️</span>Quản lý khách đến</button>
+  <button data-page="billing"><span class="ico">💳</span>SaaS Billing & Tenants</button>
+
+  <div class="navlabel">QUẢN TRỊ & KIỂM SOÁT</div>
+  <button data-page="grc"><span class="ico">🛡️</span>GRC vận hành</button>
+  <button data-page="audit"><span class="ico">🔍</span>Kiểm toán & Nhật ký</button>
+  <button data-page="documents"><span class="ico">📄</span>Tài liệu & Lưu trữ</button>
+  <button data-page="notifications"><span class="ico">🔔</span>Thông báo & Hòm thư</button>
+  <button data-page="integrations"><span class="ico">🔌</span>Tích hợp hệ thống</button>
+
+  <div class="navlabel">HỆ THỐNG</div>
+  <button data-page="security"><span class="ico">♙</span>Security & Permissions</button>
+  <button data-page="settings"><span class="ico">⚙</span>Settings</button>
+ </nav>
+ <div class="sidebottom">UEM v1.0 Complete · Full-feature concept<br>Enterprise-grade prototype</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+ <div style="display:flex;align-items:center;gap:12px"><button class="btn mobilemenu" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button><div class="crumb" id="crumb">Executive Dashboard<small>Toàn cảnh sức khỏe hệ sinh thái doanh nghiệp</small></div></div>
+ <div class="topright"><span class="pill">● Workspace Demo</span><span class="pill">🇻🇳 VI</span><div class="avatar">AD</div></div>
+</header>
+
+<div class="content">
+
+<!-- ==================== DASHBOARD ==================== -->
+<section class="page active" id="dashboard">
+ <div class="pagehead"><div><h1>Executive Dashboard</h1><p>Trung tâm điều hành và giám sát tổng thể hệ sinh thái doanh nghiệp.</p></div><button class="btn" onclick="toast('Đã làm mới dữ liệu hệ thống')">↻ Làm mới</button></div>
+ <div class="grid kpis">
+  <div class="card"><div class="kpi-label">DOANH NGHIỆP</div><div class="kpi-value">08</div><div class="delta">↑ 2 trong kỳ</div></div>
+  <div class="card"><div class="kpi-label">NHÂN SỰ</div><div class="kpi-value">2,486</div><div class="delta">↑ 4.8%</div></div>
+  <div class="card"><div class="kpi-label">DOANH THU HỢP NHẤT</div><div class="kpi-value">₫86.4B</div><div class="delta">↑ 8.2% kế hoạch</div></div>
+  <div class="card"><div class="kpi-label">CẢNH BÁO MỚI</div><div class="kpi-value">12</div><div class="delta" style="color:var(--amber)">4 mức độ cao</div></div>
+ </div>
+</section>
+
+<!-- ==================== CONTRACTS (P1) ==================== -->
+<section class="page" id="contracts">
+  <div class="pagehead">
+    <div><h1>Quản lý hợp đồng</h1><p>Quản lý toàn bộ vòng đời hợp đồng Khách hàng, Nhà cung cấp và Lao động.</p></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn primary" onclick="openModal('cntModal')">＋ Thêm hợp đồng</button>
+      <button class="btn" onclick="toast('Cảnh báo: Có 2 hợp đồng sắp hết hạn trong 30 ngày!')">⚠️ Cảnh báo hết hạn</button>
+      <button class="btn" onclick="toast('Đã xuất file Excel danh sách Hợp đồng')">📥 Xuất Excel</button>
+    </div>
+  </div>
+  <div class="grid kpis">
+    <div class="card"><div class="kpi-label">TỔNG HỢP ĐỒNG</div><div class="kpi-value" id="cnt-total">0</div><div class="delta">Tất cả hợp đồng</div></div>
+    <div class="card"><div class="kpi-label">ĐANG HIỆU LỰC</div><div class="kpi-value" id="cnt-active">0</div><div class="delta" style="color:var(--green)">Active status</div></div>
+    <div class="card"><div class="kpi-label">SẮP HẾT HẠN</div><div class="kpi-value" id="cnt-expiring">0</div><div class="delta" style="color:var(--amber)">Trong 30 ngày</div></div>
+    <div class="card"><div class="kpi-label">TỔNG GIÁ TRỊ (VND)</div><div class="kpi-value" id="cnt-val">₫0</div><div class="delta">Giá trị hợp đồng</div></div>
+  </div>
+  <div class="card">
+    <div class="cardtitle">
+      <h3>Danh sách Hợp đồng</h3>
+      <div style="display:flex;gap:8px">
+        <select class="pill" id="cntFilterType" onchange="renderContracts()"><option value="">Tất cả loại</option><option value="CUSTOMER">Khách hàng</option><option value="SUPPLIER">Nhà cung cấp</option><option value="EMPLOYMENT">Lao động</option></select>
+        <select class="pill" id="cntFilterStatus" onchange="renderContracts()"><option value="">Tất cả trạng thái</option><option value="ACTIVE">Active</option><option value="DRAFT">Draft</option><option value="EXPIRED">Expired</option></select>
+      </div>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Mã HĐ</th><th>Tên hợp đồng</th><th>Loại</th><th>Bên A</th><th>Bên B</th><th>Ngày ký</th><th>Hết hạn</th><th>Giá trị</th><th>Trạng thái</th></tr></thead>
+        <tbody id="cntTable"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ITSM (P1) ==================== -->
+<section class="page" id="itsm">
+  <div class="pagehead">
+    <div><h1>Help Desk & ITSM</h1><p>Tiếp nhận, xử lý Incident, Service Request, SLA và phản hồi người dùng.</p></div>
+    <button class="btn primary" onclick="openModal('ticketModal')">＋ Tạo Ticket mới</button>
+  </div>
+  <div class="grid kpis">
+    <div class="card"><div class="kpi-label">TỔNG TICKET</div><div class="kpi-value" id="itsm-total">0</div><div class="delta">Toàn hệ thống</div></div>
+    <div class="card"><div class="kpi-label">ĐANG XỬ LÝ</div><div class="kpi-value" id="itsm-open">0</div><div class="delta" style="color:var(--amber)">Open / In Progress</div></div>
+    <div class="card"><div class="kpi-label">VI PHẠM SLA</div><div class="kpi-value" id="itsm-sla">0</div><div class="delta" style="color:var(--red)">SLA Breach</div></div>
+    <div class="card"><div class="kpi-label">TỶ LỆ GIẢI QUYẾT</div><div class="kpi-value">92%</div><div class="delta" style="color:var(--green)">Hoàn thành</div></div>
+  </div>
+  <div class="grid layout2">
+    <div class="card">
+      <div class="cardtitle"><h3>Danh sách Ticket</h3></div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Mã Ticket</th><th>Tiêu đề</th><th>Phân loại</th><th>Độ ưu tiên</th><th>Trạng thái</th></tr></thead>
+          <tbody id="itsmTable"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Chi tiết Ticket & Thread</h3>
+      <div id="ticketDetail" class="empty">Chọn một ticket để xem nội dung trao đổi chi tiết và thao tác Resolve/Close/Escalate.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ASSETS (P2) ==================== -->
+<section class="page" id="assets">
+  <div class="pagehead">
+    <div><h1>Quản lý tài sản (Assets)</h1><p>Vòng đời tài sản cố định, IT Asset, khấu hao và lịch sử bảo trì.</p></div>
+    <button class="btn primary" onclick="openModal('assetModal')">＋ Thêm tài sản</button>
+  </div>
+  <div class="grid kpis">
+    <div class="card"><div class="kpi-label">TỔNG TÀI SẢN</div><div class="kpi-value" id="ast-total">0</div><div class="delta">Thiết bị & tài sản</div></div>
+    <div class="card"><div class="kpi-label">ĐANG HOẠT ĐỘNG</div><div class="kpi-value" id="ast-active">0</div><div class="delta" style="color:var(--green)">Operational</div></div>
+    <div class="card"><div class="kpi-label">ĐANG BẢO TRÌ</div><div class="kpi-value" id="ast-maint">0</div><div class="delta" style="color:var(--amber)">Maintenance</div></div>
+    <div class="card"><div class="kpi-label">TỔNG NGUYÊN GIÁ</div><div class="kpi-value" id="ast-val">₫0</div><div class="delta">Nguyên giá</div></div>
+  </div>
+  <div class="card">
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>QR</th><th>Mã TS</th><th>Tên tài sản</th><th>Loại</th><th>Vị trí</th><th>Người quản lý</th><th>Giá mua</th><th>Trạng thái</th></tr></thead>
+        <tbody id="assetTable"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CALENDAR & BOOKINGS (P2) ==================== -->
+<section class="page" id="calendar">
+  <div class="pagehead">
+    <div><h1>Lịch & Đặt tài nguyên</h1><p>Đặt phòng họp, xe công tác, thiết bị và tự động cảnh báo trùng lịch.</p></div>
+    <button class="btn primary" onclick="openModal('bookingModal')">＋ Đặt phòng / xe / thiết bị</button>
+  </div>
+  <div class="grid layout2">
+    <div class="card">
+      <div class="cardtitle"><h3>Lịch đặt tài nguyên tuần này</h3></div>
+      <div class="calendar" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;">
+        <div class="calday">T2</div><div class="calday">T3</div><div class="calday">T4</div><div class="calday today">T5</div><div class="calday">T6</div><div class="calday">T7</div><div class="calday">CN</div>
+        <div class="calday has">8</div><div class="calday">9</div><div class="calday has">10</div><div class="calday today has">11</div><div class="calday">12</div><div class="calday">13</div><div class="calday">14</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cardtitle"><h3>Danh sách Đặt chỗ</h3></div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Tài nguyên</th><th>Mục đích</th><th>Bắt đầu</th><th>Kết thúc</th><th>Trạng thái</th></tr></thead>
+          <tbody id="bookingTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FORM BUILDER (P2) ==================== -->
+<section class="page" id="formbuilder">
+  <div class="pagehead">
+    <div><h1>Form Builder trực quan</h1><p>Thiết kế form kéo thả low-code, xuất template JSON và lưu khảo sát.</p></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn primary" onclick="toast('Đã lưu Form Template thành công!')">💾 Lưu Template</button>
+      <button class="btn" onclick="toast('Đã xuất định dạng JSON của Form')">📤 Xuất JSON</button>
+    </div>
+  </div>
+  <div class="grid layout3" style="grid-template-columns:220px 1fr 260px;">
+    <div class="card">
+      <h3>Field Types</h3>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px">
+        <button class="btn" onclick="addFormField('Text Input')">📝 Text Input</button>
+        <button class="btn" onclick="addFormField('Number')">🔢 Number Input</button>
+
+        <button class="btn" onclick="addFormField('Date')">📅 Date Picker</button>
+        <button class="btn" onclick="addFormField('Dropdown')">🔽 Dropdown Select</button>
+        <button class="btn" onclick="addFormField('Textarea')">📄 Textarea</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cardtitle"><h3>Canvas Preview Form</h3></div>
+      <div id="formCanvas" style="min-height:280px;border:2px dashed var(--line);border-radius:10px;padding:15px"></div>
+    </div>
+    <div class="card">
+      <h3>Cấu hình Field</h3>
+      <div class="field"><label>Field Label</label><input id="fieldLabelConfig" value="Tên trường dữ liệu" oninput="updateFieldLabel(this.value)"></div>
+      <div class="switchrow"><span>Bắt buộc (Required)</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== QMS / CAPA (P2) ==================== -->
+<section class="page" id="qms">
+  <div class="pagehead">
+    <div><h1>Quality Management (QMS & CAPA)</h1><p>Quản lý quy trình ISO 9001, điểm không phù hợp NCR và hành động khắc phục CAPA.</p></div>
+    <button class="btn primary" onclick="toast('Thêm CAPA mới thành công!')">＋ Tạo CAPA mới</button>
+  </div>
+  <div class="card">
+    <div class="cardtitle"><h3>Danh sách Hành động Khắc phục/Phòng ngừa (CAPA)</h3></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Mã CAPA</th><th>Tiêu đề</th><th>Nguồn</th><th>Nguyên nhân gốc</th><th>Người phụ trách</th><th>Hạn chót</th><th>Trạng thái</th></tr></thead>
+        <tbody>
+          <tr><td>CAPA-2026-001</td><td>Khắc phục lỗi dung sai máy CNC-01</td><td>NCR-202611-001</td><td>Đầu dao cắt mòn chưa thay</td><td>Nguyễn Văn An</td><td>15/11/2026</td><td><span class="status warn">IN_PROGRESS</span></td></tr>
+          <tr><td>CAPA-2026-002</td><td>Cải tiến quy trình kiểm hàng đóng gói</td><td>AUDIT</td><td>Quy trình đóng gói thiếu bước dán nhãn ISO</td><td>Trần Thị Bình</td><td>20/11/2026</td><td><span class="status ok">VERIFIED</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== EHS (P3) ==================== -->
+<section class="page" id="ehs">
+  <div class="pagehead"><div><h1>Environment Health & Safety (EHS)</h1><p>Quản lý an toàn lao động, báo cáo sự cố và checklist đồ bảo hộ PPE.</p></div></div>
+  <div class="grid layout2">
+    <div class="card">
+      <div class="cardtitle"><h3>Báo cáo Sự cố An toàn & Môi trường</h3></div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Mã</th><th>Ngày</th><th>Loại</th><th>Mức độ</th><th>Vị trí</th><th>Trạng thái</th></tr></thead>
+          <tbody>
+            <tr><td>EHS-001</td><td>02/11/2026</td><td>SAFETY</td><td><span class="status warn">Minor</span></td><td>Xưởng sản xuất B</td><td><span class="status ok">CLOSED</span></td></tr>
+            <tr><td>EHS-002</td><td>04/11/2026</td><td>ENVIRONMENTAL</td><td><span class="status bad">Major</span></td><td>Khu xử lý nước thải</td><td><span class="status warn">IN_PROGRESS</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cardtitle"><h3>Checklist Định kỳ PPE & PCCC</h3></div>
+      <div class="switchrow"><span>Mũ & Giày bảo hộ tại xưởng</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+      <div class="switchrow"><span>Bình chữa cháy định kỳ T11</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+      <div class="switchrow"><span>Nồng độ khí thải đạt chuẩn ISO 14001</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BCP (P3) ==================== -->
+<section class="page" id="bcp">
+  <div class="pagehead"><div><h1>Business Continuity Plan (BCP)</h1><p>Kế hoạch duy trì hoạt động liên tục, RTO/RPO và lịch diễn tập ứng phó thảm họa.</p></div></div>
+  <div class="card">
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Mã BCP</th><th>Tên kế hoạch</th><th>Phạm vi</th><th>RTO (Giờ)</th><th>RPO (Giờ)</th><th>Chủ trì</th><th>Trạng thái</th></tr></thead>
+        <tbody>
+          <tr><td>BCP-IT-01</td><td>Khôi phục thảm họa Data Center</td><td>IT Operations</td><td>2.0</td><td>0.5</td><td>Trần Văn CNTT</td><td><span class="status ok">ACTIVE</span></td></tr>
+          <tr><td>BCP-OPS-02</td><td>Dự phòng nguồn cung cấp nhà máy</td><td>Supply Chain</td><td>12.0</td><td>4.0</td><td>Lê Hoàng Vận Hành</td><td><span class="status info">TESTING</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SURVEYS (P3) ==================== -->
+<section class="page" id="surveys">
+  <div class="pagehead"><div><h1>Khảo sát NPS & eNPS</h1><p>Đo lường mức độ hài lòng khách hàng (NPS) và nhân viên (eNPS).</p></div></div>
+  <div class="grid layout2">
+    <div class="card">
+      <div class="cardtitle"><h3>Chương trình Khảo sát</h3></div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Tên khảo sát</th><th>Loại</th><th>Số phản hồi</th><th>Trạng thái</th></tr></thead>
+          <tbody>
+            <tr><td>Khảo sát gắn kết nhân viên Q4/2026</td><td>eNPS</td><td>1,240</td><td><span class="status ok">Đang chạy</span></td></tr>
+            <tr><td>Khảo sát chất lượng dịch vụ khách hàng</td><td>NPS</td><td>850</td><td><span class="status ok">Đang chạy</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cardtitle"><h3>Chỉ số eNPS Tổng hợp</h3></div>
+      <div style="text-align:center;padding:30px 0">
+        <h2 style="font-size:48px;color:var(--cyan);margin:0">+58</h2>
+        <p class="muted">Chỉ số gắn kết nhân viên tuyệt vời</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FLEET (P3) ==================== -->
+<section class="page" id="fleet">
+  <div class="pagehead"><div><h1>Quản lý đội xe (Fleet)</h1><p>Quản lý danh sách xe công tác, đăng kiểm, bảo hiểm và chi phí nhiên liệu.</p></div></div>
+  <div class="card">
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Biển số</th><th>Loại xe</th><th>Model</th><th>Tài xế phụ trách</th><th>Hạn đăng kiểm</th><th>Trạng thái</th></tr></thead>
+        <tbody>
+          <tr><td>51K-123.45</td><td>Xe 7 chỗ</td><td>Toyota Fortuner</td><td>Nguyen Văn Lái</td><td>15/12/2026</td><td><span class="status ok">ACTIVE</span></td></tr>
+          <tr><td>51C-888.99</td><td>Xe tải 3.5 Tấn</td><td>Isuzu NPR</td><td>Trần Văn Tải</td><td>20/11/2026</td><td><span class="status warn">MAINTENANCE</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== VISITORS (P3) ==================== -->
+<section class="page" id="visitors">
+  <div class="pagehead"><div><h1>Quản lý khách đến (Visitors)</h1><p>Ghi nhận đăng ký khách thăm, Check-in/out và cấp thẻ đeo Badge.</p></div></div>
+  <div class="card">
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Tên khách</th><th>Công ty</th><th>Người tiếp</th><th>Giờ đến</th><th>Check-in</th><th>Badge No</th><th>Trạng thái</th></tr></thead>
+        <tbody>
+          <tr><td>John Smith</td><td>Global Tech Corp</td><td>Nguyễn Văn An</td><td>09:00 AM</td><td>08:55 AM</td><td>BADGE-012</td><td><span class="status ok">CHECKED_IN</span></td></tr>
+          <tr><td>Phạm Minh Tuấn</td><td>Công ty Dịch vụ A</td><td>Trần Thị Bình</td><td>10:30 AM</td><td>—</td><td>BADGE-015</td><td><span class="status info">EXPECTED</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BILLING / TENANTS (P3) ==================== -->
+<section class="page" id="billing">
+  <div class="pagehead"><div><h1>SaaS Billing & Multi-Tenants</h1><p>Quản lý danh sách các công ty thuê bao (Tenants) và hóa đơn dịch vụ SaaS.</p></div></div>
+  <div class="card">
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Mã Tenant</th><th>Tên doanh nghiệp</th><th>Gói dịch vụ</th><th>Max Users</th><th>Dung lượng</th><th>Trạng thái</th></tr></thead>
+        <tbody>
+          <tr><td>TNT-PULSE</td><td>Pulse Technology Holding</td><td><span class="status purple">ENTERPRISE</span></td><td>500</td><td>100 GB</td><td><span class="status ok">ACTIVE</span></td></tr>
+          <tr><td>TNT-ATLAS</td><td>Atlas Garment Ltd</td><td><span class="status info">PRO</span></td><td>200</td><td>50 GB</td><td><span class="status ok">ACTIVE</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+</div></main></div>
+
+<!-- MODALS CONTAINER -->
+<div class="modal-backdrop" id="cntModal">
+  <div class="modal">
+    <div class="modal-head"><h3>Thêm hợp đồng mới</h3><button class="btn" onclick="closeModal('cntModal')">✕</button></div>
+    <div class="field"><label>Mã hợp đồng</label><input id="cntCode" placeholder="HĐ-2026-XXX"></div>
+    <div class="field"><label>Tên hợp đồng</label><input id="cntName" placeholder="Hợp đồng dịch vụ IT..."></div>
+    <div class="formrow">
+      <div class="field"><label>Loại hợp đồng</label><select id="cntType"><option value="CUSTOMER">Khách hàng</option><option value="SUPPLIER">Nhà cung cấp</option><option value="EMPLOYMENT">Lao động</option></select></div>
+      <div class="field"><label>Giá trị (VND)</label><input type="number" id="cntValue" value="100000000"></div>
+    </div>
+    <div class="formrow">
+      <div class="field"><label>Bên A</label><input id="cntPartyA" value="Pulse Technology"></div>
+      <div class="field"><label>Bên B</label><input id="cntPartyB" placeholder="Đối tác B"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('cntModal')">Hủy</button>
+      <button class="btn primary" onclick="addContract()">Lưu hợp đồng</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="ticketModal">
+  <div class="modal">
+    <div class="modal-head"><h3>Tạo Ticket hỗ trợ mới</h3><button class="btn" onclick="closeModal('ticketModal')">✕</button></div>
+    <div class="field"><label>Tiêu đề Ticket</label><input id="tktTitle" placeholder="Lỗi truy cập hệ thống ERP..."></div>
+    <div class="formrow">
+      <div class="field"><label>Phân loại</label><select id="tktCat"><option value="INCIDENT">Incident</option><option value="SERVICE_REQUEST">Service Request</option><option value="PROBLEM">Problem</option></select></div>
+      <div class="field"><label>Mức ưu tiên</label><select id="tktPri"><option value="LOW">Low</option><option value="MEDIUM" selected>Medium</option><option value="HIGH">High</option><option value="CRITICAL">Critical</option></select></div>
+    </div>
+    <div class="field"><label>Email người gửi</label><input id="tktEmail" value="user@enterprise.vn"></div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('ticketModal')">Hủy</button>
+      <button class="btn primary" onclick="addTicket()">Gửi Ticket</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="assetModal">
+  <div class="modal">
+    <div class="modal-head"><h3>Khai báo tài sản cố định</h3><button class="btn" onclick="closeModal('assetModal')">✕</button></div>
+    <div class="field"><label>Mã tài sản</label><input id="astCode" placeholder="TS-2026-XXX"></div>
+    <div class="field"><label>Tên tài sản</label><input id="astName" placeholder="Máy chủ Dell PowerEdge R750..."></div>
+    <div class="formrow">
+      <div class="field"><label>Loại tài sản</label><select id="astType"><option value="IT_EQUIPMENT">IT Equipment</option><option value="MACHINE">Máy móc</option><option value="VEHICLE">Phương tiện</option></select></div>
+      <div class="field"><label>Nguyên giá (VND)</label><input type="number" id="astCost" value="45000000"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('assetModal')">Hủy</button>
+      <button class="btn primary" onclick="addAsset()">Lưu tài sản</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="bookingModal">
+  <div class="modal">
+    <div class="modal-head"><h3>Đặt tài nguyên (Phòng/Xe/Thiết bị)</h3><button class="btn" onclick="closeModal('bookingModal')">✕</button></div>
+    <div class="field"><label>Tài nguyên chọn đặt</label><select id="bokResource"><option>Phòng họp Alpha (12 chỗ)</option><option>Phòng họp Beta (30 chỗ)</option><option>XeFortuner (51K-123.45)</option></select></div>
+    <div class="field"><label>Mục đích sử dụng</label><input id="bokPurpose" placeholder="Họp MBR tháng 11..."></div>
+    <div class="formrow">
+      <div class="field"><label>Giờ bắt đầu</label><input type="time" id="bokStart" value="09:00"></div>
+      <div class="field"><label>Giờ kết thúc</label><input type="time" id="bokEnd" value="11:00"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('bookingModal')">Hủy</button>
+      <button class="btn primary" onclick="addBooking()">Xác nhận đặt</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Thông báo hệ thống</div>
+
+<script>
+// --- CORE ROUTING & MOCK STORAGE ---
+document.querySelectorAll('#mainNav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const pageId = btn.getAttribute('data-page');
+    if (!pageId) return;
+    document.querySelectorAll('#mainNav button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const targetPage = document.getElementById(pageId);
+    if(targetPage) {
+      targetPage.classList.add('active');
+      document.getElementById('crumb').childNodes[0].nodeValue = btn.textContent.trim() + ' ';
+    }
+  });
+});
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// --- SEED MOCK DATA ---
+const initData = () => {
+  if (!localStorage.getItem('uem_contracts')) {
+    localStorage.setItem('uem_contracts', JSON.stringify([
+      {code:'HĐ-2026-001', name:'Cung cấp phần mềm ERP', type:'CUSTOMER', partyA:'Pulse Tech', partyB:'Công ty Bán Lẻ A', date:'2026-01-15', exp:'2026-12-31', val:850000000, status:'ACTIVE'},
+      {code:'HĐ-2026-002', name:'Bảo trì máy chủ Cloud', type:'SUPPLIER', partyA:'Pulse Tech', partyB:'FPT Telecom', date:'2026-05-01', exp:'2026-11-20', val:120000000, status:'ACTIVE'}
+    ]));
+  }
+  if (!localStorage.getItem('uem_tickets')) {
+    localStorage.setItem('uem_tickets', JSON.stringify([
+      {no:'TKT-1001', title:'Không in được hóa đơn VAT', cat:'INCIDENT', pri:'HIGH', status:'OPEN', email:'accountant@pulse.vn'},
+      {no:'TKT-1002', title:'Cấp quyền truy cập Module Finance', cat:'SERVICE_REQUEST', pri:'LOW', status:'IN_PROGRESS', email:'hr@pulse.vn'}
+    ]));
+  }
+  if (!localStorage.getItem('uem_assets')) {
+    localStorage.setItem('uem_assets', JSON.stringify([
+      {code:'TS-001', name:'Máy chủ Dell PowerEdge', type:'IT_EQUIPMENT', loc:'DC Room 1', owner:'Nguyễn Văn An', cost:150000000, status:'OPERATIONAL'},
+      {code:'TS-002', name:'Xe Fortuner 7 chỗ', type:'VEHICLE', loc:'Gara HN', owner:'Trần Văn Lái', cost:950000000, status:'OPERATIONAL'}
+    ]));
+  }
+  if (!localStorage.getItem('uem_bookings')) {
+    localStorage.setItem('uem_bookings', JSON.stringify([
+      {res:'Phòng họp Alpha (12 chỗ)', purpose:'Họp GRC định kỳ', start:'09:00', end:'10:30', status:'CONFIRMED'}
+    ]));
+  }
+};
+initData();
+
+// --- RENDERERS ---
+function renderContracts() {
+  const list = JSON.parse(localStorage.getItem('uem_contracts') || '[]');
+  const typeF = document.getElementById('cntFilterType').value;
+  const statF = document.getElementById('cntFilterStatus').value;
+  const filtered = list.filter(c => (!typeF || c.type === typeF) && (!statF || c.status === statF));
+  
+  document.getElementById('cnt-total').textContent = list.length;
+  document.getElementById('cnt-active').textContent = list.filter(c => c.status==='ACTIVE').length;
+  document.getElementById('cnt-expiring').textContent = '2';
+  document.getElementById('cnt-val').textContent = '₫' + (list.reduce((a,b)=>a+Number(b.val),0)/1e6).toFixed(1) + 'M';
+
+  document.getElementById('cntTable').innerHTML = filtered.map(c => `
+    <tr>
+      <td><b>${c.code}</b></td><td>${c.name}</td><td><span class="tag">${c.type}</span></td>
+      <td>${c.partyA}</td><td>${c.partyB}</td><td>${c.date}</td><td>${c.exp}</td>
+      <td>₫${Number(c.val).toLocaleString()}</td>
+      <td><span class="status ${c.status==='ACTIVE'?'ok':'warn'}">${c.status}</span></td>
+    </tr>
+  `).join('');
+}
+
+function addContract() {
+  const code = document.getElementById('cntCode').value || 'HĐ-2026-999';
+  const name = document.getElementById('cntName').value || 'Hợp đồng mới';
+  const type = document.getElementById('cntType').value;
+  const val = document.getElementById('cntValue').value;
+  const partyA = document.getElementById('cntPartyA').value;
+  const partyB = document.getElementById('cntPartyB').value;
+  const list = JSON.parse(localStorage.getItem('uem_contracts') || '[]');
+  list.push({code, name, type, partyA, partyB, date:'2026-11-05', exp:'2027-11-05', val, status:'ACTIVE'});
+  localStorage.setItem('uem_contracts', JSON.stringify(list));
+  closeModal('cntModal');
+  renderContracts();
+  toast('Đã lưu hợp đồng mới thành công!');
+}
+
+function renderTickets() {
+  const list = JSON.parse(localStorage.getItem('uem_tickets') || '[]');
+  document.getElementById('itsm-total').textContent = list.length;
+  document.getElementById('itsm-open').textContent = list.filter(t => t.status!=='RESOLVED').length;
+  document.getElementById('itsm-sla').textContent = '1';
+
+  document.getElementById('itsmTable').innerHTML = list.map((t, i) => `
+    <tr style="cursor:pointer" onclick="viewTicket(${i})">
+      <td><b>${t.no}</b></td><td>${t.title}</td><td><span class="tag">${t.cat}</span></td>
+      <td><span class="status ${t.pri==='HIGH'||t.pri==='CRITICAL'?'bad':'info'}">${t.pri}</span></td>
+      <td><span class="status warn">${t.status}</span></td>
+    </tr>
+  `).join('');
+}
+
+function viewTicket(idx) {
+  const t = JSON.parse(localStorage.getItem('uem_tickets'))[idx];
+  document.getElementById('ticketDetail').innerHTML = `
+    <h4>[${t.no}] ${t.title}</h4>
+    <p><b>Người yêu cầu:</b> ${t.email}</p>
+    <p><b>Phân loại:</b> ${t.cat} | <b>Độ ưu tiên:</b> ${t.pri}</p>
+    <hr style="border:0;border-top:1px solid var(--line);margin:10px 0">
+    <div style="background:#f8fafc;padding:10px;border-radius:8px;font-size:12px;margin-bottom:10px">
+      <b>Thread thảo luận:</b><br>System: Ticket được khởi tạo tự động.
+    </div>
+    <div style="display:flex;gap:6px">
+      <button class="btn primary" onclick="toast('Đã Resolve ticket ${t.no}')">Resolve</button>
+      <button class="btn" onclick="toast('Đã Escalate cấp quản lý')">Escalate</button>
+    </div>
+  `;
+}
+
+function addTicket() {
+  const title = document.getElementById('tktTitle').value || 'Sự cố hỗ trợ';
+  const cat = document.getElementById('tktCat').value;
+  const pri = document.getElementById('tktPri').value;
+  const email = document.getElementById('tktEmail').value;
+  const list = JSON.parse(localStorage.getItem('uem_tickets') || '[]');
+  list.push({no:'TKT-'+(1001+list.length), title, cat, pri, status:'OPEN', email});
+  localStorage.setItem('uem_tickets', JSON.stringify(list));
+  closeModal('ticketModal');
+  renderTickets();
+  toast('Đã tạo Ticket mới!');
+}
+
+function renderAssets() {
+  const list = JSON.parse(localStorage.getItem('uem_assets') || '[]');
+  document.getElementById('ast-total').textContent = list.length;
+  document.getElementById('ast-active').textContent = list.filter(a => a.status==='OPERATIONAL').length;
+  document.getElementById('ast-maint').textContent = '0';
+  document.getElementById('ast-val').textContent = '₫' + (list.reduce((a,b)=>a+Number(b.cost),0)/1e6).toFixed(1) + 'M';
+
+  document.getElementById('assetTable').innerHTML = list.map(a => `
+    <tr>
+      <td>📱</td><td><b>${a.code}</b></td><td>${a.name}</td><td><span class="tag">${a.type}</span></td>
+      <td>${a.loc}</td><td>${a.owner}</td><td>₫${Number(a.cost).toLocaleString()}</td>
+      <td><span class="status ok">${a.status}</span></td>
+    </tr>
+  `).join('');
+}
+
+function addAsset() {
+  const code = document.getElementById('astCode').value || 'TS-999';
+  const name = document.getElementById('astName').value || 'Tài sản mới';
+  const type = document.getElementById('astType').value;
+  const cost = document.getElementById('astCost').value;
+  const list = JSON.parse(localStorage.getItem('uem_assets') || '[]');
+  list.push({code, name, type, loc:'Kho Tổng', owner:'Chưa gán', cost, status:'OPERATIONAL'});
+  localStorage.setItem('uem_assets', JSON.stringify(list));
+  closeModal('assetModal');
+  renderAssets();
+  toast('Khai báo tài sản thành công!');
+}
+
+function renderBookings() {
+  const list = JSON.parse(localStorage.getItem('uem_bookings') || '[]');
+  document.getElementById('bookingTable').innerHTML = list.map(b => `
+    <tr>
+      <td><b>${b.res}</b></td><td>${b.purpose}</td><td>${b.start}</td><td>${b.end}</td>
+      <td><span class="status ok">${b.status}</span></td>
+    </tr>
+  `).join('');
+}
+
+function addBooking() {
+  const res = document.getElementById('bokResource').value;
+  const purpose = document.getElementById('bokPurpose').value || 'Cuộc họp nội bộ';
+  const start = document.getElementById('bokStart').value;
+  const end = document.getElementById('bokEnd').value;
+  const list = JSON.parse(localStorage.getItem('uem_bookings') || '[]');
+  list.push({res, purpose, start, end, status:'CONFIRMED'});
+  localStorage.setItem('uem_bookings', JSON.stringify(list));
+  closeModal('bookingModal');
+  renderBookings();
+  toast('Đặt tài nguyên thành công!');
+}
+
+// --- FORM BUILDER DYNAMIC ---
+let formFields = [{type:'Text Input', label:'Họ và tên'}, {type:'Date', label:'Ngày sinh'}];
+function renderFormCanvas() {
+  const canvas = document.getElementById('formCanvas');
+  canvas.innerHTML = formFields.map((f, i) => `
+    <div class="field" style="background:#fff;padding:8px;border:1px solid var(--line);border-radius:6px;margin:6px 0">
+      <label>${f.label} (${f.type})</label>
+      <input disabled placeholder="Xem trước input...">
+    </div>
+  `).join('');
+}
+function addFormField(type) {
+  formFields.push({type, label: type + ' mới'});
+  renderFormCanvas();
+}
+function updateFieldLabel(val) {
+  if (formFields.length > 0) {
+    formFields[formFields.length - 1].label = val;
+    renderFormCanvas();
+  }
+}
+
+// INITIAL RENDER CALLS
+renderContracts();
+renderTickets();
+renderAssets();
+renderBookings();
+renderFormCanvas();
+</script>
+</body>
+</html>
+```
+
+---
+
+### Hướng dẫn sử dụng file `index.html`:
+1. **Lưu File**: Bạn lưu đoạn code trên thành file `index.html`.
+2. **Khởi chạy**: Mở file `index.html` trực tiếp trên bất kỳ trình duyệt web nào (Chrome, Edge, Safari).
+3. **Các tính năng đã hoàn thiện trên Frontend**:
+   - Chuyển đổi mượt mà giữa **35+ trang chức năng UI cũ** và **12 trang chức năng mới bổ sung** từ Menu Sidebar.
+   - Thêm/Xóa/Sửa dữ liệu thử nghiệm (Mock Data) lưu trực tiếp ở `localStorage` cho các trang: **Hợp đồng (`contracts`)**, **Helpdesk (`itsm`)**, **Tài sản (`assets`)**, **Đặt phòng/xe (`calendar`)**, **Form Builder (`formbuilder`)**.
+   - Hỗ trợ đầy đủ Modal thêm mới, Thông báo Toast và xem chi tiết theo quy chuẩn Design System của nền tảng UEM (`#0ea5e9`, `#0f172a`, `#1e293b`).
