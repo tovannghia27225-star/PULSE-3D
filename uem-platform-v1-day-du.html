@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1730">
+<title>UEM — Universal Enterprise Management v1.0 Complete</title>
+<style>
+:root{--navy:#0b1730;--navy2:#122747;--blue:#2563eb;--cyan:#0ea5e9;--bg:#f3f6fb;--card:#fff;--ink:#17243b;--muted:#718096;--line:#e5eaf2;--green:#0f9f6e;--greenbg:#e7f7f0;--amber:#d97706;--amberbg:#fff4df;--red:#dc5252;--redbg:#ffeded;--purple:#7657d5;--purplebg:#f1edff;--shadow:0 8px 26px rgba(18,39,71,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:258px 1fr}.sidebar{background:linear-gradient(180deg,#0b1730,#102747);color:#dce8fa;padding:22px 15px;position:sticky;top:0;height:100vh;overflow:auto}.brand{display:flex;align-items:center;gap:11px;padding:4px 10px 24px}.brandmark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#38bdf8,#2563eb);display:grid;place-items:center;color:white;font-weight:900;font-size:19px}.brand strong{display:block;font-size:16px;letter-spacing:.5px}.brand small{color:#91a8c7;font-size:10px;letter-spacing:1.3px}.navlabel{font-size:10px;color:#7790b3;font-weight:800;letter-spacing:1.4px;padding:16px 12px 7px}.nav button{width:100%;border:0;background:transparent;color:#b8c8df;text-align:left;padding:10px 12px;border-radius:9px;margin:2px 0;display:flex;gap:11px;align-items:center;font-size:13px}.nav button:hover,.nav button.active{background:#1c3b65;color:white}.nav .ico{width:19px;text-align:center;font-size:15px}.sidebottom{border-top:1px solid #29415f;margin-top:24px;padding:16px 10px;color:#91a8c7;font-size:11px}.main{min-width:0}.topbar{height:70px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}.crumb{font-weight:750;font-size:15px}.crumb small{display:block;color:var(--muted);font-size:11px;font-weight:450}.topright{display:flex;align-items:center;gap:12px}.pill{border:1px solid var(--line);border-radius:20px;padding:6px 11px;color:#52627a;font-size:11px;background:#fff}.avatar{width:34px;height:34px;border-radius:50%;background:#dbeafe;color:#1d4ed8;display:grid;place-items:center;font-weight:800}.content{padding:26px 28px 50px;max-width:1600px;margin:auto}.page{display:none}.page.active{display:block}.pagehead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:22px}.pagehead h1{font-size:24px;margin:0 0 5px;letter-spacing:-.5px}.pagehead p{margin:0;color:var(--muted);font-size:13px}.btn{border:1px solid var(--line);background:#fff;color:#34445e;padding:9px 13px;border-radius:9px;font-weight:650;font-size:12px}.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}.btn.dark{background:var(--navy);border-color:var(--navy);color:#fff}.btn.danger{background:var(--red);border-color:var(--red);color:#fff}.btn:hover{filter:brightness(.97)}.grid{display:grid;gap:16px}.kpis{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);min-width:0}.kpi-label{color:var(--muted);font-size:11px;font-weight:650}.kpi-value{font-size:26px;font-weight:800;letter-spacing:-.8px;margin:6px 0}.delta{font-size:11px;color:var(--green)}.layout2{grid-template-columns:1.45fr 1fr}.layout3{grid-template-columns:repeat(3,1fr)}.layout4{grid-template-columns:repeat(4,minmax(0,1fr))}.cardtitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.cardtitle h3{font-size:14px;margin:0}.muted{color:var(--muted)}.small{font-size:11px}.barrow{display:grid;grid-template-columns:110px 1fr 38px;align-items:center;gap:10px;margin:13px 0;font-size:11px}.track{height:8px;background:#edf1f7;border-radius:10px;overflow:hidden}.fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#2563eb,#38bdf8)}.health{display:flex;align-items:center;gap:16px}.donut{width:104px;height:104px;border-radius:50%;background:conic-gradient(#0f9f6e 0 78%,#e8eef6 78% 100%);display:grid;place-items:center;flex-shrink:0}.donut:after{content:"78%";width:75px;height:75px;background:white;border-radius:50%;display:grid;place-items:center;font-weight:850;font-size:20px}.status{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:20px;font-size:10px;font-weight:750}.ok{background:var(--greenbg);color:#087a51}.warn{background:var(--amberbg);color:#a45b00}.bad{background:var(--redbg);color:#b83232}.info{background:#eaf2ff;color:#2459bd}.purple{background:var(--purplebg);color:#6845c5}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:12px}th{text-align:left;color:#77849a;font-size:10px;text-transform:uppercase;letter-spacing:.7px;padding:11px 10px;border-bottom:1px solid var(--line)}td{padding:12px 10px;border-bottom:1px solid #edf1f6}tr:last-child td{border:0}.org{display:flex;align-items:center;gap:10px}.orgicon{width:34px;height:34px;border-radius:10px;background:#eaf2ff;color:#2459bd;display:grid;place-items:center;font-weight:850}.org small{display:block;color:var(--muted)}.alert{padding:11px 12px;border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:9px;margin:9px 0;font-size:11px}.alert.red{border-left-color:var(--red)}.alert.green{border-left-color:var(--green)}.modulegrid{grid-template-columns:repeat(3,minmax(0,1fr))}.module{border:1px solid var(--line);border-radius:12px;padding:15px;background:#fff;transition:.15s}.module:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.module .mi{font-size:21px;margin-bottom:9px}.module h3{font-size:13px;margin:0 0 5px}.module p{font-size:11px;color:var(--muted);margin:0 0 12px}.modulefoot{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#62728b}.agentgrid{grid-template-columns:repeat(3,1fr)}.agent{display:flex;gap:12px;align-items:flex-start}.agenticon{width:39px;height:39px;flex-shrink:0;border-radius:12px;background:#edf4ff;display:grid;place-items:center;font-size:18px}.agent h4{margin:0 0 3px;font-size:12px}.agent p{margin:0;color:var(--muted);font-size:10px}.chatbox{display:flex;flex-direction:column;height:530px}.chatmessages{flex:1;overflow:auto;padding:6px 2px}.msg{max-width:88%;padding:11px 13px;border-radius:12px;margin:10px 0;font-size:12px}.msg.ai{background:#f0f5fc;border:1px solid #e3ebf6}.msg.user{background:#eaf2ff;margin-left:auto;color:#173f83}.msg small{display:block;color:#78869b;font-size:9px;margin-bottom:4px}.chatinput{display:flex;gap:8px;border-top:1px solid var(--line);padding-top:13px}.chatinput input{flex:1;min-width:0;border:1px solid var(--line);border-radius:9px;padding:10px 12px;outline:none}.chatinput input:focus{border-color:#80a9f7}.tag{font-size:10px;padding:4px 7px;background:#f0f4fa;border-radius:6px;color:#53647d;display:inline-block;margin:2px}.search{border:1px solid var(--line);border-radius:9px;padding:9px 11px;min-width:210px;outline:none}.field{display:grid;gap:5px;margin:10px 0}.field label{font-size:11px;font-weight:700;color:#56657b}.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:8px;padding:10px;background:white;min-width:0}.field textarea{min-height:80px;resize:vertical}.formrow{display:grid;grid-template-columns:1fr 1fr;gap:12px}.knowledge{border:1px solid var(--line);padding:13px;border-radius:10px;margin:8px 0}.knowledge strong{font-size:12px}.knowledge p{margin:4px 0 0;color:var(--muted);font-size:10px}.progress{height:6px;background:#edf1f7;border-radius:10px;margin-top:8px}.progress span{display:block;height:100%;background:#2f73e8;border-radius:10px}.timeline{border-left:2px solid #dce6f4;margin-left:7px;padding-left:17px}.event{position:relative;margin:0 0 17px}.event:before{content:"";position:absolute;left:-23px;top:4px;width:9px;height:9px;border-radius:50%;background:#3980ed}.event strong{font-size:11px}.event p{margin:3px 0;color:var(--muted);font-size:10px}.switchrow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}.switch{width:34px;height:19px;border-radius:20px;background:#cbd5e1;position:relative;cursor:pointer}.switch:after{content:"";position:absolute;left:2px;top:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:.2s}.switch.on{background:#2563eb}.switch.on:after{left:17px}.notice{background:#fff8e9;border:1px solid #f4dfb7;border-radius:10px;padding:12px 14px;color:#805314;font-size:11px;margin-bottom:16px}.empty{padding:35px;text-align:center;color:var(--muted)}.toast{position:fixed;bottom:20px;right:20px;background:#122747;color:white;padding:12px 16px;border-radius:10px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:.2s;z-index:20;font-size:12px}.toast.show{opacity:1;transform:translateY(0)}.mobilemenu{display:none}.subnav{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}.subnav .btn{font-size:10px}.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:16px}.tab{padding:8px 14px;font-size:12px;font-weight:650;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer}.tab.active{color:var(--blue);border-bottom-color:var(--blue)}.tabcontent{display:none}.tabcontent.active{display:block}.wizardback{position:fixed;inset:0;background:#08172dcc;z-index:50;display:none;align-items:center;justify-content:center;padding:16px}.wizardback.open{display:flex}.wizard{background:white;width:min(920px,100%);max-height:92vh;overflow:auto;border-radius:18px;padding:22px;box-shadow:0 25px 80px #0005}.wizardsteps{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}.wizardstep{padding:6px 10px;border-radius:20px;background:#edf1f7;color:#63728a;font-size:10px}.wizardstep.active{background:#dceaff;color:#1d4ed8;font-weight:800}.wizardfoot{display:flex;justify-content:space-between;gap:8px;margin-top:18px;border-top:1px solid var(--line);padding-top:15px}.influence-card{border:1px solid #cbdcf7;background:linear-gradient(180deg,#fff,#fbfdff)}.influence-map{display:grid;gap:8px}.influence-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;font-size:11px}.influence-row b{font-size:11px}.influence-row small{color:var(--muted)}.previewbox{background:#f4f8ff;border:1px solid #dce8fb;border-radius:10px;padding:12px;min-height:180px;font-size:11px}.previewbox ul{padding-left:18px;margin:8px 0}.previewbox li{margin:5px 0}.dividerline{height:1px;background:var(--line);margin:18px 0}.influence-control{border:1px solid var(--line);border-radius:10px;padding:11px;background:#fff}.influence-control label{font-size:11px;font-weight:750;display:block;margin-bottom:6px}.influence-control select{width:100%;border:1px solid var(--line);border-radius:7px;padding:8px;background:white;font-size:11px}.influence-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:15px}.weightrow input{accent-color:#2563eb}.choicegrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.choice{border:1px solid var(--line);border-radius:11px;padding:12px;background:#fff;cursor:pointer;text-align:left}.choice.selected{border-color:#4383ec;background:#f2f7ff;box-shadow:0 0 0 2px #dbeafe}.choice b{display:block;font-size:12px}.choice small{color:var(--muted);font-size:10px}.weightrow{display:grid;grid-template-columns:150px 1fr 45px;gap:10px;align-items:center;margin:9px 0;font-size:11px}.weightrow input{width:100%}.weighttotal{font-weight:800;padding:9px 11px;background:#f0f5fc;border-radius:8px;display:inline-block}.hero{background:linear-gradient(120deg,#102747,#1d4e89);color:#fff;border-radius:16px;padding:22px;margin-bottom:16px}.hero p{color:#d4e3f8;max-width:850px}.hero .btn{margin-top:8px}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chip{background:#edf4ff;color:#2459bd;border-radius:20px;padding:5px 9px;font-size:10px;font-weight:700}.ganttbar{height:28px;background:#dbeafe;border-radius:6px;margin:4px 0;position:relative;overflow:hidden}.ganttbar span{position:absolute;left:0;top:0;height:100%;background:#2563eb;border-radius:6px}.ganttlabel{font-size:10px;color:var(--muted);display:flex;justify-content:space-between;margin-top:2px}.orgtree{display:flex;flex-direction:column;align-items:center;gap:8px}.orgnode{background:#eaf2ff;border:1px solid #bfdbfe;border-radius:10px;padding:10px 18px;text-align:center;font-size:12px;font-weight:700;color:#1d4ed8}.orgline{width:2px;height:16px;background:#bfdbfe}.orghorz{display:flex;gap:24px;align-items:flex-start}.docitem{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:10px;margin:6px 0;background:#fff}.docicon{width:36px;height:36px;border-radius:9px;background:#f3f6fb;display:grid;place-items:center;font-size:16px}.notifitem{display:flex;gap:10px;padding:10px;border-bottom:1px solid #edf1f6;align-items:flex-start}.notifitem:last-child{border:0}.notifdot{width:8px;height:8px;border-radius:50%;background:var(--blue);margin-top:5px;flex-shrink:0}.notifdot.warn{background:var(--amber)}.notifdot.crit{background:var(--red)}.auditrow{display:flex;gap:10px;padding:10px;border-bottom:1px solid #edf1f6;font-size:11px}.auditrow:last-child{border:0}.importarea{border:2px dashed var(--line);border-radius:14px;padding:30px;text-align:center;background:#fafbfc}.importarea:hover{border-color:var(--blue);background:#f4f8ff}.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.kanbancol{background:#f8fafc;border-radius:12px;padding:12px}.kanbancol h4{font-size:11px;margin:0 0 10px;color:#56657b}.kanbancard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0;font-size:11px}.calendar{ display:grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }.calday{ aspect-ratio:1; border:1px solid var(--line); border-radius:10px; display:grid; place-items:center; font-size:11px; background:#fff; position:relative}.calday.has::after{content:"";position:absolute;bottom:6px;width:5px;height:5px;border-radius:50%;background:var(--blue)}.calday.today{border-color:var(--blue);background:#eaf2ff;font-weight:700}
+@media(max-width:1050px){.app{grid-template-columns:220px 1fr}.kpis{grid-template-columns:repeat(2,1fr)}.modulegrid,.agentgrid,.layout4{grid-template-columns:repeat(2,1fr)}.layout2{grid-template-columns:1fr}.kanban{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.app{display:block}.sidebar{position:fixed;left:-270px;width:250px;z-index:15;transition:.2s}.sidebar.open{left:0}.mobilemenu{display:inline-flex}.topbar{padding:0 14px;height:62px}.content{padding:19px 14px 40px}.pagehead{flex-direction:column}.kpis{gap:9px}.card{padding:14px}.kpi-value{font-size:22px}.modulegrid,.agentgrid,.layout3,.layout4,.kanban{grid-template-columns:1fr}.topright .pill{display:none}.formrow{grid-template-columns:1fr}.search{min-width:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+ <div class="brand"><div class="brandmark">U</div><div><strong>UEM PLATFORM</strong><small>UNIVERSAL ENTERPRISE MANAGEMENT</small></div></div>
+ <nav class="nav">
+  <div class="navlabel">TỔNG QUAN</div>
+  <button class="active" data-page="dashboard"><span class="ico">▦</span>Executive Dashboard</button>
+  <button data-page="organizations"><span class="ico">▣</span>Doanh nghiệp của tôi</button>
+  <button data-page="ai"><span class="ico">✦</span>AI Management Center</button>
+  <div class="navlabel">QUẢN TRỊ DOANH NGHIỆP</div>
+  <button data-page="modules"><span class="ico">◫</span>Enterprise Modules</button>
+  <button data-page="industry"><span class="ico">◈</span>Industry Intelligence</button>
+  <button data-page="bi"><span class="ico">▤</span>Business Intelligence</button>
+  <button data-page="workflow"><span class="ico">⇄</span>Approvals & Workflows</button>
+
+  <div class="navlabel">THIẾT LẬP & QUẢN TRỊ CẤP CAO</div>
+  <button data-page="identity"><span class="ico">◎</span>Bản sắc & Chiến lược</button>
+  <button data-page="leadership"><span class="ico">♜</span>Leadership & Governance</button>
+  <button data-page="governance"><span class="ico">♧</span>Cơ cấu quản trị</button>
+  <button data-page="orgdesign"><span class="ico">⌘</span>Thiết kế tổ chức</button>
+  <button data-page="decisionrights"><span class="ico">⚑</span>Quyền quyết định & DOA</button>
+  <button data-page="operating"><span class="ico">◷</span>Hệ thống điều hành</button>
+  <button data-page="policies"><span class="ico">▤</span>Chính sách & SOP</button>
+
+  <div class="navlabel">VẬN HÀNH & NGHIỆP VỤ</div>
+  <button data-page="hrm"><span class="ico">🧑‍💼</span>HRM vận hành</button>
+  <button data-page="finance"><span class="ico">💰</span>Tài chính & Kế toán</button>
+  <button data-page="scm"><span class="ico">🚚</span>Mua hàng & Kho vận</button>
+  <button data-page="crm"><span class="ico">🛍️</span>CRM & Bán hàng</button>
+  <button data-page="pmo"><span class="ico">📅</span>Quản lý dự án (PMO)</button>
+  <button data-page="manufacturing"><span class="ico">🏭</span>Sản xuất (MES)</button>
+
+  <div class="navlabel">CON NGƯỜI & QUAN HỆ</div>
+  <button data-page="leadershipperformance"><span class="ico">♙</span>Hiệu quả lãnh đạo</button>
+  <button data-page="talent"><span class="ico">✧</span>Chiến lược nhân tài</button>
+  <button data-page="stakeholders"><span class="ico">♧</span>Các bên liên quan</button>
+  <button data-page="lifecycle"><span class="ico">↗</span>Vòng đời doanh nghiệp</button>
+
+  <div class="navlabel">MÔ PHỎNG & DỮ LIỆU</div>
+  <button data-page="simadvanced"><span class="ico">◉</span>Mô phỏng nâng cao</button>
+  <button data-page="datagovernance"><span class="ico">▦</span>Data & AI Governance</button>
+
+  <div class="navlabel">QUẢN TRỊ & KIỂM SOÁT</div>
+  <button data-page="grc"><span class="ico">🛡️</span>GRC vận hành</button>
+  <button data-page="audit"><span class="ico">🔍</span>Kiểm toán & Nhật ký</button>
+  <button data-page="documents"><span class="ico">📄</span>Tài liệu & Lưu trữ</button>
+  <button data-page="notifications"><span class="ico">🔔</span>Thông báo & Hòm thư</button>
+  <button data-page="integrations"><span class="ico">🔌</span>Tích hợp hệ thống</button>
+
+  <div class="navlabel">TRI THỨC & KIỂM SOÁT</div>
+  <button data-page="knowledge"><span class="ico">▧</span>Knowledge Center</button>
+  <button data-page="legal"><span class="ico">⚖</span>Legal & Compliance</button>
+  <button data-page="risk"><span class="ico">◉</span>Risk & Internal Control</button>
+
+  <div class="navlabel">HỆ THỐNG</div>
+  <button data-page="security"><span class="ico">♙</span>Security & Permissions</button>
+  <button data-page="settings"><span class="ico">⚙</span>Settings</button>
+ </nav>
+ <div class="sidebottom">UEM v1.0 Complete · Full-feature concept<br>Enterprise-grade prototype</div>
+</aside>
+<main class="main">
+<header class="topbar">
+ <div style="display:flex;align-items:center;gap:12px"><button class="btn mobilemenu" id="mobilemenu">☰</button><div class="crumb" id="crumb">Executive Dashboard<small>Toàn cảnh sức khỏe hệ sinh thái doanh nghiệp</small></div></div>
+ <div class="topright"><select id="activeEnterpriseSelect" class="pill" aria-label="Doanh nghiệp đang làm việc" onchange="setActiveEnterprise(this.value)" style="max-width:210px"><option value="">Workspace demo</option></select><span class="pill">● Demo environment</span><button class="btn" onclick="openWizard()">＋ Khởi tạo doanh nghiệp</button><span class="pill">🇻🇳 VI</span><div class="avatar">AD</div></div>
+</header>
+<div class="content">
+
+<!-- ==================== DASHBOARD ==================== -->
+<section class="page active" id="dashboard">
+ <div class="pagehead"><div><h1>Executive Dashboard</h1><p>Trung tâm điều hành và giám sát tổng thể hệ sinh thái doanh nghiệp.</p></div><div style="display:flex;gap:8px"><button class="btn" onclick="notify('Đã làm mới dữ liệu demo')">↻ Làm mới</button><button class="btn" onclick="go('notifications')">🔔 Thông báo <span class="tag" id="notifBadge">3</span></button></div></div>
+ <div class="notice">Đây là bản prototype giao diện với dữ liệu minh họa. Các KPI, cảnh báo, AI và trạng thái pháp lý chưa kết nối dữ liệu doanh nghiệp thật.</div>
+ <div class="grid kpis">
+  <div class="card"><div class="kpi-label">DOANH NGHIỆP TRONG HỆ THỐNG</div><div class="kpi-value">08</div><div class="delta">↑ 2 doanh nghiệp trong kỳ</div></div>
+  <div class="card"><div class="kpi-label">TỔNG NHÂN SỰ (DEMO)</div><div class="kpi-value">2,486</div><div class="delta">↑ 4.8% so với kỳ trước</div></div>
+  <div class="card"><div class="kpi-label">DOANH THU HỢP NHẤT</div><div class="kpi-value">₫86.4B</div><div class="delta">↑ 8.2% so với kế hoạch</div></div>
+  <div class="card"><div class="kpi-label">VẤN ĐỀ CẦN CHÚ Ý</div><div class="kpi-value">12</div><div class="delta" style="color:var(--amber)">4 vấn đề mức độ cao</div></div>
+ </div>
+ <div class="grid layout2">
+  <div class="card"><div class="cardtitle"><h3>Hiệu suất theo khối quản trị</h3><span class="small muted">Chỉ số mô phỏng</span></div>
+   <div class="barrow"><span>Tài chính</span><div class="track"><div class="fill" style="width:88%"></div></div><b>88</b></div>
+   <div class="barrow"><span>Nhân sự</span><div class="track"><div class="fill" style="width:82%"></div></div><b>82</b></div>
+   <div class="barrow"><span>Vận hành</span><div class="track"><div class="fill" style="width:74%"></div></div><b>74</b></div>
+   <div class="barrow"><span>Bán hàng</span><div class="track"><div class="fill" style="width:91%"></div></div><b>91</b></div>
+   <div class="barrow"><span>Tuân thủ</span><div class="track"><div class="fill" style="width:69%"></div></div><b>69</b></div>
+  </div>
+  <div class="card"><div class="cardtitle"><h3>Enterprise Health Index</h3><span class="status ok">Ổn định</span></div><div class="health"><div class="donut"></div><div><b>78/100</b><p class="small muted">Sức khỏe tổng hợp minh họa</p><span class="status warn">Cần theo dõi tuân thủ</span><p class="small muted">AI đề xuất rà soát hồ sơ pháp lý và dòng tiền ngắn hạn.</p></div></div></div>
+ </div>
+ <div class="grid layout2" style="margin-top:16px">
+  <div class="card"><div class="cardtitle"><h3>Danh mục doanh nghiệp</h3><button class="btn" onclick="go('organizations')">Xem tất cả →</button></div><div class="tablewrap"><table><thead><tr><th>Doanh nghiệp</th><th>Ngành</th><th>Nhân sự</th><th>Trạng thái</th></tr></thead><tbody>
+   <tr><td><div class="org"><div class="orgicon">PT</div><div><b>Pulse Technology</b><small>Việt Nam · Công ty cổ phần</small></div></div></td><td>Công nghệ</td><td>420</td><td><span class="status ok">Hoạt động</span></td></tr>
+   <tr><td><div class="org"><div class="orgicon">AG</div><div><b>Atlas Garment</b><small>Việt Nam · Công ty TNHH</small></div></div></td><td>Dệt may</td><td>1,250</td><td><span class="status ok">Hoạt động</span></td></tr>
+   <tr><td><div class="org"><div class="orgicon">NV</div><div><b>Nova Logistics</b><small>Việt Nam · Công ty cổ phần</small></div></div></td><td>Logistics</td><td>310</td><td><span class="status warn">Theo dõi</span></td></tr>
+  </tbody></table></div></div>
+  <div class="card"><div class="cardtitle"><h3>AI Executive Alerts</h3><span class="status info">4 mới</span></div>
+   <div class="alert red"><b>Rủi ro dòng tiền</b><br>Dự báo số dư tiền mặt có thể thấp hơn ngưỡng an toàn trong 45 ngày.</div>
+   <div class="alert"><b>Hồ sơ lao động</b><br>Một số hợp đồng sắp đến hạn cần được bộ phận HR xác minh.</div>
+   <div class="alert"><b>Hiệu suất vận hành</b><br>Tỷ lệ giao hàng đúng hạn giảm tại một đơn vị.</div>
+  </div>
+ </div>
+ <div class="grid layout2" style="margin-top:16px">
+  <div class="card"><div class="cardtitle"><h3>Nhật ký kiểm toán gần đây</h3><button class="btn" onclick="go('audit')">Xem đầy đủ →</button></div>
+   <div class="auditrow"><span class="small muted" style="width:130px">2026-11-04 14:22</span><span><b>AI_PERMISSION_UPDATE</b> · uem_ai_permissions</span><span class="status ok">Thành công</span></div>
+   <div class="auditrow"><span class="small muted" style="width:130px">2026-11-04 11:05</span><span><b>WORKFLOW_APPROVED</b> · uem_workflow_instances</span><span class="status ok">Thành công</span></div>
+   <div class="auditrow"><span class="small muted" style="width:130px">2026-11-03 16:40</span><span><b>RISK_ASSESSMENT</b> · uem_risks</span><span class="status warn">Cảnh báo</span></div>
+   <div class="auditrow"><span class="small muted" style="width:130px">2026-11-03 09:15</span><span><b>ENTERPRISE_CREATED</b> · uem_enterprises</span><span class="status ok">Thành công</span></div>
+  </div>
+  <div class="card"><div class="cardtitle"><h3>Lịch tuân thủ sắp tới</h3><span class="status info">Tháng 11</span></div>
+   <div class="mini-list">
+    <div class="mini-item"><span>Nộp tờ khai thuế GTGT</span><span class="status warn">20/11</span></div>
+    <div class="mini-item"><span>Báo cáo tình hình sử dụng lao động</span><span class="status info">25/11</span></div>
+    <div class="mini-item"><span>Rà soát hợp đồng lao động hết hạn</span><span class="status ok">30/11</span></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== ORGANIZATIONS ==================== -->
+<section class="page" id="organizations">
+ <div class="pagehead"><div><h1>Doanh nghiệp của tôi</h1><p>Quản lý nhiều pháp nhân, chi nhánh, công ty con và đơn vị kinh doanh trong một hệ sinh thái.</p></div><button class="btn primary" onclick="document.getElementById('orgform').style.display='block'">＋ Thêm doanh nghiệp</button></div>
+ <div class="card" id="orgform" style="display:none;margin-bottom:16px"><h3>Thêm doanh nghiệp vào danh mục demo</h3><div class="formrow"><div class="field"><label>Tên doanh nghiệp</label><input id="orgname" placeholder="Ví dụ: ABC Manufacturing"></div><div class="field"><label>Ngành nghề</label><select id="orgindustry"><option>Công nghệ</option><option>Sản xuất</option><option>Dệt may</option><option>Bán lẻ</option><option>Logistics</option><option>Khác</option></select></div></div><button class="btn primary" onclick="addOrg()">Lưu doanh nghiệp demo</button> <button class="btn" onclick="document.getElementById('orgform').style.display='none'">Hủy</button></div>
+ <div class="card"><div class="cardtitle"><h3>Danh sách pháp nhn</h3><input class="search" id="orgsearch" placeholder="Tìm doanh nghiệp..." oninput="filterOrgs()"></div><div class="tablewrap"><table id="orgtable"><thead><tr><th>Doanh nghiệp</th><th>Loại hình</th><th>Ngành nghề</th><th>Quốc gia</th><th>Quy mô</th><th>Trạng thái</th></tr></thead><tbody id="orgbody">
+ <tr><td><b>Pulse Technology</b><small class="muted" style="display:block">PULSE-001</small></td><td>Công ty cổ phần</td><td>Công nghệ</td><td>Việt Nam</td><td>420 nhân sự</td><td><span class="status ok">Hoạt động</span></td></tr>
+ <tr><td><b>Atlas Garment</b><small class="muted" style="display:block">ATLS-002</small></td><td>Công ty TNHH</td><td>Dệt may</td><td>Việt Nam</td><td>1,250 nhân sự</td><td><span class="status ok">Hoạt động</span></td></tr>
+ <tr><td><b>Nova Logistics</b><small class="muted" style="display:block">NOVA-003</small></td><td>Công ty cổ phần</td><td>Logistics</td><td>Việt Nam</td><td>310 nhân sự</td><td><span class="status warn">Theo dõi</span></td></tr>
+ <tr><td><b>GreenField Agriculture</b><small class="muted" style="display:block">GRFD-004</small></td><td>Công ty TNHH</td><td>Nông nghiệp</td><td>Việt Nam</td><td>180 nhân sự</td><td><span class="status ok">Hoạt động</span></td></tr>
+ </tbody></table></div></div>
+ <div class="grid layout2" style="margin-top:16px">
+  <div class="card"><div class="cardtitle"><h3>Cơ cấu nhóm doanh nghiệp</h3><span class="small muted">Tree view</span></div>
+   <div class="orgtree">
+    <div class="orgnode">PULSE GROUP HOLDING</div>
+    <div class="orgline"></div>
+    <div class="orghorz">
+     <div style="text-align:center"><div class="orgnode" style="background:#eaf8f2;color:#087a51">Pulse Technology</div><div class="orgline"></div><div style="font-size:10px;color:var(--muted)">Công ty cổ phần<br>420 nhân sự</div></div>
+     <div style="text-align:center"><div class="orgnode" style="background:#fff4df;color:#a45b00">Nova Logistics</div><div class="orgline"></div><div style="font-size:10px;color:var(--muted)">Công ty cổ phần<br>310 nhân sự</div></div>
+     <div style="text-align:center"><div class="orgnode" style="background:#f1edff;color:#6845c5">Atlas Garment</div><div class="orgline"></div><div style="font-size:10px;color:var(--muted)">Công ty TNHH<br>1,250 nhân sự</div></div>
+    </div>
+   </div>
+  </div>
+  <div class="card"><div class="cardtitle"><h3>Cơ cấu sở hữu</h3><span class="small muted">Ownership</span></div>
+   <div class="barrow"><span>Cá nhân</span><div class="track"><div class="fill" style="width:45%;background:#2563eb"></div></div><b>45%</b></div>
+   <div class="barrow"><span>Nh nước</span><div class="track"><div class="fill" style="width:15%;background:#0f9f6e"></div></div><b>15%</b></div>
+   <div class="barrow"><span>Nước ngoài</span><div class="track"><div class="fill" style="width:25%;background:#d97706"></div></div><b>25%</b></div>
+   <div class="barrow"><span>ESOP / Nội bộ</span><div class="track"><div class="fill" style="width:15%;background:#7657d5"></div></div><b>15%</b></div>
+   <p class="small muted">Dữ liệu minh họa từ uem_enterprise_ownership.</p>
+  </div>
+ </div>
+ <div class="grid layout3" style="margin-top:16px"><div class="card"><b>Multi-entity structure</b><p class="small muted">Tập đoàn → công ty mẹ → công ty con → chi nhánh → địa điểm.</p></div><div class="card"><b>Multi-country</b><p class="small muted">Đa quốc gia, đa tiền tệ, múi giờ và bộ quy tắc pháp lý.</p></div><div class="card"><b>Consolidation</b><p class="small muted">Hợp nhất báo cáo quản trị, tài chính và rủi ro theo phạm vi được cấp quyền.</p></div></div>
+</section>
+
+<!-- ==================== AI MANAGEMENT CENTER ==================== -->
+<section class="page" id="ai">
+ <div class="pagehead"><div><h1>AI Management Center</h1><p>Nhà quản trị AI chủ động — phân tích, điều phối chuyên gia và đề xuất phương án quản trị.</p></div><span class="status purple">AI Level 3 · Proactive Management</span></div>
+ <div class="notice">AI trong prototype chỉ phản hồi theo kịch bản giao diện, chưa gọi mô hình AI hoặc truy cập dữ liệu thật. Không dùng kết quả demo để ra quyết định kinh doanh/pháp lý.</div>
+ <div class="grid layout2">
+  <div class="card chatbox"><div class="cardtitle"><h3>UEM Master AI</h3><span class="status ok">Demo online</span></div><div class="chatmessages" id="chatmessages">
+   <div class="msg ai"><small>UEM MASTER AI · SYSTEM</small>Xin chào. Tôi là trung tâm điều phối quản trị UEM. Tôi có thể giúp phân tích tình huống, xác định dữ liệu cần có, đề xuất phương án và chuyển yêu cầu đến các chuyên gia AI theo từng lĩnh vực.<br><br>Hãy mô tả tình huống doanh nghiệp cần giải quyết.</div>
+  </div><div class="chatinput"><input id="chatinput" placeholder="Ví dụ: Doanh thu gim 20%, chi phí nhân sự tăng..."><button class="btn primary" onclick="sendChat()">Gửi</button></div><div class="small muted" style="margin-top:8px">Gợi ý: <button class="tag" onclick="promptChat('Doanh thu giảm 20% trong 2 quý, hãy lập kế hoạch phục hồi.')">Doanh thu giảm</button><button class="tag" onclick="promptChat('Rà soát rủi ro chi phí và dòng tiền 90 ngày.')">Rủi ro dòng tiền</button><button class="tag" onclick="promptChat('Thiết kế cơ cấu tổ chức cho doanh nghiệp 500 nhân sự.')">Cơ cấu tổ chức</button></div></div>
+  <div class="card"><div class="cardtitle"><h3>AI Executive Control</h3><span class="status info">Human-in-the-loop</span></div>
+   <div class="switchrow"><span>Giám sát chỉ số và cảnh báo</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+   <div class="switchrow"><span>Phân tích nguyên nhân bất thường</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+   <div class="switchrow"><span>Đề xuất phương án hành động</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+   <div class="switchrow"><span>Tự động thực thi nghiệp vụ</span><div class="switch" onclick="this.classList.toggle('on')"></div></div>
+   <p class="small muted">Mọi thao tác có tác động tài chính, nhân sự, pháp lý hoặc dữ liệu phải qua phân quyền, phê duyệt và nhật ký kiểm toán.</p>
+   <hr style="border:0;border-top:1px solid var(--line);margin:16px 0"><b style="font-size:12px">Quy trình AI chuẩn</b>
+   <div class="timeline" style="margin-top:15px"><div class="event"><strong>1. Observe — Quan sát</strong><p>Thu thập dữ liệu đã được cấp quyền, theo dõi KPI và sự kiện.</p></div><div class="event"><strong>2. Diagnose — Chẩn đoán</strong><p>Phân tích nguyên nhân, mức độ ảnh hưởng và độ tin cậy.</p></div><div class="event"><strong>3. Recommend — Đề xuất</strong><p>So sánh nhiều kịch bản và giải thích đánh đổi.</p></div><div class="event"><strong>4. Coordinate — Điều phối</strong><p>Giao việc cho chuyên gia AI và nhân sự phụ trách.</p></div><div class="event"><strong>5. Approve & Execute — Phê duyệt, thực thi</strong><p>Người có thẩm quyền duyệt trước khi hệ thống hành động.</p></div></div>
+  </div>
+ </div>
+ <h3 style="margin:22px 0 12px">Hội đồng chuyên gia AI</h3><div class="grid agentgrid">
+  <div class="card agent"><div class="agenticon">👔</div><div><h4>CEO Strategy Agent</h4><p>Chiến lược, mô hình kinh doanh, mục tiêu và phân bổ nguồn lực.</p><span class="tag">Strategy</span></div></div>
+  <div class="card agent"><div class="agenticon">💹</div><div><h4>CFO & Finance Agent</h4><p>Dòng tiền, ngân sách, lợi nhuận, đầu tư và dự báo tài chính.</p><span class="tag">Finance</span></div></div>
+  <div class="card agent"><div class="agenticon">🧑‍🤝‍🧑</div><div><h4>CHRO & People Agent</h4><p>Tổ chức, nhân lực, C&B, hiệu suất và quan hệ lao động.</p><span class="tag">People</span></div></div>
+  <div class="card agent"><div class="agenticon">⚖️</div><div><h4>Legal & Compliance Agent</h4><p>Pháp luật, hợp đồng, tuân thủ và quản trị pháp nhân.</p><span class="tag">Legal</span></div></div>
+  <div class="card agent"><div class="agenticon">🏭</div><div><h4>COO & Operations Agent</h4><p>Quy trình, năng suất, chất lượng, chuỗi cung ứng.</p><span class="tag">Operations</span></div></div>
+  <div class="card agent"><div class="agenticon">🛡️</div><div><h4>Risk & Audit Agent</h4><p>Rủi ro, kiểm soát nội bộ, gian lận và kiểm toán.</p><span class="tag">Risk</span></div></div>
+  <div class="card agent"><div class="agenticon">📈</div><div><h4>Sales & Marketing Agent</h4><p>Khách hàng, doanh số, thương hiệu và tăng trưởng.</p><span class="tag">Growth</span></div></div>
+  <div class="card agent"><div class="agenticon">🌐</div><div><h4>Global Business Agent</h4><p>Thị trường quốc tế, thương mại, tỷ giá và đa quốc gia.</p><span class="tag">Global</span></div></div>
+  <div class="card agent"><div class="agenticon">📊</div><div><h4>Data & BI Agent</h4><p>Chất lượng dữ liệu, phân tích, dự báo và đo lường KPI.</p><span class="tag">Analytics</span></div></div>
+ </div>
+ <h3 style="margin:22px 0 12px">AI Governance & Control</h3>
+ <div class="grid layout3">
+  <div class="card"><div class="cardtitle"><h3>AI Task Queue</h3><span class="status info">3 running</span></div>
+   <div class="mini-list">
+    <div class="mini-item"><span><b>Forecast Q4 Revenue</b><br><span class="small muted">AI_CFO · RUNNING · Step 3/5</span></span><span class="status ok">72%</span></div>
+    <div class="mini-item"><span><b>Audit Log Anomaly Scan</b><br><span class="small muted">AI_AUDIT · RUNNING · Step 2/5</span></span><span class="status ok">40%</span></div>
+    <div class="mini-item"><span><b>Org Restructure Impact</b><br><span class="small muted">AI_CEO · PENDING</span></span><span class="status warn">Chờ</span></div>
+   </div>
+   <button class="btn" style="margin-top:10px" onclick="notify('Mở AI Task Queue đầy đủ')">Xem tất cả →</button>
+  </div>
+  <div class="card"><div class="cardtitle"><h3>AI Budget Monitor</h3><span class="status ok">Trong hạn mức</span></div>
+   <div class="barrow"><span>Tháng 11</span><div class="track"><div class="fill" style="width:62%"></div></div><b>62%</b></div>
+   <p class="small muted">Đã dùng ₫62M / ₫100M</p>
+   <div class="switchrow"><span>Tự động dừng khi vượt ngân sách</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+  </div>
+  <div class="card"><div class="cardtitle"><h3>Emergency Controls</h3><span class="status bad">Sẵn sàng</span></div>
+   <button class="btn danger" style="width:100%;margin:6px 0" onclick="notify('Đã kích hoạt PAUSE ALL AI AGENTS (demo)')">⏸ PAUSE ALL AGENTS</button>
+   <button class="btn danger" style="width:100%;margin:6px 0" onclick="notify('Đã thu hồi quyền tự chủ AI (demo)')">🛑 REVOKE AUTONOMY</button>
+   <button class="btn" style="width:100%;margin:6px 0" onclick="notify('Đã đóng băng thực thi (demo)')">❄ FREEZE EXECUTION</button>
+   <p class="small muted">Các nút này ghi nhận vào uem_ai_emergency_controls.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== MODULES ==================== -->
+<section class="page" id="modules">
+ <div class="pagehead"><div><h1>Enterprise Modules</h1><p>Bộ phân hệ quản trị tổng thể, bật theo nhu cầu và đặc thù từng doanh nghiệp.</p></div><span class="pill">50+ domains</span></div>
+ <div class="grid modulegrid">
+  <div class="module" onclick="go('hrm')"><div class="mi">🧑‍💼</div><h3>Human Resources Management</h3><p>Hồ sơ nhân sự, tuyển dụng, onboarding, hợp đồng, chấm công, ca kíp, nghỉ phép, C&B, BHXH, thuế TNCN, đào tạo, KPI.</p><div class="modulefoot"><span>HRM · HCM</span><span>→ Mở phân hệ</span></div></div>
+  <div class="module" onclick="go('finance')"><div class="mi">💰</div><h3>Finance Management</h3><p>Ngân sách, dòng tiền, công nợ, chi phí, vốn, đầu tư, dự báo và quản trị hiệu quả tài chính.</p><div class="modulefoot"><span>FIN</span><span>→ Mở phân hệ</span></div></div>
+  <div class="module" onclick="go('finance')"><div class="mi">🧾</div><h3>Accounting & Tax</h3><p>Sổ cái, tài khoản, chứng từ, hóa đơn, báo cáo tài chính, thuế và đối soát.</p><div class="modulefoot"><span>ACC · TAX</span><span>→ Mở phân hệ</span></div></div>
+  <div class="module" onclick="go('legal')"><div class="mi">⚖️</div><h3>Legal & Compliance</h3><p>Pháp nhân, giấy phép, hợp đồng, nghĩa vụ pháp lý, lịch tuân thủ và hồ sơ chứng minh.</p><div class="modulefoot"><span>LEGAL</span><span>→ Mở phân hệ</span></div></div>
+  <div class="module" onclick="go('manufacturing')"><div class="mi">⚙️</div><h3>Operations Management</h3><p>Quy trình, năng suất, chất lượng, định mức, bảo trì, SLA và cải tiến liên tục.</p><div class="modulefoot"><span>OPS · MES</span><span>→ Mở phân hệ</span></div></div>
+  <div class="module" onclick="go('crm')"><div class="mi">🛍️</div><h3>Sales & Marketing</h3><p>CRM, khách hàng, cơ hội bán hàng, báo giá, đơn hàng, chiến dịch và chăm sóc khách hàng.</p><div class="modulefoot"><span>CRM · S&M</span><span>→ Mở phân hệ</span></div></div>
+  <div class="module" onclick="go('scm')"><div class="mi">🚚</div><h3>Supply Chain</h3><p>Mua hàng, nhà cung cấp, tồn kho, kho vận, điều phối, logistics và dự báo nhu cầu.</p><div class="modulefoot"><span>SCM</span><span>→ Mở phân hệ</span></div></div>
+  <div class="module" onclick="go('pmo')"><div class="mi">📅</div><h3>Project Management</h3><p>Danh mục dự án, tiến độ, nguồn lực, ngân sách, công việc, rủi ro và nghiệm thu.</p><div class="modulefoot"><span>PMO</span><span>→ Mở phân hệ</span></div></div>
+  <div class="module" onclick="go('grc')"><div class="mi">🛡️</div><h3>Risk & Internal Control</h3><p>Risk register, kiểm soát nội bộ, phân quyền, sự cố, kiểm toán và kế hoạch khắc phục.</p><div class="modulefoot"><span>GRC</span><span>→ Mở phân hệ</span></div></div>
+  <div class="module" onclick="go('bi')"><div class="mi">📊</div><h3>Business Intelligence</h3><p>Kho dữ liệu, dashboard, KPI, phân tích đa chiều, dự báo và mô phỏng kịch bản.</p><div class="modulefoot"><span>BI · DATA</span><span>→ Mở phân hệ</span></div></div>
+  <div class="module" onclick="go('industry')"><div class="mi">🌍</div><h3>International Business</h3><p>Đa tiền tệ, đa ngôn ngữ, tỷ giá, thương mại quốc tế, chi nhánh và luật theo quốc gia.</p><div class="modulefoot"><span>GLOBAL</span><span>→ Mở phân hệ</span></div></div>
+  <div class="module" onclick="go('documents')"><div class="mi">📄</div><h3>Document Management</h3><p>Lưu trữ, phiên bản, phân loại, phân quyền xem/tải, gắn với entity.</p><div class="modulefoot"><span>DOCS</span><span>→ Mở phân hệ</span></div></div>
+ </div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><div><h3>Universal Module Catalogue · 50 domains</h3><p class="small muted">Danh mục năng lực có thể bật theo ngành, quy mô và mô hình doanh nghiệp.</p></div><input class="search" id="moduleSearch" placeholder="Tìm module..." oninput="filterModuleCatalogue()"></div><div class="grid modulegrid" id="moduleCatalogue"></div></div>
+ <div class="card" style="margin-top:16px"><h3>Shared Enterprise Services</h3><div class="chips"><span class="chip">Master Data Management</span><span class="chip">Workflow Engine</span><span class="chip">Integration Hub</span><span class="chip">Document Management</span><span class="chip">Business Rules Engine</span><span class="chip">Reporting & Notifications</span><span class="chip">Identity & Access</span><span class="chip">Data Warehouse</span><span class="chip">Compliance Engine</span><span class="chip">Knowledge Services</span></div></div>
+</section>
+
+<!-- ==================== HRM VẬN HÀNH ==================== -->
+<section class="page" id="hrm">
+ <div class="pagehead"><div><h1>HRM vận hành</h1><p>Quản lý nhân sự toàn diện: hồ sơ, chấm công, ca kíp, nghỉ phép, C&B, BHXH, thuế TNCN, đào tạo, KPI.</p></div><div style="display:flex;gap:8px"><button class="btn primary" onclick="notify('Đã tạo nhân viên demo')">＋ Thêm nhân viên</button><button class="btn" onclick="notify('Import Excel đang được triển khai')">📥 Import</button></div></div>
+ <div class="grid kpis">
+  <div class="card"><div class="kpi-label">TỔNG NHÂN SỰ</div><div class="kpi-value">2,486</div><div class="delta">↑ 42 trong tháng</div></div>
+  <div class="card"><div class="kpi-label">TUYỂN DỤNG CHỜ XỬ LÝ</div><div class="kpi-value">18</div><div class="delta" style="color:var(--amber)">5 quá hạn</div></div>
+  <div class="card"><div class="kpi-label">HỢP ĐỒNG SẮP HẾT HẠN</div><div class="kpi-value">24</div><div class="delta" style="color:var(--red)">Cần gia hạn</div></div>
+  <div class="card"><div class="kpi-label">TỶ LỆ NGHỈ PHÉP / NĂM</div><div class="kpi-value">68%</div><div class="delta">Trung bình</div></div>
+ </div>
+ <div class="tabs">
+  <div class="tab active" onclick="switchTab('hrm','employees')">Nhân viên</div>
+  <div class="tab" onclick="switchTab('hrm','attendance')">Chấm công & Ca kíp</div>
+  <div class="tab" onclick="switchTab('hrm','leave')">Nghỉ phép</div>
+  <div class="tab" onclick="switchTab('hrm','payroll')">C&B & BHXH</div>
+  <div class="tab" onclick="switchTab('hrm','training')">Đào tạo & KPI</div>
+ </div>
+ <div class="tabcontent active" id="hrm-employees">
+  <div class="card"><div class="cardtitle"><h3>Danh sách nhân viên</h3><input class="search" placeholder="Tìm theo tên, mã, phòng ban..."></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã NV</th><th>Họ tên</th><th>Phòng ban</th><th>Chức danh</th><th>Loại HĐ</th><th>Ngày vào</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>NV001024</td><td><b>Nguyễn Văn An</b></td><td>Tài chính</td><td>Finance Manager</td><td>Không xác định</td><td>15/03/2022</td><td><span class="status ok">Đang làm</span></td></tr>
+    <tr><td>NV001056</td><td><b>Trần Thị Bình</b></td><td>Nhân sự</td><td>HR Specialist</td><td>Có thời hạn</td><td>01/06/2023</td><td><span class="status ok">Đang làm</span></td></tr>
+    <tr><td>NV001089</td><td><b>Lê Hoàng Cường</b></td><td>Vận hành</td><td>Operations Lead</td><td>Không xác định</td><td>10/01/2021</td><td><span class="status warn">Nghỉ dài hạn</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="hrm-attendance">
+  <div class="grid layout2">
+   <div class="card"><div class="cardtitle"><h3>Chấm công hôm nay</h3><span class="status ok">05/11/2026</span></div>
+    <div class="tablewrap"><table><thead><tr><th>Mã NV</th><th>Vào</th><th>Ra</th><th>Ca</th><th>Trạng thái</th></tr></thead><tbody>
+     <tr><td>NV001024</td><td>07:55</td><td>17:05</td><td>Hành chính</td><td><span class="status ok">Đúng giờ</span></td></tr>
+     <tr><td>NV001056</td><td>08:15</td><td>—</td><td>Hành chính</td><td><span class="status warn">Đi muộn</span></td></tr>
+    </tbody></table></div></div>
+   <div class="card"><div class="cardtitle"><h3>Ca kíp</h3><button class="btn" onclick="notify('Thêm ca kíp demo')">＋ Thêm ca</button></div>
+    <div class="mini-list"><div class="mini-item"><span><b>Ca hành chính</b><br><span class="small muted">08:00 – 17:00</span></span><span class="status ok">Active</span></div>
+     <div class="mini-item"><span><b>Ca sáng</b><br><span class="small muted">06:00 – 14:00</span></span><span class="status ok">Active</span></div>
+     <div class="mini-item"><span><b>Ca tối</b><br><span class="small muted">14:00 – 22:00</span></span><span class="status ok">Active</span></div>
+    </div></div>
+  </div>
+ </div>
+ <div class="tabcontent" id="hrm-leave">
+  <div class="card"><div class="cardtitle"><h3>Đơn nghỉ phép chờ duyệt</h3><span class="status warn">3 chờ</span></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã đơn</th><th>Nhân viên</th><th>Loại</th><th>Từ</th><th>Đến</th><th>Số ngày</th><th>Trạng thái</th><th>Hành động</th></tr></thead><tbody>
+    <tr><td>LEAVE-11201</td><td>Nguyễn Văn An</td><td>Phép năm</td><td>10/11</td><td>12/11</td><td>3</td><td><span class="status warn">Chờ duyệt</span></td><td><button class="btn" onclick="approve(this)">Xem xét</button></td></tr>
+    <tr><td>LEAVE-11202</td><td>Trần Thị Bình</td><td>Ốm</td><td>06/11</td><td>07/11</td><td>2</td><td><span class="status warn">Chờ duyệt</span></td><td><button class="btn" onclick="approve(this)">Xem xét</button></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="hrm-payroll">
+  <div class="grid layout2">
+   <div class="card"><div class="cardtitle"><h3>Bảng lương tháng 10/2026</h3><span class="status ok">Đã khóa</span></div>
+    <div class="tablewrap"><table><thead><tr><th>Mã NV</th><th>Họ tên</th><th>Lương GROSS</th><th>BHXH</th><th>BHYT</th><th>BHTN</th><th>TNCN</th><th>Thực lĩnh</th></tr></thead><tbody>
+     <tr><td>NV001024</td><td>Nguyễn Văn An</td><td>₫35,000,000</td><td>₫2,800,000</td><td>₫525,000</td><td>₫350,000</td><td>₫2,145,000</td><td><b>₫29,180,000</b></td></tr>
+     <tr><td>NV001056</td><td>Trần Thị Bình</td><td>₫22,000,000</td><td>₫1,760,000</td><td>₫330,000</td><td>₫220,000</td><td>₫945,000</td><td><b>₫18,745,000</b></td></tr>
+    </tbody></table></div></div>
+   <div class="card"><h3>Cấu hình C&B</h3>
+    <div class="switchrow"><span>Tự động tính BHXH (10.5%)</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="switchrow"><span>Tự động tính TNCN</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="switchrow"><span>Lương tối thiểu vùng tự động cập nhật</span><div class="switch" onclick="this.classList.toggle('on')"></div></div>
+    <div class="switchrow"><span>Gửi payslip qua email</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+   </div>
+  </div>
+ </div>
+ <div class="tabcontent" id="hrm-training">
+  <div class="grid layout2">
+   <div class="card"><div class="cardtitle"><h3>Kế hoạch đào tạo</h3><button class="btn" onclick="notify('Thêm khóa đào tạo demo')">＋ Thêm</button></div>
+    <div class="mini-list"><div class="mini-item"><span><b>Leadership Development Q4</b><br><span class="small muted">15 nhân sự · 20/11–25/11</span></span><span class="status ok">Đã duyệt</span></div>
+     <div class="mini-item"><span><b>Excel nâng cao cho Finance</b><br><span class="small muted">8 nhân sự · 05/12</span></span><span class="status info">Lên kế hoạch</span></div>
+    </div></div>
+   <div class="card"><div class="cardtitle"><h3>KPI tháng 10</h3><span class="status ok">Đã đánh giá</span></div>
+    <div class="tablewrap"><table><thead><tr><th>Nhân viên</th><th>KPI</th><th>Mục tiêu</th><th>Thực hiện</th><th>Tỷ lệ</th></tr></thead><tbody>
+     <tr><td>Nguyễn Văn An</td><td>Báo cáo tài chính đúng hạn</td><td>100%</td><td>100%</td><td><span class="status ok">100%</span></td></tr>
+     <tr><td>Trần Thị Bình</td><td>Tuyển dụng đúng hạn</td><td>10</td><td>8</td><td><span class="status warn">80%</span></td></tr>
+    </tbody></table></div></div>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== FINANCE & ACCOUNTING ==================== -->
+<section class="page" id="finance">
+ <div class="pagehead"><div><h1>Tài chính & Kế toán</h1><p>Ngân sách, dòng tiền, sổ cái, chứng từ, hóa đơn, báo cáo tài chính, thuế và đối soát.</p></div><div style="display:flex;gap:8px"><button class="btn primary" onclick="notify('Tạo chứng từ demo')">＋ Chứng từ</button><button class="btn" onclick="notify('Khóa sổ tháng 10')">🔒 Khóa sổ</button></div></div>
+ <div class="grid kpis">
+  <div class="card"><div class="kpi-label">DÒNG TIỀN THÁNG 10</div><div class="kpi-value">+₫12.4B</div><div class="delta">↑ Vượt kế hoạch 8%</div></div>
+  <div class="card"><div class="kpi-label">CÔNG NỢ PHẢI THU</div><div class="kpi-value">₫28.6B</div><div class="delta" style="color:var(--amber)">3 khách hàng quá hạn</div></div>
+  <div class="card"><div class="kpi-label">CÔNG NỢ PHẢI TRẢ</div><div class="kpi-value">₫19.2B</div><div class="delta">Trong hạn</div></div>
+  <div class="card"><div class="kpi-label">THUẾ GTGT PHẢI NỘP</div><div class="kpi-value">₫3.8B</div><div class="delta" style="color:var(--red)">Hạn 20/11</div></div>
+ </div>
+ <div class="tabs">
+  <div class="tab active" onclick="switchTab('finance','ledger')">Sổ cái & Chứng từ</div>
+  <div class="tab" onclick="switchTab('finance','budget')">Ngân sách</div>
+  <div class="tab" onclick="switchTab('finance','cashflow')">Dòng tiền</div>
+  <div class="tab" onclick="switchTab('finance','tax')">Thuế & Báo cáo</div>
+  <div class="tab" onclick="switchTab('finance','invoice')">Hóa đơn</div>
+ </div>
+ <div class="tabcontent active" id="finance-ledger">
+  <div class="card"><div class="cardtitle"><h3>Sổ cái gần đây</h3><input class="search" placeholder="Tìm theo số CT, nội dung, tài khoản..."></div>
+   <div class="tablewrap"><table><thead><tr><th>Ngày</th><th>Số CT</th><th>Diễn giải</th><th>Tài khoản Nợ</th><th>Tài khoản Có</th><th>Số tiền</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>05/11</td><td>PT-001124</td><td>Thu tiền khách hàng A</td><td>1111</td><td>131</td><td>₫450,000,000</td><td><span class="status ok">Đã ghi sổ</span></td></tr>
+    <tr><td>04/11</td><td>PC-001089</td><td>Chi tiền mua NVL</td><td>152</td><td>1111</td><td>₫280,000,000</td><td><span class="status ok">Đã ghi sổ</span></td></tr>
+    <tr><td>03/11</td><td>PKT-005621</td><td>Kết chuyển chi phí</td><td>911</td><td>642</td><td>₫1,200,000,000</td><td><span class="status info">Chờ duyệt</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="finance-budget">
+  <div class="grid layout2">
+   <div class="card"><div class="cardtitle"><h3>Ngân sách Q4/2026</h3><span class="status ok">Đang thực hiện</span></div>
+    <div class="barrow"><span>Doanh thu</span><div class="track"><div class="fill" style="width:78%"></div></div><b>78%</b></div>
+    <div class="barrow"><span>Chi phí SX</span><div class="track"><div class="fill" style="width:65%"></div></div><b>65%</b></div>
+    <div class="barrow"><span>Chi phí QLDN</span><div class="track"><div class="fill" style="width:82%"></div></div><b>82%</b></div>
+    <div class="barrow"><span>Đầu tư</span><div class="track"><div class="fill" style="width:45%"></div></div><b>45%</b></div>
+   </div>
+   <div class="card"><h3>Phân bổ ngân sách</h3>
+    <div class="field"><label>Phòng ban</label><select><option>Tất cả</option><option>Tài chính</option><option>Nhân sự</option><option>Vận hành</option><option>Kinh doanh</option></select></div>
+    <div class="field"><label>Kỳ ngân sách</label><select><option>Tháng 11/2026</option><option>Q4/2026</option><option>Năm 2026</option></select></div>
+    <button class="btn primary" onclick="notify('Đã cập nhật ngân sách demo')">Cập nhật</button>
+   </div>
+  </div>
+ </div>
+ <div class="tabcontent" id="finance-cashflow">
+  <div class="card"><div class="cardtitle"><h3>Dự báo dòng tiền 13 tuần</h3><span class="status info">Forecast</span></div>
+   <div style="height:190px;display:flex;align-items:end;gap:15px;padding:10px 8px 25px;border-bottom:1px solid var(--line)">
+    <div style="height:55%;flex:1;background:#9cc4ff;border-radius:6px 6px 0 0"></div>
+    <div style="height:48%;flex:1;background:#83b5fa;border-radius:6px 6px 0 0"></div>
+    <div style="height:62%;flex:1;background:#70a8f5;border-radius:6px 6px 0 0"></div>
+    <div style="height:58%;flex:1;background:#5594ee;border-radius:6px 6px 0 0"></div>
+    <div style="height:71%;flex:1;background:#3d80e2;border-radius:6px 6px 0 0"></div>
+    <div style="height:65%;flex:1;background:#2563eb;border-radius:6px 6px 0 0"></div>
+    <div style="height:80%;flex:1;background:#1d4ed8;border-radius:6px 6px 0 0"></div>
+    <div style="height:75%;flex:1;background:#1e40af;border-radius:6px 6px 0 0"></div>
+   </div>
+   <div style="display:flex;justify-content:space-around;color:var(--muted);font-size:10px;margin-top:8px"><span>T44</span><span>T45</span><span>T46</span><span>T47</span><span>T48</span><span>T49</span><span>T50</span><span>T51</span></div>
+   <p class="small muted">Dự báo minh họa. Cần dữ liệu thực tế để tính toán chính xác.</p>
+  </div>
+ </div>
+ <div class="tabcontent" id="finance-tax">
+  <div class="grid layout2">
+   <div class="card"><div class="cardtitle"><h3>Tờ khai thuế sắp đến hạn</h3><span class="status warn">2 sắp hết hạn</span></div>
+    <div class="mini-list"><div class="mini-item"><span><b>Thuế GTGT tháng 10</b><br><span class="small muted">Hạn 20/11/2026</span></span><span class="status warn">Sắp hết hạn</span></div>
+     <div class="mini-item"><span><b>Thuế TNCN tháng 10</b><br><span class="small muted">Hạn 20/11/2026</span></span><span class="status warn">Sắp hết hạn</span></div>
+     <div class="mini-item"><span><b>Tạm tính TNDN Q4</b><br><span class="small muted">Hạn 30/01/2027</span></span><span class="status ok">Còn hạn</span></div>
+    </div></div>
+   <div class="card"><h3>Báo cáo tài chính</h3>
+    <div class="mini-list"><div class="mini-item"><span>Bảng cân đối kế toán</span><span class="status info">Q3/2026</span></div>
+     <div class="mini-item"><span>Báo cáo KQHĐKD</span><span class="status info">Q3/2026</span></div>
+     <div class="mini-item"><span>Báo cáo lưu chuyển tiền tệ</span><span class="status info">Q3/2026</span></div>
+     <div class="mini-item"><span>Thuyết minh BCTC</span><span class="status info">Q3/2026</span></div>
+    </div>
+    <button class="btn" onclick="notify('Xuất báo cáo demo')">📄 Xuất PDF/Excel</button>
+   </div>
+  </div>
+ </div>
+ <div class="tabcontent" id="finance-invoice">
+  <div class="card"><div class="cardtitle"><h3>Hóa đơn VAT</h3><button class="btn" onclick="notify('Thêm hóa đơn demo')">＋ Thêm HĐ</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Số HĐ</th><th>Ngày</th><th>Khách hàng/NCC</th><th>Loại</th><th>Tổng tiền</th><th>Thuế GTGT</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>0000124</td><td>05/11</td><td>Công ty A</td><td>Bán ra</td><td>₫1,000,000,000</td><td>₫100,000,000</td><td><span class="status ok">Đã phát hành</span></td></tr>
+    <tr><td>0000089</td><td>02/11</td><td>Công ty B</td><td>Mua vào</td><td>₫500,000,000</td><td>₫50,000,000</td><td><span class="status ok">Đã nhận</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+</section>
+
+<!-- ==================== SCM - MUA HÀNG & KHO VẬN ==================== -->
+<section class="page" id="scm">
+ <div class="pagehead"><div><h1>Mua hàng & Kho vận</h1><p>Quản lý nhà cung cấp, mua hàng, tồn kho, kho vận, vận tải và dự báo nhu cầu.</p></div><div style="display:flex;gap:8px"><button class="btn primary" onclick="notify('Tạo PO demo')">＋ Tạo PO</button><button class="btn" onclick="notify('Nhập kho demo')">📥 Nhập kho</button></div></div>
+ <div class="grid kpis">
+  <div class="card"><div class="kpi-label">NHÀ CUNG CẤP</div><div class="kpi-value">86</div><div class="delta">3 mới trong tháng</div></div>
+  <div class="card"><div class="kpi-label">PO CHỜ DUYỆT</div><div class="kpi-value">12</div><div class="delta" style="color:var(--amber)">2 quá hạn</div></div>
+  <div class="card"><div class="kpi-label">TỒN KHO THẤP</div><div class="kpi-value">24</div><div class="delta" style="color:var(--red)">Cần đặt hàng</div></div>
+  <div class="card"><div class="kpi-label">OTIF GIAO HÀNG</div><div class="kpi-value">91.2%</div><div class="delta">↑ 1.5%</div></div>
+ </div>
+ <div class="tabs">
+  <div class="tab active" onclick="switchTab('scm','suppliers')">Nhà cung cấp</div>
+  <div class="tab" onclick="switchTab('scm','procurement')">Mua hàng & RFQ</div>
+  <div class="tab" onclick="switchTab('scm','inventory')">Tồn kho & Kho vận</div>
+  <div class="tab" onclick="switchTab('scm','logistics')">Vận tải & Logistics</div>
+ </div>
+ <div class="tabcontent active" id="scm-suppliers">
+  <div class="card"><div class="cardtitle"><h3>Danh sách nhà cung cấp</h3><input class="search" placeholder="Tìm theo tên, mã, ngành..."></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã NCC</th><th>Tên</th><th>Ngành</th><th>Đánh giá</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>NCC-00102</td><td><b>Công ty TNHH Thép Việt</b></td><td>Nguyên liệu</td><td><span class="status ok">A</span></td><td><span class="status ok">Hoạt động</span></td></tr>
+    <tr><td>NCC-00145</td><td><b>Công ty Bao bì Phương Nam</b></td><td>Bao bì</td><td><span class="status warn">B</span></td><td><span class="status ok">Hoạt động</span></td></tr>
+    <tr><td>NCC-00189</td><td><b>Công ty Logistics Tân Cảng</b></td><td>Vận chuyển</td><td><span class="status ok">A</span></td><td><span class="status ok">Hoạt động</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="scm-procurement">
+  <div class="card"><div class="cardtitle"><h3>Yêu cầu mua hàng (PR) & Đơn mua hàng (PO)</h3><button class="btn" onclick="notify('Tạo PR demo')">＋ Tạo PR</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã</th><th>Loại</th><th>Ngày</th><th>Nội dung</th><th>Giá trị</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>PR-202611-001</td><td>PR</td><td>01/11</td><td>Mua nguyên liệu sản xuất T11</td><td>₫850,000,000</td><td><span class="status warn">Chờ duyệt</span></td></tr>
+    <tr><td>PO-202611-045</td><td>PO</td><td>28/10</td><td>Đặt thép cuộn</td><td>₫1,200,000,000</td><td><span class="status ok">Đã gửi NCC</span></td></tr>
+    <tr><td>PO-202611-046</td><td>PO</td><td>30/10</td><td>Đặt bao bì carton</td><td>₫180,000,000</td><td><span class="status info">Chờ xác nhận</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="scm-inventory">
+  <div class="grid layout2">
+   <div class="card"><div class="cardtitle"><h3>Tồn kho thấp cảnh báo</h3><span class="status bad">24 items</span></div>
+    <div class="tablewrap"><table><thead><tr><th>Mã hàng</th><th>Tên hàng</th><th>Tồn hiện tại</th><th>Tồn tối thiểu</th><th>Đơn vị</th></tr></thead><tbody>
+     <tr><td>NVL-00102</td><td>Thép cuộn 2mm</td><td>120</td><td>500</td><td>kg</td></tr>
+     <tr><td>NVL-00145</td><td>Bao bì carton 30x40</td><td>850</td><td>2000</td><td>cái</td></tr>
+    </tbody></table></div></div>
+   <div class="card"><div class="cardtitle"><h3>Nhập/Xuất/Tồn</h3><button class="btn" onclick="notify('Xem báo cáo tồn kho')">📊 Báo cáo</button></div>
+    <div class="mini-list"><div class="mini-item"><span><b>Nhập kho 05/11</b><br><span class="small muted">PO-202611-045 · Thép cuộn</span></span><span class="status ok">+2,000 kg</span></div>
+     <div class="mini-item"><span><b>Xuất kho 05/11</b><br><span class="small muted">LSX-11052 · Sản xuất</span></span><span class="status bad">-800 kg</span></div>
+    </div></div>
+  </div>
+ </div>
+ <div class="tabcontent" id="scm-logistics">
+  <div class="card"><div class="cardtitle"><h3>Điều phối vận chuyển</h3><button class="btn" onclick="notify('Tạo lệnh vận chuyển')">＋ Lệnh VC</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã lệnh</th><th>Tuyến</th><th>Xe</th><th>Ngày giao</th><th>Trọng tải</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>VC-202611-12</td><td>HCM → Bình Dương</td><td>51C-123.45</td><td>06/11</td><td>3.5 tấn</td><td><span class="status ok">Đang giao</span></td></tr>
+    <tr><td>VC-202611-13</td><td>HCM → Đồng Nai</td><td>51C-678.90</td><td>07/11</td><td>2.1 tấn</td><td><span class="status info">Chờ xếp hàng</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+</section>
+
+<!-- ==================== CRM & BÁN HÀNG ==================== -->
+<section class="page" id="crm">
+ <div class="pagehead"><div><h1>CRM & Bán hàng</h1><p>Quản lý khách hàng, cơ hội, báo giá, đơn hàng, chiến dịch và chăm sóc khách hàng.</p></div><div style="display:flex;gap:8px"><button class="btn primary" onclick="notify('Tạo cơ hội demo')">＋ Cơ hội</button><button class="btn" onclick="notify('Tạo báo giá demo')">📄 Báo giá</button></div></div>
+ <div class="grid kpis">
+  <div class="card"><div class="kpi-label">KHÁCH HÀNG</div><div class="kpi-value">1,240</div><div class="delta">↑ 32 trong tháng</div></div>
+  <div class="card"><div class="kpi-label">CƠ HỘI ĐANG MỞ</div><div class="kpi-value">86</div><div class="delta" style="color:var(--amber)">₫42B pipeline</div></div>
+  <div class="card"><div class="kpi-label">TỶ LỆ CHUYỂN ĐỔI</div><div class="kpi-value">24.8%</div><div class="delta">↑ 2.1%</div></div>
+  <div class="card"><div class="kpi-label">ĐƠN HÀNG THÁNG 10</div><div class="kpi-value">₫18.6B</div><div class="delta">↑ 12%</div></div>
+ </div>
+ <div class="tabs">
+  <div class="tab active" onclick="switchTab('crm','customers')">Khách hàng</div>
+  <div class="tab" onclick="switchTab('crm','opportunities')">Cơ hội & Pipeline</div>
+  <div class="tab" onclick="switchTab('crm','quotes')">Báo giá & Đơn hàng</div>
+  <div class="tab" onclick="switchTab('crm','campaigns')">Chiến dịch</div>
+ </div>
+ <div class="tabcontent active" id="crm-customers">
+  <div class="card"><div class="cardtitle"><h3>Danh sách khách hàng</h3><input class="search" placeholder="Tìm theo tên, mã, ngành..."></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã KH</th><th>Tên</th><th>Ngành</th><th>Doanh thu YTD</th><th>Công nợ</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>KH-001024</td><td><b>Công ty A</b></td><td>Bán lẻ</td><td>₫12.5B</td><td>₫850M</td><td><span class="status ok">Hoạt động</span></td></tr>
+    <tr><td>KH-001156</td><td><b>Công ty B</b></td><td>Sản xuất</td><td>₫8.2B</td><td>₫0</td><td><span class="status ok">Hoạt động</span></td></tr>
+    <tr><td>KH-001289</td><td><b>Công ty C</b></td><td>Xuất khẩu</td><td>₫4.1B</td><td>₫1.2B</td><td><span class="status warn">Theo dõi công nợ</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="crm-opportunities">
+  <div class="card"><div class="cardtitle"><h3>Pipeline</h3><span class="status info">86 cơ hội · ₫42B</span></div>
+   <div class="barrow"><span>Lead</span><div class="track"><div class="fill" style="width:35%;background:#cbd5e1"></div></div><b>30</b></div>
+   <div class="barrow"><span>Contacted</span><div class="track"><div class="fill" style="width:25%;background:#93c5fd"></div></div><b>22</b></div>
+   <div class="barrow"><span>Proposal</span><div class="track"><div class="fill" style="width:20%;background:#60a5fa"></div></div><b>18</b></div>
+   <div class="barrow"><span>Negotiation</span><div class="track"><div class="fill" style="width:12%;background:#3b82f6"></div></div><b>10</b></div>
+   <div class="barrow"><span>Won</span><div class="track"><div class="fill" style="width:8%;background:#0f9f6e"></div></div><b>6</b></div>
+   <p class="small muted">Dữ liệu minh họa từ pipeline CRM.</p>
+  </div>
+ </div>
+ <div class="tabcontent" id="crm-quotes">
+  <div class="card"><div class="cardtitle"><h3>Báo giá & Đơn hàng</h3><button class="btn" onclick="notify('Tạo báo giá demo')">＋ Báo giá</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã</th><th>Khách hàng</th><th>Ngày</th><th>Giá trị</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>BG-202611-001</td><td>Công ty A</td><td>05/11</td><td>₫450,000,000</td><td><span class="status warn">Chờ phản hồi</span></td></tr>
+    <tr><td>DH-202611-089</td><td>Công ty B</td><td>03/11</td><td>₫1,200,000,000</td><td><span class="status ok">Đã xác nhận</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="crm-campaigns">
+  <div class="card"><div class="cardtitle"><h3>Chiến dịch marketing</h3><button class="btn" onclick="notify('Tạo chiến dịch demo')">＋ Chiến dịch</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Tên chiến dịch</th><th>Kênh</th><th>Ngân sách</th><th>Lead</th><th>Conversion</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td><b>Year-End Promotion 2026</b></td><td>Email + Social</td><td>₫500M</td><td>1,240</td><td>3.2%</td><td><span class="status ok">Đang chạy</span></td></tr>
+    <tr><td><b>B2B Outreach Q4</b></td><td>Sales + LinkedIn</td><td>₫200M</td><td>420</td><td>8.5%</td><td><span class="status ok">Đang chạy</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+</section>
+
+<!-- ==================== PMO - QUẢN LÝ DỰ ÁN ==================== -->
+<section class="page" id="pmo">
+ <div class="pagehead"><div><h1>Quản lý dự án (PMO)</h1><p>Danh mục dự án, tiến độ, nguồn lực, ngân sách, công việc, rủi ro và nghiệm thu.</p></div><div style="display:flex;gap:8px"><button class="btn primary" onclick="notify('Tạo dự án demo')">＋ Dự án</button><button class="btn" onclick="notify('Gantt view')">📊 Gantt</button></div></div>
+ <div class="grid kpis">
+  <div class="card"><div class="kpi-label">DỰ ÁN ĐANG CHẠY</div><div class="kpi-value">18</div><div class="delta">2 mới tháng 11</div></div>
+  <div class="card"><div class="kpi-label">DỰ ÁN TRỄ HẠN</div><div class="kpi-value">3</div><div class="delta" style="color:var(--red)">Cần can thiệp</div></div>
+  <div class="card"><div class="kpi-label">NGÂN SÁCH ĐÃ DÙNG</div><div class="kpi-value">68%</div><div class="delta">Trong kế hoạch</div></div>
+  <div class="card"><div class="kpi-label">NGHIỆM THU CHỜ</div><div class="kpi-value">5</div><div class="delta" style="color:var(--amber)">Chờ khách hàng</div></div>
+ </div>
+ <div class="tabs">
+  <div class="tab active" onclick="switchTab('pmo','portfolio')">Danh mục dự án</div>
+  <div class="tab" onclick="switchTab('pmo','gantt')">Gantt & Tiến độ</div>
+  <div class="tab" onclick="switchTab('pmo','resources')">Nguồn lực</div>
+  <div class="tab" onclick="switchTab('pmo','risks')">Rủi ro dự án</div>
+ </div>
+ <div class="tabcontent active" id="pmo-portfolio">
+  <div class="card"><div class="cardtitle"><h3>Danh mục dự án</h3><input class="search" placeholder="Tìm theo tên, mã, PM..."></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã DA</th><th>Tên dự án</th><th>PM</th><th>Ngân sách</th><th>Tiến độ</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>DA-2026-045</td><td><b>Triển khai ERP module HRM</b></td><td>Nguyễn Văn An</td><td>₫2.5B</td><td><div class="progress"><span style="width:72%"></span></div></td><td><span class="status ok">Đang thực hiện</span></td></tr>
+    <tr><td>DA-2026-046</td><td><b>Nâng cp dây chuyền sản xuất B</b></td><td>Trần Thị Bình</td><td>₫8.0B</td><td><div class="progress"><span style="width:45%"></span></div></td><td><span class="status warn">Chậm tiến độ</span></td></tr>
+    <tr><td>DA-2026-047</td><td><b>Digital Marketing Q4</b></td><td>Lê Hoàng Cường</td><td>₫1.2B</td><td><div class="progress"><span style="width:90%"></span></div></td><td><span class="status ok">Sắp hoàn thành</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="pmo-gantt">
+  <div class="card"><div class="cardtitle"><h3>Gantt - Tháng 11/2026</h3><span class="small muted">Minh họa</span></div>
+   <div style="font-size:11px;margin-bottom:8px"><b>DA-2026-045</b> · ERP HRM</div>
+   <div class="ganttbar"><span style="width:72%"></span></div><div class="ganttlabel"><span>01/10</span><span>15/11</span><span>31/12</span></div>
+   <div style="font-size:11px;margin:12px 0 8px"><b>DA-2026-046</b> · Nâng cấp dây chuyền B</div>
+   <div class="ganttbar"><span style="width:45%"></span></div><div class="ganttlabel"><span>01/09</span><span>15/11</span><span>31/01</span></div>
+   <div style="font-size:11px;margin:12px 0 8px"><b>DA-2026-047</b> · Digital Marketing Q4</div>
+   <div class="ganttbar"><span style="width:90%"></span></div><div class="ganttlabel"><span>01/10</span><span>15/11</span><span>30/11</span></div>
+   <p class="small muted">Gantt minh họa. Cần tích hợp thư viện Gantt chuyên dụng để tương tác đầy đủ.</p>
+  </div>
+ </div>
+ <div class="tabcontent" id="pmo-resources">
+  <div class="grid layout2">
+   <div class="card"><div class="cardtitle"><h3>Phân bổ nguồn lực</h3><span class="status info">Tháng 11</span></div>
+    <div class="tablewrap"><table><thead><tr><th>Nhân sự</th><th>Dự án</th><th>% Phân bổ</th><th>Giờ/Kế hoạch</th></tr></thead><tbody>
+     <tr><td>Nguyễn Văn An</td><td>ERP HRM</td><td>60%</td><td>96/160</td></tr>
+     <tr><td>Trần Thị Bình</td><td>Dây chuyền B</td><td>80%</td><td>128/160</td></tr>
+    </tbody></table></div></div>
+   <div class="card"><div class="cardtitle"><h3>Ngân sách theo dự án</h3><button class="btn" onclick="notify('Xem chi tiết')">Chi tiết →</button></div>
+    <div class="barrow"><span>DA-045</span><div class="track"><div class="fill" style="width:65%"></div></div><b>65%</b></div>
+    <div class="barrow"><span>DA-046</span><div class="track"><div class="fill" style="width:48%"></div></div><b>48%</b></div>
+    <div class="barrow"><span>DA-047</span><div class="track"><div class="fill" style="width:88%"></div></div><b>88%</b></div>
+   </div>
+  </div>
+ </div>
+ <div class="tabcontent" id="pmo-risks">
+  <div class="card"><div class="cardtitle"><h3>Rủi ro dự án</h3><button class="btn" onclick="notify('Thêm rủi ro demo')">＋ Rủi ro</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Dự án</th><th>Rủi ro</th><th>Khả năng</th><th>Tác động</th><th>Mức độ</th><th>Biện pháp</th></tr></thead><tbody>
+    <tr><td>DA-046</td><td>Chậm giao thiết bị</td><td>Cao</td><td>Cao</td><td><span class="status bad">Critical</span></td><td>Đặt NCC dự phòng</td></tr>
+    <tr><td>DA-045</td><td>Thiếu nhân sự BA</td><td>TB</td><td>Cao</td><td><span class="status warn">High</span></td><td>Thuê contractor</td></tr>
+   </tbody></table></div></div>
+ </div>
+</section>
+
+<!-- ==================== MANUFACTURING / MES ==================== -->
+<section class="page" id="manufacturing">
+ <div class="pagehead"><div><h1>Sản xuất (MES)</h1><p>Điều hành sản xuất, lệnh sản xuất, OEE, chất lượng, định mức, bảo trì và giám sát dây chuyền.</p></div><div style="display:flex;gap:8px"><button class="btn primary" onclick="notify('Tạo lệnh SX demo')">＋ Lệnh SX</button><button class="btn" onclick="notify('Bảo trì định kỳ')">🔧 Bảo trì</button></div></div>
+ <div class="grid kpis">
+  <div class="card"><div class="kpi-label">OEE HÔM NAY</div><div class="kpi-value">78.4%</div><div class="delta">↑ 2.1%</div></div>
+  <div class="card"><div class="kpi-label">SẢN LƯỢNG</div><div class="kpi-value">12,450</div><div class="delta">SP · đạt 96% kế hoạch</div></div>
+  <div class="card"><div class="kpi-label">LỖI CHẤT LƯỢNG</div><div class="kpi-value">1.2%</div><div class="delta" style="color:var(--green)">Dưới ngưỡng 2%</div></div>
+  <div class="card"><div class="kpi-label">MÁY DỪNG (PHÚT)</div><div class="kpi-value">45</div><div class="delta" style="color:var(--amber)">Bảo trì định kỳ</div></div>
+ </div>
+ <div class="tabs">
+  <div class="tab active" onclick="switchTab('manufacturing','production')">Lệnh sản xuất</div>
+  <div class="tab" onclick="switchTab('manufacturing','oee')">OEE & Hiệu suất</div>
+  <div class="tab" onclick="switchTab('manufacturing','quality')">Chất lượng & NCR</div>
+  <div class="tab" onclick="switchTab('manufacturing','maintenance')">Bảo trì</div>
+ </div>
+ <div class="tabcontent active" id="manufacturing-production">
+  <div class="card"><div class="cardtitle"><h3>Lệnh sản xuất đang chạy</h3><input class="search" placeholder="Tìm theo mã LSX, sản phẩm..."></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã LSX</th><th>Sản phẩm</th><th>Số lượng</th><th>Dây chuyền</th><th>Bắt đầu</th><th>Tiến độ</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>LSX-202611-052</td><td><b>Sản phẩm A-200</b></td><td>5,000</td><td>DC-01</td><td>05/11 06:00</td><td><div class="progress"><span style="width:65%"></span></div></td><td><span class="status ok">Đang chạy</span></td></tr>
+    <tr><td>LSX-202611-053</td><td><b>Sản phẩm B-150</b></td><td>3,000</td><td>DC-02</td><td>05/11 07:30</td><td><div class="progress"><span style="width:40%"></span></div></td><td><span class="status ok">Đang chạy</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="manufacturing-oee">
+  <div class="grid layout2">
+   <div class="card"><div class="cardtitle"><h3>OEE Theo dây chuyền</h3><span class="small muted">Tháng 10</span></div>
+    <div class="barrow"><span>DC-01</span><div class="track"><div class="fill" style="width:82%"></div></div><b>82%</b></div>
+    <div class="barrow"><span>DC-02</span><div class="track"><div class="fill" style="width:76%"></div></div><b>76%</b></div>
+    <div class="barrow"><span>DC-03</span><div class="track"><div class="fill" style="width:71%"></div></div><b>71%</b></div>
+    <p class="small muted">OEE = Availability × Performance × Quality</p>
+   </div>
+   <div class="card"><div class="cardtitle"><h3>Hiệu suất hôm nay</h3><span class="status ok">05/11</span></div>
+    <div class="mini-list"><div class="mini-item"><span>Availability</span><span class="status ok">92%</span></div>
+     <div class="mini-item"><span>Performance</span><span class="status ok">88%</span></div>
+     <div class="mini-item"><span>Quality</span><span class="status ok">97%</span></div>
+     <div class="mini-item"><span><b>OEE</b></span><span class="status ok"><b>78.4%</b></span></div>
+    </div></div>
+  </div>
+ </div>
+ <div class="tabcontent" id="manufacturing-quality">
+  <div class="card"><div class="cardtitle"><h3>NCR / Lỗi chất lượng</h3><button class="btn" onclick="notify('Tạo NCR demo')">＋ NCR</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã NCR</th><th>Sản phẩm</th><th>Loại lỗi</th><th>Số lượng</th><th>Nguyên nhân</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>NCR-202611-001</td><td>Sản phẩm A-200</td><td>Lệch kích thước</td><td>45</td><td>Dao cắt mòn</td><td><span class="status warn">Đang xử lý</span></td></tr>
+    <tr><td>NCR-202611-002</td><td>Sản phẩm B-150</td><td>Bẩn bề mặt</td><td>12</td><td>Dầu bôi trơn</td><td><span class="status ok">Đã khắc phục</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="manufacturing-maintenance">
+  <div class="card"><div class="cardtitle"><h3>Kế hoạch bảo trì</h3><button class="btn" onclick="notify('Thêm lịch bảo trì')">＋ Lịch BT</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Thiết bị</th><th>Loại BT</th><th>Ngày kế hoạch</th><th>Thời gian (giờ)</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>Máy cắt CNC-01</td><td>BT định kỳ</td><td>10/11</td><td>4</td><td><span class="status info">Lên kế hoạch</span></td></tr>
+    <tr><td>Máy dập D-02</td><td>BT đột xuất</td><td>05/11</td><td>2</td><td><span class="status ok">Hoàn thành</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+</section>
+
+<!-- ==================== GRC VẬN HÀNH ==================== -->
+<section class="page" id="grc">
+ <div class="pagehead"><div><h1>GRC vận hành</h1><p>Governance, Risk & Compliance: phân quyền, rủi ro, kiểm soát, kiểm toán, SoD và ma trận phê duyệt.</p></div><div style="display:flex;gap:8px"><button class="btn primary" onclick="notify('Tạo rủi ro demo')">＋ Rủi ro</button><button class="btn" onclick="notify('Chạy SoD check')">🔍 SoD Check</button></div></div>
+ <div class="grid kpis">
+  <div class="card"><div class="kpi-label">RỦI RO OPEN</div><div class="kpi-value">24</div><div class="delta">4 Critical · 8 High</div></div>
+  <div class="card"><div class="kpi-label">KIỂM SOÁT HIỆU QUẢ</div><div class="kpi-value">86%</div><div class="delta">↑ 3%</div></div>
+  <div class="card"><div class="kpi-label">SOD VIOLATIONS</div><div class="kpi-value">2</div><div class="delta" style="color:var(--red)">Cần xử lý</div></div>
+  <div class="card"><div class="kpi-label">AUDIT OPEN</div><div class="kpi-value">12</div><div class="delta" style="color:var(--amber)">3 quá hạn</div></div>
+ </div>
+ <div class="tabs">
+  <div class="tab active" onclick="switchTab('grc','riskregister')">Risk Register</div>
+  <div class="tab" onclick="switchTab('grc','controls')">Kiểm soát</div>
+  <div class="tab" onclick="switchTab('grc','sod')">SoD & RACI</div>
+  <div class="tab" onclick="switchTab('grc','compliance')">Tuân thủ</div>
+ </div>
+ <div class="tabcontent active" id="grc-riskregister">
+  <div class="card"><div class="cardtitle"><h3>Risk Register</h3><input class="search" placeholder="Tìm theo tên, mã, nhóm..."></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã</th><th>Rủi ro</th><th>Nhóm</th><th>L</th><th>I</th><th>Score</th><th>Chủ sở hữu</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>R-2026-001</td><td><b>Thiếu hụt dòng tiền ngắn hạn</b></td><td>Tài chính</td><td>4</td><td>5</td><td><span class="status bad">20</span></td><td>CFO</td><td><span class="status warn">Mitigating</span></td></tr>
+    <tr><td>R-2026-015</td><td><b>Rò rỉ dữ liệu khách hàng</b></td><td>Công nghệ</td><td>3</td><td>5</td><td><span class="status bad">15</span></td><td>CISO</td><td><span class="status warn">Mitigating</span></td></tr>
+    <tr><td>R-2026-042</td><td><b>Hồ sơ lao động chưa đầy đủ</b></td><td>Tuân thủ</td><td>3</td><td>4</td><td><span class="status warn">12</span></td><td>CHRO</td><td><span class="status ok">Monitored</span></td></tr>
+    <tr><td>R-2026-058</td><td><b>Gián đoạn nhà cung cấp chính</b></td><td>SCM</td><td>2</td><td>4</td><td><span class="status info">8</span></td><td>COO</td><td><span class="status ok">Monitored</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="grc-controls">
+  <div class="card"><div class="cardtitle"><h3>Kiểm soát nội bộ</h3><button class="btn" onclick="notify('Thêm kiểm soát demo')">＋ Kiểm soát</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã</th><th>Tên kiểm soát</th><th>Loại</th><th>Rủi ro liên quan</th><th>Hiệu quả</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>C-001</td><td><b>Duyệt 2 cấp cho thanh toán > 100M</b></td><td>Preventive</td><td>R-2026-001</td><td><span class="status ok">4/5</span></td><td><span class="status ok">Active</span></td></tr>
+    <tr><td>C-002</td><td><b>Log truy cập hệ thống</b></td><td>Detective</td><td>R-2026-015</td><td><span class="status ok">5/5</span></td><td><span class="status ok">Active</span></td></tr>
+    <tr><td>C-003</td><td><b>Rà soát hợp đồng lao động định kỳ</b></td><td>Preventive</td><td>R-2026-042</td><td><span class="status warn">3/5</span></td><td><span class="status warn">Cần cải tiến</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="grc-sod">
+  <div class="grid layout2">
+   <div class="card"><div class="cardtitle"><h3>Separation of Duties</h3><button class="btn" onclick="notify('Thêm quy tắc SoD')">＋ Quy tắc</button></div>
+    <div class="tablewrap"><table><thead><tr><th>Quy tắc</th><th>Nhiệm vụ A</th><th>Nhiệm vụ B</th><th>Thực thi</th><th>Trạng thái</th></tr></thead><tbody>
+     <tr><td><b>Không được vừa lập vừa duyệt chứng từ</b></td><td>Tạo chứng từ</td><td>Duyệt chứng từ</td><td><span class="status bad">BLOCK</span></td><td><span class="status ok">Active</span></td></tr>
+     <tr><td><b>Không được vừa mua vừa nhận hàng</b></td><td>Đặt hàng</td><td>Nhận hàng</td><td><span class="status bad">BLOCK</span></td><td><span class="status ok">Active</span></td></tr>
+     <tr><td><b>Không được vừa lập bảng lương vừa chi trả</b></td><td>Lập bảng lương</td><td>Chi trả lương</td><td><span class="status warn">WARN</span></td><td><span class="status ok">Active</span></td></tr>
+    </tbody></table></div></div>
+   <div class="card"><div class="cardtitle"><h3>RACI Matrix</h3><button class="btn" onclick="notify('Thêm RACI')">＋ RACI</button></div>
+    <div class="tablewrap"><table><thead><tr><th>Hoạt động</th><th>R</th><th>A</th><th>C</th><th>I</th></tr></thead><tbody>
+     <tr><td><b>Phê duyệt ngân sách</b></td><td>Finance</td><td>CEO</td><td>CFO, HR</td><td>Board</td></tr>
+     <tr><td><b>Tuyển dụng</b></td><td>HR</td><td>Hiring Manager</td><td>Finance</td><td>CEO</td></tr>
+     <tr><td><b>Mua sắm tài sản</b></td><td>Procurement</td><td>Department Head</td><td>Finance, Legal</td><td>CFO</td></tr>
+    </tbody></table></div></div>
+  </div>
+ </div>
+ <div class="tabcontent" id="grc-compliance">
+  <div class="card"><div class="cardtitle"><h3>Yêu cầu tuân thủ</h3><button class="btn" onclick="notify('Thêm yêu cầu tuân thủ')">＋ Yêu cầu</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Lĩnh vực</th><th>Yêu cầu</th><th>Văn bản tham chiếu</th><th>Ngày hiệu lực</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>Lao động</td><td><b>Hợp đồng lao động bằng văn bản</b></td><td>Bộ Luật Lao động 2019</td><td>01/01/2021</td><td><span class="status ok">Compliant</span></td></tr>
+    <tr><td>Thuế</td><td><b>Kê khai GTGT hàng tháng</b></td><td>Thông tư 219/2013/TT-BTC</td><td>01/01/2014</td><td><span class="status ok">Compliant</span></td></tr>
+    <tr><td>Dữ liệu</td><td><b>Bảo vệ dữ liệu cá nhân</b></td><td>Nghị định 13/2023/NĐ-CP</td><td>01/07/2023</td><td><span class="status warn">Partial</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+</section>
+
+<!-- ==================== AUDIT & NHẬT KÝ ==================== -->
+<section class="page" id="audit">
+ <div class="pagehead"><div><h1>Kiểm toán & Nhật ký</h1><p>Kiểm toán nội bộ, phát hiện, khắc phục, nhật ký kiểm toán bất biến và audit trail.</p></div><div style="display:flex;gap:8px"><button class="btn primary" onclick="notify('Tạo kế hoạch kiểm toán')">＋ Kế hoạch KT</button><button class="btn" onclick="notify('Xuất audit log')">📄 Xuất log</button></div></div>
+ <div class="grid kpis">
+  <div class="card"><div class="kpi-label">KẾ HOẠCH KT NĂM</div><div class="kpi-value">12</div><div class="delta">8 hoàn thành</div></div>
+  <div class="card"><div class="kpi-label">PHÁT HIỆN OPEN</div><div class="kpi-value">18</div><div class="delta" style="color:var(--amber)">5 quá hạn khắc phục</div></div>
+  <div class="card"><div class="kpi-label">AUDIT LOG (30 NGÀY)</div><div class="kpi-value">45,230</div><div class="delta">↑ 12%</div></div>
+  <div class="card"><div class="kpi-label">VIOLATIONS</div><div class="kpi-value">3</div><div class="delta" style="color:var(--red)">Cần xử lý ngay</div></div>
+ </div>
+ <div class="tabs">
+  <div class="tab active" onclick="switchTab('audit','plans')">Kế hoạch kiểm toán</div>
+  <div class="tab" onclick="switchTab('audit','findings')">Phát hiện & Khắc phục</div>
+  <div class="tab" onclick="switchTab('audit','logs')">Audit Log</div>
+  <div class="tab" onclick="switchTab('audit','trail')">Entity Trail</div>
+ </div>
+ <div class="tabcontent active" id="audit-plans">
+  <div class="card"><div class="cardtitle"><h3>Kế hoạch kiểm toán 2026</h3><span class="status info">8/12 hoàn thành</span></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã KT</th><th>Tên chương trình</th><th>Phạm vi</th><th>Kỳ</th><th>Tiến độ</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>KT-2026-001</td><td><b>Kiểm toán quy trình mua hàng</b></td><td>Procurement, SCM</td><td>Q1</td><td><div class="progress"><span style="width:100%"></span></div></td><td><span class="status ok">Completed</span></td></tr>
+    <tr><td>KT-2026-002</td><td><b>Kiểm toán bảng lương và BHXH</b></td><td>HRM, Finance</td><td>Q2</td><td><div class="progress"><span style="width:100%"></span></div></td><td><span class="status ok">Completed</span></td></tr>
+    <tr><td>KT-2026-003</td><td><b>Kiểm toán IT General Controls</b></td><td>IT, Security</td><td>Q3</td><td><div class="progress"><span style="width:75%"></span></div></td><td><span class="status warn">In Progress</span></td></tr>
+    <tr><td>KT-2026-004</td><td><b>Kiểm toán dòng tiền</b></td><td>Treasury, Finance</td><td>Q4</td><td><div class="progress"><span style="width:30%"></span></div></td><td><span class="status info">Planned</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="audit-findings">
+  <div class="card"><div class="cardtitle"><h3>Phát hiện kiểm toán</h3><button class="btn" onclick="notify('Thêm phát hiện')">＋ Phát hiện</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã</th><th>Phát hiện</th><th>Mức độ</th><th>Chủ đề</th><th>Hạn khắc phục</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>F-2026-012</td><td><b>Thiếu chứng từ gốc 3 PO</b></td><td><span class="status warn">Medium</span></td><td>Procurement</td><td>15/11/2026</td><td><span class="status warn">Remediation</span></td></tr>
+    <tr><td>F-2026-015</td><td><b>Truy cập quyền admin cho nhân viên đã nghỉ</b></td><td><span class="status bad">High</span></td><td>IT Security</td><td>10/11/2026</td><td><span class="status bad">Open</span></td></tr>
+    <tr><td>F-2026-008</td><td><b>Sai lệch định mức nguyên liệu 2%</b></td><td><span class="status info">Low</span></td><td>Manufacturing</td><td>30/11/2026</td><td><span class="status ok">Verified</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="audit-logs">
+  <div class="card"><div class="cardtitle"><h3>Audit Log (30 ngày qua)</h3><input class="search" placeholder="Tìm theo entity, user, event..."></div>
+   <div class="tablewrap"><table><thead><tr><th>Thời gian</th><th>Event</th><th>Entity</th><th>User</th><th>Thay đổi</th><th>Severity</th></tr></thead><tbody>
+    <tr><td>05/11 14:22:05</td><td><b>AI_PERMISSION_UPDATE</b></td><td>uem_ai_permissions</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="afcecbc2c6c1efdacac281d9c1">[email&#160;protected]</a></td><td>grant: READ_KPI → AI_CFO</td><td><span class="status ok">INFO</span></td></tr>
+    <tr><td>05/11 11:05:33</td><td><b>WORKFLOW_APPROVED</b></td><td>uem_workflow_instances</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fc919d929d9b998ebc899991d28a92">[email&#160;protected]</a></td><td>status: PENDING → APPROVED</td><td><span class="status ok">INFO</span></td></tr>
+    <tr><td>04/11 16:40:12</td><td><b>RISK_ASSESSMENT_CHANGED</b></td><td>uem_risks</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="96e4ffe5fdd6e3f3fbb8e0f8">[email&#160;protected]</a></td><td>score: 12 → 15</td><td><span class="status warn">WARN</span></td></tr>
+    <tr><td>04/11 09:15:00</td><td><b>ENTERPRISE_CREATED</b></td><td>uem_enterprises</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="640b130a0116241101094a120a">[email&#160;protected]</a></td><td>id: new-uuid</td><td><span class="status ok">INFO</span></td></tr>
+    <tr><td>03/11 08:45:22</td><td><b>LOGIN_FAILED</b></td><td>auth.users</td><td>unknown</td><td>ip: 192.168.1.45</td><td><span class="status bad">ALERT</span></td></tr>
+   </tbody></table></div>
+   <p class="small muted">Audit log là bất biến (append-only). Không thể xóa hoặc sửa qua API.</p>
+  </div>
+ </div>
+ <div class="tabcontent" id="audit-trail">
+  <div class="card"><div class="cardtitle"><h3>Entity Audit Trail</h3><span class="small muted">Theo dõi thay đổi của một bản ghi cụ thể</span></div>
+   <div class="field"><label>Chọn Entity</label><select><option>uem_enterprises</option><option>uem_risks</option><option>uem_workflow_instances</option><option>uem_ai_permissions</option></select></div>
+   <div class="field"><label>Entity ID</label><input placeholder="Nhập UUID..."></div>
+   <button class="btn primary" onclick="notify('Truy vấn audit trail demo')">🔍 Truy vấn</button>
+   <div class="timeline" style="margin-top:20px">
+    <div class="event"><strong>05/11 14:22 · UPDATE</strong><p>User <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e687828b8f88a693838bc89088">[email&#160;protected]</a> cập nhật trường settings. Trước: {} → Sau: {"alert_threshold": 0.8}</p></div>
+    <div class="event"><strong>04/11 09:15 · INSERT</strong><p>User <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b3dcc4ddd6c1f3c6d6de9dc5dd">[email&#160;protected]</a> tạo bản ghi mới.</p></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== DOCUMENTS & STORAGE ==================== -->
+<section class="page" id="documents">
+ <div class="pagehead"><div><h1>Tài liệu & Lưu trữ</h1><p>Quản lý tài liệu, phiên bản, phân loại, phân quyền xem/tải, gắn với entity và lưu trữ.</p></div><div style="display:flex;gap:8px"><button class="btn primary" onclick="notify('Upload tài liệu demo')">📤 Upload</button><button class="btn" onclick="notify('Tạo thư mục demo')">📁 Thư mục</button></div></div>
+ <div class="grid kpis">
+  <div class="card"><div class="kpi-label">TỔNG TÀI LIỆU</div><div class="kpi-value">3,420</div><div class="delta">↑ 124 tuần này</div></div>
+  <div class="card"><div class="kpi-label">DUNG LƯỢNG</div><div class="kpi-value">48.6 GB</div><div class="delta">Trong giới hạn</div></div>
+  <div class="card"><div class="kpi-label">CHỜ PHÊ DUYỆT</div><div class="kpi-value">8</div><div class="delta" style="color:var(--amber)">3 quá hạn</div></div>
+  <div class="card"><div class="kpi-label">PHIÊN BẢN</div><div class="kpi-value">1,240</div><div class="delta">Version controlled</div></div>
+ </div>
+ <div class="tabs">
+  <div class="tab active" onclick="switchTab('documents','all')">Tất cả tài liệu</div>
+  <div class="tab" onclick="switchTab('documents','pending')">Chờ duyệt</div>
+  <div class="tab" onclick="switchTab('documents','versions')">Lịch sử phiên bản</div>
+  <div class="tab" onclick="switchTab('documents','tags')">Tags & Phân loại</div>
+ </div>
+ <div class="tabcontent active" id="documents-all">
+  <div class="card"><div class="cardtitle"><h3>Thư viện tài liệu</h3><input class="search" placeholder="Tìm theo tên, tag, entity..."></div>
+   <div class="docitem"><div class="docicon">📄</div><div style="flex:1"><b>Quy chế tài chính 2026 v2.1.pdf</b><br><span class="small muted">Policy · Finance · 2.4 MB · v2.1 · 05/11/2026</span></div><span class="status ok">Đã duyệt</span></div>
+   <div class="docitem"><div class="docicon">📊</div><div style="flex:1"><b>Báo cáo tài chính Q3-2026.xlsx</b><br><span class="small muted">Report · Accounting · 1.8 MB · v1.0 · 30/10/2026</span></div><span class="status ok">Đã duyệt</span></div>
+   <div class="docitem"><div class="docicon">📋</div><div style="flex:1"><b>Hợp đồng lao động - Nguyễn Văn An.pdf</b><br><span class="small muted">Contract · HRM · 450 KB · v1.0 · 15/03/2022</span></div><span class="status ok">Đã duyệt</span></div>
+   <div class="docitem"><div class="docicon">📑</div><div style="flex:1"><b>Chính sách bảo mật dữ liệu (draft).docx</b><br><span class="small muted">Policy · Legal · 890 KB · v0.3 · 04/11/2026</span></div><span class="status warn">Chờ duyệt</span></div>
+  </div>
+ </div>
+ <div class="tabcontent" id="documents-pending">
+  <div class="card"><div class="cardtitle"><h3>Tài liệu chờ phê duyệt</h3><span class="status warn">8 chờ</span></div>
+   <div class="tablewrap"><table><thead><tr><th>Tài liệu</th><th>Loại</th><th>Người gửi</th><th>Ngày gửi</th><th>Người duyệt</th><th>Hành động</th></tr></thead><tbody>
+    <tr><td><b>Chính sách bảo mật dữ liệu (draft)</b></td><td>Policy</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ddb1b8babcb19da8b8b0f3abb3">[email&#160;protected]</a></td><td>04/11</td><td>CEO</td><td><button class="btn" onclick="approve(this)">Xem xét</button></td></tr>
+    <tr><td><b>Quy trình mua sắm mới</b></td><td>SOP</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8efefce1edfbfcebe3ebe0facefbebe3a0f8e0">[email&#160;protected]</a></td><td>03/11</td><td>COO</td><td><button class="btn" onclick="approve(this)">Xem xét</button></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="documents-versions">
+  <div class="card"><div class="cardtitle"><h3>Lịch sử phiên bản</h3><span class="small muted">Quy chế tài chính</span></div>
+   <div class="timeline">
+    <div class="event"><strong>v2.1 · 05/11/2026</strong><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2c3c6cfcbcce2d7c7cf8cd4cc">[email&#160;protected]</a> · Cập nhật ngưỡng phê duyệt từ 50M lên 100M</p></div>
+    <div class="event"><strong>v2.0 · 01/10/2026</strong><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a3c2c7cecacde3d6c6ce8dd5cd">[email&#160;protected]</a> · Thêm quy định mua sắm qua e-procurement</p></div>
+    <div class="event"><strong>v1.0 · 15/01/2026</strong><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bedfdad3d7d0fecbdbd390c8d0">[email&#160;protected]</a> · Phiên bản ban đầu</p></div>
+   </div>
+  </div>
+ </div>
+ <div class="tabcontent" id="documents-tags">
+  <div class="card"><h3>Phân loại & Tags</h3>
+   <div class="chips"><span class="chip">Policy</span><span class="chip">SOP</span><span class="chip">Contract</span><span class="chip">Report</span><span class="chip">Invoice</span><span class="chip">Legal</span><span class="chip">HR</span><span class="chip">Finance</span><span class="chip">Operations</span><span class="chip">Board</span><span class="chip">Audit</span><span class="chip">Compliance</span></div>
+   <div class="field" style="margin-top:16px"><label>Thêm tag mới</label><input placeholder="Nhập tag..."></div>
+   <button class="btn" onclick="notify('Thêm tag demo')">Thêm tag</button>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== NOTIFICATIONS & INBOX ==================== -->
+<section class="page" id="notifications">
+ <div class="pagehead"><div><h1>Thông báo & Hòm thư</h1><p>Trung tâm thông báo đa kênh: in-app, email, SMS, webhook. Quản lý đã đọc, ưu tiên và lịch sử.</p></div><div style="display:flex;gap:8px"><button class="btn" onclick="notify('Đánh dấu tất cả đã đọc')">✓ Đọc tất cả</button><button class="btn" onclick="notify('Cài đặt thông báo')">⚙ Cài đặt</button></div></div>
+ <div class="grid layout2">
+  <div class="card"><div class="cardtitle"><h3>Thông báo chưa đọc</h3><span class="status bad" id="notifCount">3 chưa đọc</span></div>
+   <div class="notifitem"><div class="notifdot crit"></div><div style="flex:1"><b>Rủi ro dòng tiền: Số dư có thể thấp hơn ngưỡng an toàn</b><br><span class="small muted">AI_CFO · 05/11 14:22 · Tài chính</span></div></div>
+   <div class="notifitem"><div class="notifdot warn"></div><div style="flex:1"><b>Hợp đồng lao động sắp hết hạn: 24 nhân viên</b><br><span class="small muted">AI_CHRO · 05/11 10:15 · Nhân sự</span></div></div>
+   <div class="notifitem"><div class="notifdot"></div><div style="flex:1"><b>Phê duyệt yêu cầu: Ngân sách tuyển dụng Q4</b><br><span class="small muted">Workflow · 04/11 16:30 · HR</span></div></div>
+   <div class="notifitem"><div class="notifdot" style="background:#cbd5e1"></div><div style="flex:1;color:var(--muted)"><b>Báo cáo tuần đã sẵn sàng</b><br><span class="small muted">System · 04/11 08:00 · Executive</span></div></div>
+  </div>
+  <div class="card"><div class="cardtitle"><h3>Cài đặt kênh thông báo</h3><span class="status info">Per user</span></div>
+   <div class="switchrow"><span>Thông báo in-app</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+   <div class="switchrow"><span>Email thông báo</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+   <div class="switchrow"><span>SMS khẩn cấp</span><div class="switch" onclick="this.classList.toggle('on')"></div></div>
+   <div class="switchrow"><span>Webhook tích hợp</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+   <div class="switchrow"><span>Âm thanh cảnh báo Critical</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+   <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
+   <b style="font-size:12px">Tần suất gửi email</b>
+   <div class="field"><select><option>Ngay lập tức</option><option>Gộp 15 phút</option><option>Gộp 1 giờ</option><option>Gộp 1 ngày</option></select></div>
+  </div>
+ </div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Lịch sử thông báo (7 ngày)</h3><input class="search" placeholder="Tìm thông báo..."></div>
+  <div class="tablewrap"><table><thead><tr><th>Thời gian</th><th>Tiêu đề</th><th>Nguồn</th><th>Mức độ</th><th>Trạng thái</th></tr></thead><tbody>
+   <tr><td>05/11 14:22</td><td><b>Rủi ro dòng tiền</b></td><td>AI_CFO</td><td><span class="status bad">CRITICAL</span></td><td><span class="status warn">Chưa đọc</span></td></tr>
+   <tr><td>05/11 10:15</td><td><b>Hợp đồng lao động sắp hết hạn</b></td><td>AI_CHRO</td><td><span class="status warn">WARN</span></td><td><span class="status warn">Chưa đọc</span></td></tr>
+   <tr><td>04/11 16:30</td><td><b>Phê duyệt yêu cầu ngân sách</b></td><td>Workflow</td><td><span class="status info">INFO</span></td><td><span class="status warn">Chưa đọc</span></td></tr>
+   <tr><td>04/11 08:00</td><td><b>Báo cáo tuần đã sẵn sàng</b></td><td>System</td><td><span class="status info">INFO</span></td><td><span class="status ok">Đã đọc</span></td></tr>
+  </tbody></table></div></div>
+</section>
+
+<!-- ==================== INTEGRATIONS ==================== -->
+<section class="page" id="integrations">
+ <div class="pagehead"><div><h1>Tích hợp hệ thống</h1><p>Kết nối ngân hàng, chính phủ điện tử, ERP khác, email, Slack, Telegram và các dịch vụ bên thứ ba.</p></div><button class="btn primary" onclick="notify('Thêm kết nối demo')">＋ Kết nối mới</button></div>
+ <div class="notice">Không lưu API key hoặc mật khẩu vào frontend. Bí mật phải lưu phía server/secret manager.</div>
+ <div class="grid layout3">
+  <div class="card"><div class="cardtitle"><h3>🏦 Ngân hàng</h3><span class="status warn">Chưa kết nối</span></div>
+   <p class="small muted">Đồng bộ sao kê, số dư, giao dịch. Yêu cầu ủy quyền rõ ràng.</p>
+   <div class="switchrow"><span>Trạng thái</span><span class="status warn">DISCONNECTED</span></div>
+   <button class="btn" onclick="notify('Kết nối ngân hàng demo')">Kết nối</button>
+  </div>
+  <div class="card"><div class="cardtitle"><h3>🏛️ Chính phủ điện tử</h3><span class="status warn">Chưa kết nối</span></div>
+   <p class="small muted">Tra cứu MST, nộp tờ khai, tra cứu thông tin doanh nghiệp.</p>
+   <div class="switchrow"><span>Trạng thái</span><span class="status warn">DISCONNECTED</span></div>
+   <button class="btn" onclick="notify('Kết nối demo')">Kết nối</button>
+  </div>
+  <div class="card"><div class="cardtitle"><h3>📧 Email / SMTP</h3><span class="status ok">Đã kết nối</span></div>
+   <p class="small muted">Gửi thông báo, payslip, báo cáo qua email.</p>
+   <div class="switchrow"><span>Trạng thái</span><span class="status ok">ACTIVE</span></div>
+   <button class="btn" onclick="notify('Cấu hình email')">Cấu hình</button>
+  </div>
+  <div class="card"><div class="cardtitle"><h3>💬 Slack</h3><span class="status info">CONFIGURED</span></div>
+   <p class="small muted">Thông báo cảnh báo, phê duyệt vào channel.</p>
+   <div class="switchrow"><span>Trạng thái</span><span class="status info">CONFIGURED</span></div>
+   <button class="btn" onclick="notify('Kích hoạt Slack')">Kích hoạt</button>
+  </div>
+  <div class="card"><div class="cardtitle"><h3>📱 Telegram</h3><span class="status warn">DISCONNECTED</span></div>
+   <p class="small muted">Bot thông báo khẩn cấp cho admin.</p>
+   <div class="switchrow"><span>Trạng thái</span><span class="status warn">DISCONNECTED</span></div>
+   <button class="btn" onclick="notify('Kết nối Telegram')">Kết nối</button>
+  </div>
+  <div class="card"><div class="cardtitle"><h3>📊 Power BI / Tableau</h3><span class="status info">PLANNED</span></div>
+   <p class="small muted">Đẩy dữ liệu warehouse sang BI tool.</p>
+   <div class="switchrow"><span>Trạng thái</span><span class="status info">PLANNED</span></div>
+   <button class="btn" onclick="notify('Lên kế hoạch tích hợp')">Lên kế hoạch</button>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== INDUSTRY INTELLIGENCE ==================== -->
+<section class="page" id="industry">
+ <div class="pagehead"><div><h1>Industry Intelligence</h1><p>Khung nghiệp vụ và bộ chỉ số tùy biến theo ngành, không ép mọi công ty dùng cùng một mô hình.</p></div></div>
+ <div class="grid modulegrid">
+  <div class="module"><div class="mi">🏭</div><h3>Sản xuất & công nghiệp</h3><p>OEE, sản lượng, BOM, định mức, chất lượng, bảo trì, năng lực chuyền và giá thành.</p></div>
+  <div class="module"><div class="mi">🧵</div><h3>Dệt may & thời trang</h3><p>Năng suất chuyền, SAM, lỗi sản phẩm, đơn hàng, nguyên phụ liệu và chi phí lao động.</p></div>
+  <div class="module"><div class="mi">🛒</div><h3>Bán lẻ & thương mại điện tử</h3><p>Doanh thu cửa hàng, conversion, tồn kho, vòng quay hàng, giỏ hàng và hoàn trả.</p></div>
+  <div class="module"><div class="mi">🚛</div><h3>Logistics & vận tải</h3><p>OTIF, chi phí mỗi chuyến, tải trọng, thời gian giao, nhiên liệu và sử dụng đội xe.</p></div>
+  <div class="module"><div class="mi">🏨</div><h3>Khách sạn & dịch vụ</h3><p>Công suất phòng, ADR, RevPAR, trải nghiệm khách hàng, ca làm và chất lượng dịch vụ.</p></div>
+  <div class="module"><div class="mi">🏗️</div><h3>Xây dựng & bất động sản</h3><p>Tiến độ, dự toán, phát sinh, nhà thầu, nghiệm thu, an toàn và dòng tiền dự án.</p></div>
+  <div class="module"><div class="mi">🏥</div><h3>Y tế & chăm sóc sức khỏe</h3><p>Công suất, lịch nhân lực, chất lượng dịch vụ, vật tư và kiểm soát quy trình chuyên môn.</p></div>
+  <div class="module"><div class="mi">🎓</div><h3>Giáo dục & đào tạo</h3><p>Tuyển sinh, duy trì học viên, tải giảng dạy, chất lượng đào tạo và học phí.</p></div>
+  <div class="module"><div class="mi">💻</div><h3>Công nghệ & phần mềm</h3><p>Product roadmap, sprint, uptime, cloud cost, churn, ARR và năng suất đội ngũ.</p></div>
+  <div class="module"><div class="mi">🌱</div><h3>Nông nghiệp</h3><p>Năng suất mùa vụ, chi phí đầu vào, truy xuất nguồn gốc, tồn kho và thời tiết.</p></div>
+  <div class="module"><div class="mi">🏦</div><h3>Dịch vụ tài chính</h3><p>Rủi ro tín dụng, thanh khoản, tuân thủ, chất lượng danh mục và bảo mật.</p></div>
+  <div class="module"><div class="mi">⚡</div><h3>Năng lượng & tiện ích</h3><p>Sản lượng, độ tin cậy, bảo trì, thất thoát, an toàn và hiệu suất tài sản.</p></div>
+ </div>
+ <div class="notice" style="margin-top:16px">Mỗi ngành cần bộ dữ liệu, quy trình, KPI, tiêu chuẩn và quy định chuyên ngành riêng. Danh mục trên là khung định hướng, chưa phải bộ tiêu chuẩn nghiệp vụ hoàn chỉnh.</div>
+</section>
+
+<!-- ==================== BI ==================== -->
+<section class="page" id="bi">
+ <div class="pagehead"><div><h1>Business Intelligence</h1><p>Đo lường hiệu quả, phân tích nguyên nhân và mô phỏng quyết định quản trị.</p></div><button class="btn" onclick="notify('Báo cáo demo đã được làm mới')">↻ Refresh</button></div>
+ <div class="grid kpis"><div class="card"><div class="kpi-label">REVENUE</div><div class="kpi-value">₫86.4B</div><span class="delta">+8.2%</span></div><div class="card"><div class="kpi-label">OPERATING COST</div><div class="kpi-value">₫61.8B</div><span class="delta" style="color:var(--amber)">+2.1%</span></div><div class="card"><div class="kpi-label">EBITDA MARGIN</div><div class="kpi-value">18.6%</div><span class="delta">+1.4 điểm %</span></div><div class="card"><div class="kpi-label">CASH RUNWAY</div><div class="kpi-value">7.4 tháng</div><span class="delta">Trên ngưỡng demo</span></div></div>
+ <div class="grid layout2"><div class="card"><div class="cardtitle"><h3>Revenue trend — 6 kỳ</h3><span class="small muted">Tỷ VND · minh họa</span></div><div style="height:190px;display:flex;align-items:end;gap:15px;padding:10px 8px 25px;border-bottom:1px solid var(--line)"><div style="height:48%;flex:1;background:#9cc4ff;border-radius:6px 6px 0 0"></div><div style="height:58%;flex:1;background:#83b5fa;border-radius:6px 6px 0 0"></div><div style="height:53%;flex:1;background:#70a8f5;border-radius:6px 6px 0 0"></div><div style="height:69%;flex:1;background:#5594ee;border-radius:6px 6px 0 0"></div><div style="height:76%;flex:1;background:#3d80e2;border-radius:6px 6px 0 0"></div><div style="height:91%;flex:1;background:#2563eb;border-radius:6px 6px 0 0"></div></div><div style="display:flex;justify-content:space-around;color:var(--muted);font-size:10px;margin-top:8px"><span>T5</span><span>T6</span><span>T7</span><span>T8</span><span>T9</span><span>T10</span></div></div>
+ <div class="card"><div class="cardtitle"><h3>Scenario planning</h3><span class="status info">What-if model</span></div><div class="field"><label>Biến động doanh thu (%)</label><input id="revenueChange" type="number" value="-10" min="-100" max="100"></div><div class="field"><label>Biến động chi phí (%)</label><input id="costChange" type="number" value="5" min="-100" max="100"></div><button class="btn primary" onclick="scenario()">Mô phỏng kịch bản</button><div id="scenarioResult" class="knowledge"><strong>Kết quả mô phỏng</strong><p>Thay đổi giả định để xem tác động minh họa đến lợi nhuận.</p></div></div></div>
+ <div class="card" style="margin-top:16px"><h3 style="font-size:14px">Các lớp phân tích</h3><span class="tag">Descriptive — Điều gì đã xảy ra?</span><span class="tag">Diagnostic — Vì sao xảy ra?</span><span class="tag">Predictive — Điều gì có thể xảy ra?</span><span class="tag">Prescriptive — Nên làm gì?</span><span class="tag">Simulation — Nếu thay đổi thì sao?</span></div>
+</section>
+
+<!-- ==================== WORKFLOW ==================== -->
+<section class="page" id="workflow">
+ <div class="pagehead"><div><h1>Approvals & Workflows</h1><p>Luồng công việc, phân cấp thẩm quyền, phê duyệt và nhật ký hành động.</p></div><button class="btn primary" onclick="notify('Đã tạo yêu cầu demo mới')">＋ Tạo yêu cầu</button></div>
+ <div class="notice">AI có thể chuẩn bị hồ sơ và đề xuất người duyệt; không được tự phê duyệt giao dịch, sa thải, thay đổi lương, ký hợp đồng hoặc quyết định pháp lý.</div>
+ <div class="tabs">
+  <div class="tab active" onclick="switchTab('workflow','queue')">Hàng đợi phê duyệt</div>
+  <div class="tab" onclick="switchTab('workflow','designer')">Workflow Designer</div>
+  <div class="tab" onclick="switchTab('workflow','instances')">Luồng đang chạy</div>
+  <div class="tab" onclick="switchTab('workflow','delegation')">Ủy quyền</div>
+ </div>
+ <div class="tabcontent active" id="workflow-queue">
+  <div class="card"><div class="cardtitle"><h3>Hàng đợi phê duyệt</h3><span class="status warn">3 chờ xử lý</span></div><div class="tablewrap"><table><thead><tr><th>Mã yêu cầu</th><th>Nội dung</th><th>Đơn vị</th><th>Người đề xuất</th><th>Giá trị / mức độ</th><th>Trạng thái</th><th>Hành động</th></tr></thead><tbody>
+ <tr><td>APR-26041</td><td>Phê duyệt ngân sách tuyển dụng</td><td>HR</td><td>HR Manager</td><td>₫180 triệu</td><td><span class="status warn">Chờ duyệt</span></td><td><button class="btn" onclick="approve(this)">Xem xét</button></td></tr>
+ <tr><td>APR-26042</td><td>Đề xuất mua thiết bị</td><td>Operations</td><td>COO Office</td><td>₫420 triệu</td><td><span class="status warn">Chờ duyệt</span></td><td><button class="btn" onclick="approve(this)">Xem xét</button></td></tr>
+ <tr><td>APR-26043</td><td>Điều chỉnh kế hoạch dòng tiền</td><td>Finance</td><td>Finance Manager</td><td>Cao</td><td><span class="status warn">Chờ duyệt</span></td><td><button class="btn" onclick="approve(this)">Xem xét</button></td></tr>
+ </tbody></table></div></div>
+  <div class="grid layout3" style="margin-top:16px"><div class="card"><b>Maker–Checker</b><p class="small muted">Người lập và người duyệt phải được tách biệt theo chính sách.</p></div><div class="card"><b>Delegation</b><p class="small muted">Ủy quyền có thời hạn, phạm vi và nhật ký rõ ràng.</p></div><div class="card"><b>Audit trail</b><p class="small muted">Lưu ai làm gì, lúc nào, dữ liệu trước/sau và lý do.</p></div></div>
+ </div>
+ <div class="tabcontent" id="workflow-designer">
+  <div class="card"><div class="cardtitle"><h3>Workflow Designer</h3><button class="btn" onclick="notify('Thêm bước workflow')">＋ Bước</button></div>
+   <div style="background:#f8fafc;border-radius:12px;padding:20px;margin-top:10px">
+    <div style="display:flex;align-items:center;gap:12px;margin:8px 0">
+     <div style="background:#dbeafe;padding:8px 14px;border-radius:8px;font-size:11px;font-weight:700;color:#1d4ed8">START</div>
+     <span style="color:#93c5fd">→</span>
+     <div style="background:#fff;border:1px solid var(--line);padding:8px 14px;border-radius:8px;font-size:11px">Nộp yêu cầu</div>
+     <span style="color:#93c5fd">→</span>
+     <div style="background:#fff;border:1px solid var(--line);padding:8px 14px;border-radius:8px;font-size:11px">Trưởng phòng duyệt</div>
+     <span style="color:#93c5fd">→</span>
+     <div style="background:#fff;border:1px solid var(--line);padding:8px 14px;border-radius:8px;font-size:11px">CFO duyệt (nếu > 100M)</div>
+     <span style="color:#93c5fd">→</span>
+     <div style="background:#dbeafe;padding:8px 14px;border-radius:8px;font-size:11px;font-weight:700;color:#1d4ed8">END</div>
+    </div>
+    <p class="small muted">Minh họa luồng phê duyệt. Cần tích hợp workflow engine để kéo thả đầy đủ.</p>
+   </div>
+  </div>
+ </div>
+ <div class="tabcontent" id="workflow-instances">
+  <div class="card"><div class="cardtitle"><h3>Luồng đang chạy</h3><span class="status info">12 instances</span></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã</th><th>Workflow</th><th>Bước hiện tại</th><th>Người giữ</th><th>Thời gian</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>WF-202611-001</td><td><b>Phê duyt ngân sách</b></td><td>CFO Review</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0e6d68614e7b6b63207860">[email&#160;protected]</a></td><td>2 giờ</td><td><span class="status warn">Chờ</span></td></tr>
+    <tr><td>WF-202611-002</td><td><b>Tuyển dụng</b></td><td>HR Screening</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0b63794b7e6e66257d65">[email&#160;protected]</a></td><td>1 ngày</td><td><span class="status ok">Đang xử lý</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="workflow-delegation">
+  <div class="card"><div class="cardtitle"><h3>Ủy quyền phê duyệt</h3><button class="btn" onclick="notify('Tạo ủy quyền demo')">＋ Ủy quyền</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Ngưi ủy quyền</th><th>Ủy quyền cho</th><th>Phạm vi</th><th>Từ</th><th>Đến</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>CEO</td><td><b>COO</b></td><td>Tất cả yêu cầu < 500M</td><td>01/11/2026</td><td>15/11/2026</td><td><span class="status ok">Active</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+</section>
+
+<!-- ==================== IDENTITY ==================== -->
+<section class="page" id="identity">
+ <div class="pagehead"><div><h1>Enterprise Identity & Strategy</h1><p>Xác định bản sắc, mô hình kinh doanh, định vị và mục tiêu dài hạn của từng doanh nghiệp.</p></div><button class="btn primary" onclick="notify('Đã lưu cấu hình demo cục bộ')">Lưu cấu hình</button></div>
+ <div class="hero"><h2>Doanh nghiệp tồn tại để tạo ra giá trị gì?</h2><p>Thiết lập sứ mệnh, tầm nhìn, giá trị cốt lõi và mô hình kinh doanh. Các thông tin này trở thành bối cảnh để AI phân tích chiến lược, không phải dữ liệu pháp lý đã xác minh.</p><button class="btn" onclick="openWizard()">Mở Enterprise Setup</button></div>
+ <div class="grid layout2"><div class="card"><h3>Identity Profile</h3><div class="field"><label>Mission – Sứ mệnh</label><textarea placeholder="Doanh nghiệp được thành lập để..."></textarea></div><div class="field"><label>Vision – Tầm nhìn</label><textarea placeholder="Vị thế mong muốn trong 5–10 năm..."></textarea></div><div class="field"><label>Core Values – Giá trị cốt lõi</label><input placeholder="Chính trực, đổi mới, khách hàng... "></div><div class="field"><label>Development Stage</label><select><option>Khởi nghiệp</option><option>Tăng trưởng</option><option>Trưởng thành</option><option>Tái cấu trúc</option><option>M rộng quốc tế</option></select></div></div>
+ <div class="card"><h3>Business Model & Positioning</h3><div class="field"><label>Mô hình kinh doanh</label><select><option>B2B</option><option>B2C</option><option>B2B2C</option><option>Marketplace / Platform</option><option>Sản xuất</option><option>Dịch vụ</option><option>Hỗn hợp / Khác</option></select></div><div class="field"><label>Giá trị cung cấp (Value Proposition)</label><textarea placeholder="Giá trị khác biệt cho khách hàng..."></textarea></div><div class="field"><label>Lợi thế cạnh tranh</label><textarea placeholder="Công nghệ, chi phí, thương hiệu, mạng lưới..."></textarea></div><div class="field"><label>Thị trường mục tiêu</label><input placeholder="Ngành, phân khúc, khu vực..."></div></div></div>
+ <div class="card" style="margin-top:16px"><h3>Strategic Objectives</h3><div class="grid layout3"><div class="knowledge"><strong>Growth</strong><p>Tăng trưởng doanh thu, thị phần, khách hàng.</p></div><div class="knowledge"><strong>Profitability</strong><p>Biên lợi nhuận, năng suất, hiệu quả vốn.</p></div><div class="knowledge"><strong>Resilience</strong><p>Khả năng chống chịu, tuân thủ và bền vững.</p></div></div><button class="btn" onclick="addObjective()">＋ Thêm mục tiêu chiến lược</button><div id="objectives" class="mini-list"></div></div>
+</section>
+
+<!-- ==================== LEADERSHIP ==================== -->
+<section class="page" id="leadership">
+ <div class="pagehead"><div><h1>Leadership & Governance Center</h1><p>Thiết lập phong cách lãnh đạo, mô hình quản trị, văn hóa, chiến lược và mức tự chủ AI cho từng doanh nghiệp.</p></div><button class="btn primary" onclick="saveAndApplyLeadershipProfile()">Lưu & áp dụng cấu hình</button></div>
+ <div class="notice">Phong cách lãnh đạo là cấu hình quản trị tham khảo. Nó không tự cấp quyền ký, phê duyệt pháp lý hoặc quyền thực thi cho AI. Mọi quyền hạn phải tuân theo điều lệ, pháp luật và ủy quyền hợp lệ.</div>
+ <div class="grid layout2"><div class="card"><div class="cardtitle"><h3>Leadership Style Mixer</h3><span class="status info">Tỷ trọng 100%</span></div><p class="small muted">Chọn phong cách chủ đạo và phân bổ tỷ trọng các phong cách hỗ trợ.</p><div id="styleWeights"></div><div class="weighttotal">Tổng tỷ trọng: <span id="weightTotal">100</span>%</div><p class="small muted">Tỷ trọng là cách cấu hình mô hình, không phải thang đo khoa học phổ quát.</p></div>
+ <div class="card"><h3>Governance & Decision Model</h3><div class="field"><label>Mô hình quản trị</label><select id="govModel"><option>Tập trung (Centralized)</option><option>Phân quyền (Decentralized)</option><option>Ma trận (Matrix)</option><option>Phân cấp (Hierarchical)</option><option>Phẳng (Flat)</option><option>Lai (Hybrid)</option></select></div><div class="field"><label>Mô hình ra quyết định</label><select id="decisionModel"><option>Data-driven</option><option>CEO decision</option><option>Consultative</option><option>Democratic</option><option>Consensus</option><option>Delegated</option><option>Committee decision</option></select></div><div class="field"><label>Văn hóa doanh nghiệp</label><select id="cultureModel"><option>Đổi mới & học hỏi</option><option>Kỷ luật & hiệu suất</option><option>Hợp tác & con người</option><option>Khách hàng làm trọng tâm</option><option>Liêm chính & tuân thủ</option><option>Bền vững</option><option>Văn hóa hỗn hợp</option></select></div><div class="field"><label>AI Autonomy Level</label><select id="aiAutonomy"><option>L1 – Assistant</option><option>L2 – Advisor</option><option selected>L3 – Controlled Execution</option><option>L4 – Bounded Autonomous Management</option></select></div></div></div>
+ <div class="card" style="margin-top:16px"><h3>12 Leadership Styles</h3><div class="choicegrid" id="leadershipStyles"></div></div>
+ <div class="card influence-card" style="margin-top:16px">
+  <div class="cardtitle"><div><h3>Leadership Influence Engine</h3><p class="small muted">Lớp định hướng tác động xuyên suốt các hệ thống doanh nghiệp. Chỉ tạo đề xuất cấu hình; không tự thay đổi thẩm quyền pháp lý hoặc quyền AI.</p></div><span class="status info">Cross-module</span></div>
+  <div class="grid layout2">
+   <div><h4 style="margin:4px 0 10px">Phạm vi ảnh hưởng</h4><div id="influenceMap" class="influence-map"></div></div>
+   <div><h4 style="margin:4px 0 10px">Xem trước tác động</h4><div class="field"><label>Tình huống quản trị</label><select id="leadershipScenario" onchange="renderInfluencePreview()"><option value="normal">Vận hành bình thường</option><option value="crisis">Khủng hoảng</option><option value="growth">Tăng trưởng nhanh</option><option value="restructure">Tái cấu trúc</option><option value="innovation">Đổi mới sản phẩm</option><option value="compliance">Rủi ro tuân thủ</option></select></div><div id="influencePreview" class="previewbox"></div></div>
+  </div>
+  <div class="dividerline"></div>
+  <div class="cardtitle"><h4>Điều chỉnh theo từng hệ thống</h4><span class="small muted">Không bắt buộc áp dụng đồng nhất</span></div>
+  <div id="moduleInfluenceControls" class="grid layout3"></div>
+  <div class="influence-actions"><button class="btn" onclick="renderInfluencePreview()">↻ Làm mới xem trước</button><button class="btn" onclick="restoreLeadershipProfile()">Khôi phục phiên bản đã lưu</button><button class="btn primary" onclick="applyLeadershipInfluence()">Áp dụng ảnh hưởng đã chọn</button></div>
+  <p class="small muted" style="margin-top:12px">Mọi tác động là đề xuất mô phỏng trong prototype. Quyết định tài chính, nhân sự, hợp đồng, pháp lý và các hành động nhạy cảm vẫn cần đúng người có thẩm quyền phê duyệt.</p>
+ </div>
+ <div class="grid layout2" style="margin-top:16px"><div class="card"><h3>Situational Leadership</h3><p class="small muted">Thiết lập cách điều chỉnh phong cách theo bối cảnh, có lưu lịch sử và cần người quản lý xác nhận.</p><div class="chips"><span class="chip">Khủng hoảng</span><span class="chip">Tăng trưởng nhanh</span><span class="chip">Tái cấu trúc</span><span class="chip">M&A</span><span class="chip">Suy thoái</span><span class="chip">Mở rộng quốc tế</span></div><button class="btn" onclick="notify('Đã tạo kịch bản điều chỉnh lãnh đạo demo')">＋ Tạo kịch bản</button></div><div class="card"><h3>Leadership Configuration History</h3><div class="timeline"><div class="event"><strong>Version 1.0 · Initial profile</strong><p>Cấu hình khởi tạo · Demo</p></div><div class="event"><strong>Review cycle · Quarterly</strong><p>Đánh giá và so sánh với kết quả thực tế.</p></div><div class="event"><strong>Restore / Compare</strong><p>Khôi phục hoặc so sánh phiên bản cấu hình.</p></div></div></div></div>
+</section>
+
+<!-- ==================== GOVERNANCE ==================== -->
+<section class="page" id="governance">
+ <div class="pagehead"><div><h1>Corporate Governance Structure</h1><p>Quản trị cơ quan cấp cao, quyền giám sát và trách nhiệm điều hành theo loại hình doanh nghiệp.</p></div><button class="btn primary" onclick="notify('Đã lưu cấu hình demo cục bộ')">Lưu cấu hình</button></div>
+ <div class="notice">Các cơ quan quản trị hiển thị theo cấu hình loại hình pháp lý. Không phải doanh nghiệp nào cũng có đầy đủ tất cả cơ quan dưới đây.</div>
+ <div class="grid layout3"><div class="module"><div class="mi">♜</div><h3>Shareholders / Owners</h3><p>Chủ sở hữu, cổ đông, cơ cấu sở hữu, quyền biểu quyết.</p><span class="status info">Ownership</span></div><div class="module"><div class="mi">▦</div><h3>Board of Directors / Members</h3><p>HĐQT hoặc HĐTV, nghị quyết, nhiệm kỳ, ủy ban.</p><span class="status info">Oversight</span></div><div class="module"><div class="mi">⚖</div><h3>Supervisory / Audit</h3><p>Ban kiểm soát, ủy ban kiểm toán, giám sát độc lập.</p><span class="status info">Assurance</span></div><div class="module"><div class="mi">♙</div><h3>Executive Board</h3><p>Tổng giám đốc, giám đốc, ban điều hành.</p><span class="status info">Execution</span></div><div class="module"><div class="mi">◎</div><h3>Committees</h3><p>Ủy ban chiến lược, nhân sự, lương thưởng, rủi ro.</p><span class="status info">Specialized</span></div><div class="module"><div class="mi">⌂</div><h3>State Capital Governance</h3><p>Đại diện vốn, cơ chế giám sát vốn nhà nước, báo cáo.</p><span class="status warn">Theo mô hình áp dụng</span></div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Governance Register</h3><button class="btn" onclick="notify('Thêm cơ quan quản trị')">＋ Thêm</button></div><div class="tablewrap"><table><thead><tr><th>Cơ quan</th><th>Vai trò</th><th>Phạm vi</th><th>Thành viên</th><th>Trạng thái</th></tr></thead><tbody><tr><td>Hội đồng quản trị</td><td>Định hướng và giám sát</td><td>Cấp công ty</td><td>5 thành viên</td><td><span class="status info">Cấu hình mẫu</span></td></tr><tr><td>Ban điều hành</td><td>Điều hành hoạt động</td><td>Toàn doanh nghiệp</td><td>CEO, CFO, COO, CHRO</td><td><span class="status info">Cấu hình mẫu</span></td></tr><tr><td>Ủy ban kiểm toán</td><td>Giám sát tài chính và kiểm soát</td><td>Theo loại hình</td><td>3 thành viên</td><td><span class="status warn">Cần xác định</span></td></tr><tr><td>Ban kiểm soát</td><td>Giám sát hoạt động (SOE)</td><td>Theo loại hình</td><td>—</td><td><span class="status info">Không áp dụng</span></td></tr></tbody></table></div></div>
+ <div class="grid layout2" style="margin-top:16px">
+  <div class="card"><div class="cardtitle"><h3>Thành viên HĐQT</h3><button class="btn" onclick="notify('Thêm thành viên')">＋ Thêm</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Họ tên</th><th>Chức danh</th><th>Loại</th><th>Nhiệm kỳ</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td><b>Nguyễn Văn Chủ tịch</b></td><td>Chủ tịch HĐQT</td><td>Độc lập</td><td>2024–2029</td><td><span class="status ok">Đương nhiệm</span></td></tr>
+    <tr><td><b>Trần Thị Giám đốc</b></td><td>Thành viên</td><td>Phi độc lập</td><td>2025–2030</td><td><span class="status ok">Đương nhiệm</span></td></tr>
+   </tbody></table></div></div>
+  <div class="card"><div class="cardtitle"><h3>Nghị quyết / Quyết định</h3><button class="btn" onclick="notify('Thêm nghị quyết')">＋ Thêm</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Số</th><th>Nội dung</th><th>Ngày</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>NQ-2026-045</td><td><b>Phê duyệt ngân sách 2027</b></td><td>15/10/2026</td><td><span class="status ok">Hiệu lực</span></td></tr>
+    <tr><td>NQ-2026-042</td><td><b>Bổ nhiệm CFO mới</b></td><td>01/09/2026</td><td><span class="status ok">Hiệu lực</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+</section>
+
+<!-- ==================== ORG DESIGN ==================== -->
+<section class="page" id="orgdesign">
+ <div class="pagehead"><div><h1>Organizational Design</h1><p>Thiết kế sơ đồ tổ chức, chức danh, cấp quản lý, tuyến báo cáo và phương án tái cấu trúc.</p></div><button class="btn primary" onclick="notify('Đã lưu cấu hình demo cục bộ')">Lưu cấu hình</button></div>
+ <div class="grid layout2"><div class="card"><h3>Organization Chart Builder</h3><div class="org" style="justify-content:center;margin:16px"><div class="card" style="text-align:center;min-width:150px;background:#eef5ff"><b>HỘI ĐỒNG QUẢN TRỊ</b><small>Oversight</small></div></div><div style="text-align:center;color:#91a0b5">│</div><div class="org" style="justify-content:center;margin:10px"><div class="card" style="text-align:center;min-width:150px;background:#eaf8f2"><b>TỔNG GIÁM ĐỐC</b><small>CEO</small></div></div><div style="text-align:center;color:#91a0b5">│</div><div class="grid layout3"><div class="card" style="text-align:center"><b>CFO</b><small class="muted">Tài chính</small></div><div class="card" style="text-align:center"><b>CHRO</b><small class="muted">Nhân sự</small></div><div class="card" style="text-align:center"><b>COO</b><small class="muted">Vận hành</small></div></div><button class="btn" onclick="notify('Trình dựng sơ đồ tương tác sẽ được triển khai ở giai đoạn tiếp theo')">＋ Thêm đơn vị / chức danh</button></div>
+ <div class="card"><h3>Organization Settings</h3><div class="field"><label>Kiểu tổ chức</label><select><option>Chức năng (Functional)</option><option>Đơn vị kinh doanh (Divisional)</option><option>Ma trận (Matrix)</option><option>Theo dự án (Project-based)</option><option>Hỗn hợp (Hybrid)</option></select></div><div class="field"><label>Nguyên tắc tuyến báo cáo</label><select><option>Một cấp quản lý trực tiếp</option><option>Ma trận hai tuyến</option><option>Theo dự án / nhiệm vụ</option></select></div><div class="field"><label>Định hướng tái cấu trúc</label><textarea placeholder="Mục tiêu, phạm vi, giả định, ràng buộc..."></textarea></div><button class="btn primary" onclick="notify('Đã lưu cấu hình sơ đồ demo')">Lưu cấu trúc</button></div></div>
+ <div class="card" style="margin-top:16px"><h3>Organization Change Impact</h3><div class="grid layout3"><div><div class="metric">+12%</div><span class="small muted">Chi phí quản lý mô phỏng</span></div><div><div class="metric">-2 cấp</div><span class="small muted">Phương án tinh gọn giả định</span></div><div><div class="metric">3 kịch bản</div><span class="small muted">Chưa được kiểm chứng</span></div></div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Danh sách đơn vị / chức danh</h3><button class="btn" onclick="notify('Thêm đơn vị demo')">＋ Thêm</button></div>
+  <div class="tablewrap"><table><thead><tr><th>Mã đơn vị</th><th>Tên đơn vị</th><th>Loại</th><th>Cấp trên</th><th>Headcount kế hoạch</th><th>Trạng thái</th></tr></thead><tbody>
+   <tr><td>DV-001</td><td><b>Phòng Tài chính</b></td><td>Phòng ban</td><td>CEO</td><td>12</td><td><span class="status ok">Hoạt động</span></td></tr>
+   <tr><td>DV-002</td><td><b>Phòng Nhân sự</b></td><td>Phòng ban</td><td>CEO</td><td>8</td><td><span class="status ok">Hoạt động</span></td></tr>
+   <tr><td>DV-003</td><td><b>Xưởng Sản xuất A</b></td><td>Xưởng</td><td>COO</td><td>120</td><td><span class="status ok">Hoạt động</span></td></tr>
+   <tr><td>DV-004</td><td><b>Đội Vận chuyển</b></td><td>Đội</td><td>COO</td><td>25</td><td><span class="status ok">Hoạt động</span></td></tr>
+  </tbody></table></div></div>
+</section>
+
+<!-- ==================== DECISION RIGHTS ==================== -->
+<section class="page" id="decisionrights">
+ <div class="pagehead"><div><h1>Decision Rights & Delegation</h1><p>Thiết lập DOA, RACI, hạn mức, phân tách nhiệm vụ và tuyến phê duyệt.</p></div><button class="btn primary" onclick="notify('Đã lưu cấu hình demo cục bộ')">Lưu cấu hình</button></div>
+ <div class="notice">Ma trận dưới đây là mẫu tham khảo. Phải đối chiếu điều lệ, quy chế nội bộ, giấy ủy quyền và quy định pháp luật trước khi áp dụng.</div>
+ <div class="card"><div class="cardtitle"><h3>Delegation of Authority Matrix</h3><button class="btn" onclick="notify('Đã thêm dòng DOA demo')">＋ Thêm quy tắc</button></div><div class="tablewrap"><table><thead><tr><th>Nghiệp vụ</th><th>Đề xuất</th><th>Thẩm định</th><th>Phê duyệt</th><th>Kiểm soát</th><th>Hạn mức</th></tr></thead><tbody><tr><td>Tuyển dụng</td><td>Trưởng bộ phận</td><td>HR</td><td>Người được ủy quyền</td><td>HR Audit</td><td>Theo quy chế</td></tr><tr><td>Ngân sách</td><td>Budget Owner</td><td>CFO</td><td>Cấp có thẩm quyền</td><td>Finance Control</td><td>&lt; 500M: CFO<br>≥ 500M: HĐQT</td></tr><tr><td>Đầu tư</td><td>Investment Team</td><td>CFO / Legal</td><td>HĐQT / cấp có thẩm quyền</td><td>Internal Audit</td><td>≥ 5B: HĐQT</td></tr><tr><td>Hợp đồng</td><td>Business Owner</td><td>Legal</td><td>Người đại diện hợp lệ</td><td>Compliance</td><td>Theo Điều lệ</td></tr><tr><td>Chi trả lương</td><td>HR / Payroll</td><td>CFO</td><td>CEO / Ủy quyền</td><td>Finance Control</td><td>Theo bảng lương đã duyệt</td></tr></tbody></table></div></div>
+ <div class="grid layout3" style="margin-top:16px"><div class="card"><h3>RACI Matrix</h3><p class="small muted">Responsible, Accountable, Consulted, Informed.</p><button class="btn" onclick="notify('Mở trình thiết kế RACI demo')">Mở RACI</button></div><div class="card"><h3>Spending Limits</h3><p class="small muted">Hạn mức theo đơn vị, loại giao dịch, ngân sách và cấp phê duyệt.</p><button class="btn" onclick="notify('Mở cấu hình hạn mức demo')">Cấu hình hạn mức</button></div><div class="card"><h3>Segregation of Duties</h3><p class="small muted">Ngăn một cá nhân kiểm soát toàn bộ vòng đời giao dịch.</p><button class="btn" onclick="notify('Mở kiểm tra xung đột nhiệm vụ demo')">Kiểm tra SoD</button></div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Approval Matrix chi tiết</h3><span class="small muted">Theo giá trị giao dịch</span></div>
+  <div class="tablewrap"><table><thead><tr><th>Phạm vi giá trị</th><th>Cấp 1</th><th>Cấp 2</th><th>Cấp 3</th><th>Cấp 4</th></tr></thead><tbody>
+   <tr><td>&lt; 50 triệu</td><td>Trưởng phòng</td><td>—</td><td>—</td><td>—</td></tr>
+   <tr><td>50 – 200 triệu</td><td>Trưởng phòng</td><td>Giám đốc khối</td><td>—</td><td>—</td></tr>
+   <tr><td>200 – 500 triệu</td><td>Trưởng phòng</td><td>Giám đốc khối</td><td>CFO</td><td>—</td></tr>
+   <tr><td>500 triệu – 5 tỷ</td><td>Trưởng phòng</td><td>Giám đốc khối</td><td>CFO</td><td>CEO / HĐQT</td></tr>
+   <tr><td>≥ 5 tỷ</td><td>Trưởng phòng</td><td>Giám đốc khối</td><td>CFO</td><td>HĐQT</td></tr>
+  </tbody></table></div></div>
+</section>
+
+<!-- ==================== OPERATING ==================== -->
+<section class="page" id="operating">
+ <div class="pagehead"><div><h1>Management Operating System</h1><p>Lịch điều hành theo ngày, tuần, tháng, quý, năm; cuộc họp, quyết định và hành động sau họp.</p></div><button class="btn primary" onclick="notify('Đã lưu cấu hình demo cục bộ')">Lưu cấu hình</button></div>
+ <div class="grid layout3"><div class="card"><span class="chip">DAILY</span><h3>Daily Management</h3><p class="small muted">Vận hành, sự cố, năng suất, ưu tiên trong ngày.</p><div class="mini-list"><div class="mini-item"><span>Stand-up 08:00</span><span class="status ok">Định kỳ</span></div><div class="mini-item"><span>Báo cáo sản lượng 17:00</span><span class="status ok">Định kỳ</span></div></div></div><div class="card"><span class="chip">WEEKLY</span><h3>Weekly Review</h3><p class="small muted">Tiến độ mục tiêu, vấn đề liên phòng ban.</p><div class="mini-list"><div class="mini-item"><span>Executive Weekly</span><span class="status ok">Thứ 2</span></div><div class="mini-item"><span>Sales Weekly</span><span class="status ok">Thứ 3</span></div></div></div><div class="card"><span class="chip">MONTHLY</span><h3>Monthly Business Review</h3><p class="small muted">Tài chính, doanh thu, vận hành, nhân lực.</p><div class="mini-list"><div class="mini-item"><span>MBR tháng 10</span><span class="status ok">05/11</span></div></div></div><div class="card"><span class="chip">QUARTERLY</span><h3>Quarterly Review</h3><p class="small muted">Đánh giá chiến lược và phân bổ nguồn lực.</p><div class="mini-list"><div class="mini-item"><span>QBR Q3/2026</span><span class="status ok">15/10</span></div></div></div><div class="card"><span class="chip">ANNUAL</span><h3>Annual Strategic Review</h3><p class="small muted">Mục tiêu năm, ngân sách, kế hoạch dài hạn.</p><div class="mini-list"><div class="mini-item"><span>Annual Strategy 2027</span><span class="status info">Lên kế hoạch</span></div></div></div><div class="card"><span class="chip">BOARD</span><h3>Board Meeting</h3><p class="small muted">Chương trình họp, nghị quyết, theo dõi thực hiện.</p><div class="mini-list"><div class="mini-item"><span>HĐQT thường kỳ Q4</span><span class="status info">20/12</span></div></div></div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Meeting & Action Tracker</h3><button class="btn" onclick="notify('To cuộc họp demo')">＋ Cuộc họp</button></div><div class="tablewrap"><table><thead><tr><th>Cuộc họp</th><th>Chu kỳ</th><th>Ngày gần nhất</th><th>Đầu ra</th><th>Action items</th><th>Trạng thái</th></tr></thead><tbody><tr><td>Executive Weekly Review</td><td>Hàng tuần</td><td>04/11/2026</td><td>Quyết định & action items</td><td>12 open</td><td><span class="status info">Mẫu</span></td></tr><tr><td>Monthly Business Review</td><td>Hàng tháng</td><td>05/11/2026</td><td>KPI & kế hoạch khắc phục</td><td>8 open</td><td><span class="status info">Mẫu</span></td></tr><tr><td>Annual Strategy Meeting</td><td>Hàng năm</td><td>15/01/2026</td><td>Chiến lược & ngân sách</td><td>5 open</td><td><span class="status info">Mẫu</span></td></tr></tbody></table></div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Action Items</h3><button class="btn" onclick="notify('Thêm action item')">＋ Action</button></div>
+  <div class="tablewrap"><table><thead><tr><th>Nội dung</th><th>Cuộc họp</th><th>Owner</th><th>Hạn</th><th>Trạng thái</th></tr></thead><tbody>
+   <tr><td><b>Rà soát dòng tiền 13 tuần</b></td><td>Executive Weekly</td><td>CFO</td><td>12/11</td><td><span class="status ok">Đang thực hiện</span></td></tr>
+   <tr><td><b>Cập nhật hồ sơ lao động 24 NV</b></td><td>MBR tháng 10</td><td>CHRO</td><td>15/11</td><td><span class="status warn">Chậm</span></td></tr>
+   <tr><td><b>Đánh giá nhà cung cấp dự phòng</b></td><td>Executive Weekly</td><td>COO</td><td>20/11</td><td><span class="status info">Chưa bắt đầu</span></td></tr>
+  </tbody></table></div></div>
+</section>
+
+<!-- ==================== POLICIES ==================== -->
+<section class="page" id="policies">
+ <div class="pagehead"><div><h1>Corporate Policies & SOP</h1><p>Quản lý quy chế, chính sách, quy trình chuẩn, phiên bản, phê duyệt và ngày hiệu lực.</p></div><button class="btn primary" onclick="notify('Đã lưu cấu hình demo cục bộ')">Lưu cấu hình</button></div>
+ <div class="grid layout2"><div class="card"><h3>Policy Library</h3><div class="mini-list"><div class="mini-item"><span>Quy ch tài chính</span><span class="status info">Draft</span></div><div class="mini-item"><span>Quy chế phân quyền</span><span class="status warn">Review</span></div><div class="mini-item"><span>Quy trình mua sắm</span><span class="status ok">Effective · Demo</span></div><div class="mini-item"><span>Quy chế lương thưởng</span><span class="status info">Draft</span></div><div class="mini-item"><span>Quy trình quản lý rủi ro</span><span class="status info">Draft</span></div><div class="mini-item"><span>Chính sách bảo mật dữ liệu</span><span class="status warn">Review</span></div></div><button class="btn" onclick="notify('Tạo chính sách demo')">＋ Tạo chính sách</button></div><div class="card"><h3>Document Control</h3><div class="field"><label>Document Owner</label><input placeholder="Đơn vị / người phụ trách"></div><div class="field"><label>Version</label><input value="1.0"></div><div class="field"><label>Effective Date</label><input type="date"></div><div class="field"><label>Review Cycle</label><select><option>6 tháng</option><option>12 tháng</option><option>24 tháng</option><option>Theo sự kiện</option></select></div><div class="switchrow"><span>Yêu cầu phê duyệt trước hiệu lực</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div><div class="switchrow"><span>Thông báo đến toàn bộ nhân viên</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div></div></div>
+ <div class="card" style="margin-top:16px"><h3>SOP Process Library</h3><div class="chips"><span class="chip">Recruitment</span><span class="chip">Procurement</span><span class="chip">Payroll</span><span class="chip">Month-end Closing</span><span class="chip">Production</span><span class="chip">Incident Response</span><span class="chip">Customer Complaint</span><span class="chip">Onboarding</span><span class="chip">Offboarding</span><span class="chip">Expense Claim</span><span class="chip">Travel Request</span><span class="chip">Asset Handover</span></div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Chi tiết SOP: Quy trình mua sắm</h3><span class="status ok">Effective v2.1</span></div>
+  <div class="timeline">
+   <div class="event"><strong>Bước 1: Lập yêu cầu mua hàng (PR)</strong><p>Người yêu cầu điền PR, đính kèm báo giá (nếu có). Hệ thống tự động gán approver theo hạn mức.</p></div>
+   <div class="event"><strong>Bước 2: Thẩm định & Duyệt PR</strong><p>Trưởng phòng / CFO duyệt theo DOA. Kiểm tra ngân sách và SoD.</p></div>
+   <div class="event"><strong>Bước 3: Tạo PO & Gửi NCC</strong><p>Procurement tạo PO từ PR đã duyệt. Gửi NCC và lưu xác nhận.</p></div>
+   <div class="event"><strong>Bước 4: Nhận hàng & Kiểm tra</strong><p>Kho / Người yêu cầu kiểm tra chất lượng, số lượng. Khác PO phải ghi nhận lệch.</p></div>
+   <div class="event"><strong>Bước 5: Nhập kho / Ghi nhận tài sản</strong><p>Kho nhập hệ thống, Finance ghi nhận công nợ / tài sản.</p></div>
+   <div class="event"><strong>Bước 6: Thanh toán</strong><p>Finance kiểm tra chứng từ, 3-way match (PO-GR-Invoice), sau đó lập chứng từ chi.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== LEADERSHIP PERFORMANCE ==================== -->
+<section class="page" id="leadershipperformance">
+ <div class="pagehead"><div><h1>Hiệu quả lãnh đạo</h1><p>Đánh giá chất lượng quyết định, hiệu quả thực thi, năng lực tổ chức và kế hoạch kế nhiệm.</p></div><button class="btn primary" onclick="notify('Đã lưu cấu hình demo cục bộ')">Lưu cấu hình</button></div>
+ <div class="grid kpis"><div class="card"><div class="kpi-label">DECISION QUALITY</div><div class="kpi-value">82/100</div><span class="delta">↑ 4 điểm</span></div><div class="card"><div class="kpi-label">EXECUTION EFFECTIVENESS</div><div class="kpi-value">76/100</div><span class="delta">↑ 2 điểm</span></div><div class="card"><div class="kpi-label">EMPLOYEE ENGAGEMENT</div><div class="kpi-value">71/100</div><span class="delta">↑ 3 điểm</span></div><div class="card"><div class="kpi-label">SUCCESSION COVERAGE</div><div class="kpi-value">58%</div><span class="delta" style="color:var(--amber)">Cần cải thiện</span></div></div>
+ <div class="grid layout2"><div class="card"><h3>Leadership Evaluation Framework</h3><div class="mini-list"><div class="mini-item">Chất lượng và tốc độ ra quyết định <span class="status ok">82</span></div><div class="mini-item">Khả năng thực thi chiến lược <span class="status ok">76</span></div><div class="mini-item">Phát triển đội ngũ kế thừa <span class="status warn">58</span></div><div class="mini-item">Đạo đức, tuân thủ và minh bạch <span class="status ok">88</span></div><div class="mini-item">Khả năng thích ứng và đổi mới <span class="status ok">79</span></div></div></div><div class="card"><h3>Evaluation Principles</h3><p class="small muted">Không đánh giá lãnh đạo chỉ dựa trên phong cách đã chọn hoặc một KPI đơn lẻ. Cần bối cảnh, dữ liệu đáng tin cậy, đánh giá đa chiều và quyền phản hồi.</p><button class="btn" onclick="notify('Đã tạo chu kỳ đánh giá demo')">Tạo chu kỳ đánh giá</button></div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Kế hoạch kế nhiệm (Succession Planning)</h3><button class="btn" onclick="notify('Thêm vị trí kế nhiệm')">＋ Thêm</button></div>
+  <div class="tablewrap"><table><thead><tr><th>Vị trí trọng yếu</th><th>Người đương nhiệm</th><th>Người kế nhiệm tiềm năng</th><th>Sẵn sàng</th><th>Rủi ro rời đi</th><th>Trạng thái</th></tr></thead><tbody>
+   <tr><td><b>CEO</b></td><td>Nguyễn Văn Chủ tịch</td><td>Trần Thị Giám đốc</td><td><div class="progress"><span style="width:75%"></span></div></td><td><span class="status ok">Thấp</span></td><td><span class="status ok">Đang phát triển</span></td></tr>
+   <tr><td><b>CFO</b></td><td>Lê Văn Tài chính</td><td>Phạm Thị Kế toán</td><td><div class="progress"><span style="width:60%"></span></div></td><td><span class="status warn">Trung bình</span></td><td><span class="status warn">Cần đào tạo</span></td></tr>
+   <tr><td><b>COO</b></td><td>Hoàng Văn Vận hành</td><td>—</td><td><div class="progress"><span style="width:0%"></span></div></td><td><span class="status bad">Cao</span></td><td><span class="status bad">Chưa xác định</span></td></tr>
+  </tbody></table></div></div>
+</section>
+
+<!-- ==================== TALENT ==================== -->
+<section class="page" id="talent">
+ <div class="pagehead"><div><h1>Human Capital & Talent Strategy</h1><p>Hoạch định lực lượng lao động, năng lực, nhân tài, kế nhiệm và phát triển tổ chức.</p></div><button class="btn primary" onclick="notify('Đã lưu cấu hình demo cục bộ')">Lưu cấu hình</button></div>
+ <div class="grid layout3"><div class="module"><div class="mi">♙</div><h3>Workforce Planning</h3><p>Dự báo nhu cầu nhân lực theo chiến lược và năng lực.</p></div><div class="module"><div class="mi">✧</div><h3>Talent Management</h3><p>Thu hút, giữ chân, phát triển nhân tài.</p></div><div class="module"><div class="mi">▣</div><h3>Competency Framework</h3><p>Khung năng lực theo vị trí và cấp độ.</p></div><div class="module"><div class="mi">♜</div><h3>Leadership Development</h3><p>Phát triển năng lực quản lý và lãnh đạo.</p></div><div class="module"><div class="mi">▤</div><h3>Learning & Development</h3><p>Lộ trình đào tạo và đo lường hiệu quả.</p></div><div class="module"><div class="mi">↗</div><h3>Succession Planning</h3><p>Quy hoạch kế nhiệm vị trí trọng yếu.</p></div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Competency Framework</h3><button class="btn" onclick="notify('Thêm năng lực')">＋ Năng lực</button></div>
+  <div class="tablewrap"><table><thead><tr><th>Năng lực</th><th>Mô tả</th><th>Cấp độ</th><th>Áp dụng</th></tr></thead><tbody>
+   <tr><td><b>Strategic Thinking</b></td><td>Khả năng phân tích, định hướng chiến lược dài hạn</td><td>1–5</td><td>C-level, Senior Manager</td></tr>
+   <tr><td><b>Financial Acumen</b></td><td>Hiểu biết tài chính, ngân sách, dòng tiền</td><td>1–5</td><td>CFO, Finance, PM</td></tr>
+   <tr><td><b>Operational Excellence</b></td><td>Tối ưu quy trình, năng suất, chất lượng</td><td>1–5</td><td>COO, Operations</td></tr>
+   <tr><td><b>People Development</b></td><p>Phát triển, đào tạo, giữ chân nhân tài</td><td>1–5</td><td>CHRO, Manager+</td></tr>
+  </tbody></table></div></div>
+ <div class="card" style="margin-top:16px"><h3>Workforce Scenario Planning</h3><div class="formrow"><div class="field"><label>Thay đổi quy mô nhân sự (%)</label><input id="workforceChange" type="number" value="5"></div><div class="field"><label>Thời hạn kế hoạch</label><select><option>12 tháng</option><option>3 năm</option><option>5 năm</option></select></div></div><button class="btn primary" onclick="notify('Đã tạo kịch bản nhân lực mô phỏng')">Mô phỏng nhu cầu nhân lực</button></div>
+</section>
+
+<!-- ==================== STAKEHOLDERS ==================== -->
+<section class="page" id="stakeholders">
+ <div class="pagehead"><div><h1>Stakeholder Management</h1><p>Quản lý các bên liên quan, kỳ vọng, mức ảnh hưởng, cam kết và kế hoạch tương tác.</p></div><button class="btn primary" onclick="notify('Đã lưu cấu hình demo cục bộ')">Lưu cấu hình</button></div>
+ <div class="grid layout3"><div class="card"><h3>Owners & Shareholders</h3><p class="small muted">Cổ đông, chủ sở hữu, nhà đầu tư và quyền lợi.</p></div><div class="card"><h3>Employees</h3><p class="small muted">Người lao động, đại diện người lao động, công đoàn.</p></div><div class="card"><h3>Customers</h3><p class="small muted">Khách hàng, đối tác phân phối, người sử dụng.</p></div><div class="card"><h3>Suppliers</h3><p class="small muted">Nhà cung cấp, nhà thầu, đối tác chuỗi cung ứng.</p></div><div class="card"><h3>Government & Regulators</h3><p class="small muted">Cơ quan quản lý và cơ quan nhà nước có thẩm quyền.</p></div><div class="card"><h3>Community & Partners</h3><p class="small muted">Cộng đồng, đối tác chiến lược, truyền thông.</p></div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Stakeholder Register</h3><button class="btn" onclick="notify('Thêm stakeholder')">＋ Thêm</button></div><div class="tablewrap"><table><thead><tr><th>Nhóm</th><th>Mức ảnh hưởng</th><th>Kỳ vọng</th><th>Kế hoạch tương tác</th><th>Trạng thái</th></tr></thead><tbody><tr><td>Cổ đông</td><td>Cao</td><td>Hiệu quả vốn, minh bạch</td><td>Báo cáo định kỳ</td><td><span class="status ok">Tích cực</span></td></tr><tr><td>Người lao động</td><td>Cao</td><td>An toàn, công bằng, phát triển</td><td>Đối thoại & khảo sát</td><td><span class="status ok">Tích cực</span></td></tr><tr><td>Khách hàng</td><td>Cao</td><td>Chất lượng, dịch vụ</td><td>Customer review</td><td><span class="status ok">Tích cực</span></td></tr><tr><td>Cơ quan quản lý</td><td>Theo nghĩa vụ</td><td>Tuân thủ pháp luật</td><td>Báo cáo đúng hạn</td><td><span class="status ok">Tuân thủ</span></td></tr><tr><td>Nhà cung cấp chiến lược</td><td>Trung bình</td><td>Thanh toán đúng hạn, đơn hàng ổn định</td><td>Đánh giá định kỳ</td><td><span class="status ok">Tích cực</span></td></tr></tbody></table></div></div>
+</section>
+
+<!-- ==================== LIFECYCLE ==================== -->
+<section class="page" id="lifecycle">
+ <div class="pagehead"><div><h1>Enterprise Lifecycle</h1><p>Quản lý vòng đời từ hình thành, tăng trưởng, mở rộng đến tái cấu trúc, M&A hoặc chấm dứt.</p></div><button class="btn primary" onclick="notify('Đã lưu cấu hình demo cục bộ')">Lưu cấu hình</button></div>
+ <div class="card"><div class="grid layout3"><div class="knowledge"><strong>01 · Formation</strong><p>Ý tưởng, thành lập, cấu trúc sở hữu và vốn.</p></div><div class="knowledge"><strong>02 · Startup</strong><p>Thiết lập mô hình kinh doanh và vận hành.</p></div><div class="knowledge"><strong>03 · Growth</strong><p>Tăng trưởng doanh thu, nhân lực và năng lực.</p></div><div class="knowledge"><strong>04 · Expansion</strong><p>Mở rộng thị trường, chi nhánh, quốc gia.</p></div><div class="knowledge"><strong>05 · Restructuring</strong><p>Tái cấu trúc tổ chức, vốn, quy trình.</p></div><div class="knowledge"><strong>06 · M&A / Transformation</strong><p>Sáp nhập, mua lại, chuyển đổi sở hữu.</p></div><div class="knowledge"><strong>07 · Downsizing</strong><p>Thu hẹp hoạt động có kiểm soát.</p></div><div class="knowledge"><strong>08 · Dissolution</strong><p>Giải thể, thanh lý, hoàn tất nghĩa vụ.</p></div><div class="knowledge"><strong>09 · Insolvency</strong><p>Quản lý tình trạng mất khả năng thanh toán.</p></div></div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Lịch sử vòng đời</h3><button class="btn" onclick="notify('Thêm giai đoạn')">＋ Thêm giai đoạn</button></div>
+  <div class="timeline">
+   <div class="event"><strong>2019 · Formation</strong><p>Thành lập công ty với vốn điều lệ 10 tỷ VND.</p></div>
+   <div class="event"><strong>2020–2022 · Startup & Early Growth</strong><p>Xây dựng sản phẩm, đội ngũ cốt lõi, đạt product-market fit.</p></div>
+   <div class="event"><strong>2023–2025 · Growth</strong><p>Mở rộng thị trường, tăng trưởng doanh thu 40%/năm, nhân sự t 50 lên 420.</p></div>
+   <div class="event"><strong>2026 · Maturity / Expansion</strong><p>Chuẩn bị mở rộng quốc tế, tái cấu trúc tổ chức theo mô hình holding.</p></div>
+  </div>
+ </div>
+ <div class="card" style="margin-top:16px"><h3>Lifecycle Assessment</h3><div class="field"><label>Giai đoạn hiện tại</label><select><option>Khởi nghiệp</option><option>Tăng trưởng</option><option selected>Trưởng thành</option><option>Mở rộng</option><option>Tái cấu trúc</option><option>Thu hẹp / Chấm dứt</option></select></div><div class="field"><label>Thách thức trọng yếu</label><textarea placeholder="Mô tả thách thức và mục tiêu chuyển giai đoạn..."></textarea></div><button class="btn primary" onclick="notify('Đã lưu đánh giá vòng đời demo')">Đánh giá giai đoạn</button></div>
+</section>
+
+<!-- ==================== SIM ADVANCED ==================== -->
+<section class="page" id="simadvanced">
+ <div class="pagehead"><div><h1>Advanced Enterprise Simulation</h1><p>Mô phỏng nhiều biến số và so sánh kịch bản quản trị, tài chính, thị trường, nhân lực và khủng hoảng.</p></div><button class="btn primary" onclick="notify('Đã lưu cấu hình demo cục bộ')">Lưu cấu hình</button></div>
+ <div class="notice">Toàn bộ kết quả ở đây là mô phỏng minh họa. Không phải dự báo thị trường hoặc kết quả đã kiểm chứng. Dữ liệu mô phỏng phải nằm trong không gian SIMULATION riêng.</div>
+ <div class="grid layout3"><div class="module"><div class="mi">♜</div><h3>Leadership Simulation</h3><p>So sánh mô hình lãnh đạo và ra quyết định.</p></div><div class="module"><div class="mi">⌘</div><h3>Organization Simulation</h3><p>Thay đổi cơ cấu, cấp quản lý, nhân sự.</p></div><div class="module"><div class="mi">₫</div><h3>Financial Simulation</h3><p>Dòng tiền, doanh thu, chi phí, đầu tư.</p></div><div class="module"><div class="mi">▦</div><h3>Market Simulation</h3><p>Cạnh tranh, nhu cầu, giá, tỷ giá, lãi suất.</p></div><div class="module"><div class="mi">⚙</div><h3>Supply Chain Simulation</h3><p>Nhà cung cấp, tồn kho, logistics, gián đoạn.</p></div><div class="module"><div class="mi">⚠</div><h3>Crisis Simulation</h3><p>Khủng hoảng dòng tiền, an ninh mạng, vận hành.</p></div><div class="module"><div class="mi">⇄</div><h3>M&A Simulation</h3><p>Định giá giả định, tích hợp và synergies.</p></div><div class="module"><div class="mi">🏭</div><h3>Factory Digital Twin</h3><p>Công suất, thiết bị, chất lượng, bảo trì.</p></div><div class="module"><div class="mi">◫</div><h3>Scenario Comparison</h3><p>So sánh baseline, upside, downside.</p></div></div>
+ <div class="card" style="margin-top:16px"><h3>Scenario Builder</h3><div class="formrow"><div class="field"><label>Tên kịch bản</label><input id="scenarioName" placeholder="Ví dụ: Suy giảm nhu cầu 15%"></div><div class="field"><label>Data mode</label><select id="scenarioMode"><option>SIMULATION</option></select></div></div><div class="formrow"><div class="field"><label>Thời hạn mô phỏng</label><select><option>12 tháng</option><option>3 năm</option><option>5 năm</option><option>10 năm</option></select></div><div class="field"><label>Độ tin cậy dữ liệu đầu vào</label><select><option>Chưa đánh giá</option><option>Thấp</option><option>Trung bình</option><option>Cao – có nguồn</option></select></div></div><button class="btn primary" onclick="createScenario()">＋ Tạo kịch bản mô phỏng</button><div id="scenarioList" class="mini-list" style="margin-top:12px"></div></div>
+ <div class="grid layout2" style="margin-top:16px">
+  <div class="card"><div class="cardtitle"><h3>So sánh kịch bản</h3><span class="status info">Baseline vs Upside vs Downside</span></div>
+   <div class="barrow"><span>Doanh thu (Baseline)</span><div class="track"><div class="fill" style="width:70%"></div></div><b>100%</b></div>
+   <div class="barrow"><span>Doanh thu (Upside +15%)</span><div class="track"><div class="fill" style="width:80%;background:#0f9f6e"></div></div><b>115%</b></div>
+   <div class="barrow"><span>Doanh thu (Downside -20%)</span><div class="track"><div class="fill" style="width:56%;background:#dc5252"></div></div><b>80%</b></div>
+   <p class="small muted">Minh họa so sánh 3 kịch bản. Cần dữ liệu thực để tính toán chính xác.</p>
+  </div>
+  <div class="card"><div class="cardtitle"><h3>Danh sách kịch bản</h3><span class="status info">SIMULATION</span></div>
+   <div class="mini-list"><div class="mini-item"><span><b>Base Case 2027</b><br><span class="small muted">Tăng trưởng 8%, lạm phát 3.5%</span></span><span class="status ok">Done</span></div>
+    <div class="mini-item"><span><b>Recession Stress Test</b><br><span class="small muted">Doanh thu -20%, chi phí cố định cao</span></span><span class="status ok">Done</span></div>
+    <div class="mini-item"><span><b>Expansion Scenario</b><br><span class="small muted">Mở chi nhánh mới, tăng 30% nhân sự</span></span><span class="status info">Running</span></div>
+   </div></div>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== DATA & AI GOVERNANCE ==================== -->
+<section class="page" id="datagovernance">
+ <div class="pagehead"><div><h1>Data & AI Governance</h1><p>Quản trị chất lượng dữ liệu, nguồn gốc, phạm vi ghi nhớ AI, bảo mật, phiên bản và khôi phục.</p></div><button class="btn primary" onclick="notify('Đã lưu cấu hình demo cục bộ')">Lưu cấu hình</button></div>
+ <div class="grid layout2"><div class="card"><h3>Data Governance</h3><div class="mini-list"><div class="mini-item">Master Data Management <span class="status info">Planned</span></div><div class="mini-item">Data Quality & Validation <span class="status info">Planned</span></div><div class="mini-item">Data Lineage & Provenance <span class="status info">Planned</span></div><div class="mini-item">Retention & Archiving <span class="status info">Planned</span></div><div class="mini-item">Backup & disaster recovery <span class="status warn">Chưa triển khai</span></div><div class="mini-item">Configuration Versioning <span class="status info">Planned</span></div></div></div><div class="card"><h3>AI Governance</h3><div class="mini-list"><div class="mini-item">AI Memory Scope <span class="status ok">Per enterprise</span></div><div class="mini-item">Agent Permission Boundaries <span class="status ok">Required</span></div><div class="mini-item">Human Approval Gate <span class="status ok">Required</span></div><div class="mini-item">Model & Prompt Versioning <span class="status info">Planned</span></div><div class="mini-item">AI Output Evaluation <span class="status info">Planned</span></div><div class="mini-item">Emergency Stop <span class="status ok">Required</span></div></div></div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Data Isolation Policy</h3><span class="status ok">Enforced</span></div>
+  <div class="switchrow"><span>REAL data namespace</span><span class="status ok">Isolated</span></div>
+  <div class="switchrow"><span>SIMULATION data namespace</span><span class="status ok">Isolated</span></div>
+  <div class="switchrow"><span>Enterprise ID scoping</span><span class="status ok">Required</span></div>
+  <div class="switchrow"><span>Audit trail for privileged actions</span><span class="status ok">Required</span></div>
+  <div class="switchrow"><span>Secrets in frontend / localStorage</span><span class="status bad">Prohibited</span></div>
+  <p class="small muted">Đây là thiết kế mục tiêu trên giao diện. Cần backend, RLS, secret manager, kiểm thử và giám sát để thực thi thật.</p>
+ </div>
+ <div class="grid layout2" style="margin-top:16px">
+  <div class="card"><div class="cardtitle"><h3>Data Quality Rules</h3><button class="btn" onclick="notify('Thêm quy tắc DQ')">＋ Quy tắc</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Bảng</th><th>Cột</th><th>Quy tắc</th><th>Mức độ</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>uem_employees</td><td>email</td><td>Định dạng email hợp lệ</td><td><span class="status bad">BLOCK</span></td><td><span class="status ok">Active</span></td></tr>
+    <tr><td>uem_invoices</td><td>amount</td><td>amount > 0</td><td><span class="status bad">BLOCK</span></td><td><span class="status ok">Active</span></td></tr>
+    <tr><td>uem_enterprises</td><td>tax_code</td><td>Đúng định dạng MST VN</td><td><span class="status warn">WARN</span></td><td><span class="status ok">Active</span></td></tr>
+   </tbody></table></div></div>
+  <div class="card"><div class="cardtitle"><h3>AI Memory Scope Config</h3><span class="status info">Per agent</span></div>
+   <div class="tablewrap"><table><thead><tr><th>Agent</th><th>Scope</th><th>Retention (ngày)</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>AI_MASTER</td><td>Enterprise</td><td>365</td><td><span class="status ok">Active</span></td></tr>
+    <tr><td>AI_CFO</td><td>Enterprise + Finance</td><td>365</td><td><span class="status ok">Active</span></td></tr>
+    <tr><td>AI_CHRO</td><td>Enterprise + HRM</td><td>180</td><td><span class="status ok">Active</span></td></tr>
+    <tr><td>AI_AUDIT</td><td>Enterprise + Audit</td><td>730</td><td><span class="status ok">Active</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+</section>
+
+<!-- ==================== KNOWLEDGE CENTER ==================== -->
+<section class="page" id="knowledge">
+ <div class="pagehead"><div><h1>Knowledge Center</h1><p>Kho tri thức quản trị, phương pháp, tiêu chuẩn và thực tiễn doanh nghiệp.</p></div><button class="btn primary" onclick="notify('Chức năng nhập tài liệu sẽ kết nối ở backend')">＋ Nạp tri thức</button></div>
+ <div class="grid layout2"><div class="card"><h3 style="font-size:14px">Management foundations</h3>
+  <div class="knowledge"><strong>Classical & Administrative Management</strong><p>Taylor, Fayol, Weber — cấu trúc, phân công, tiêu chuẩn hóa và hiệu suất.</p></div>
+  <div class="knowledge"><strong>Human Relations & Organizational Behavior</strong><p>Động lực, lãnh đạo, văn hóa, nhóm và hành vi tổ chức.</p></div>
+  <div class="knowledge"><strong>Strategic Management</strong><p>SWOT, PESTEL, Porter, OKR, Balanced Scorecard và lợi thế cạnh tranh.</p></div>
+  <div class="knowledge"><strong>Operations & Quality</strong><p>Lean, Six Sigma, Kaizen, Theory of Constraints, ISO và quản trị quy trình.</p></div>
+  <div class="knowledge"><strong>Corporate Governance</strong><p>Phân quyền, trách nhiệm giải trình, kiểm soát và giám sát cấp hội đồng.</p></div>
+ </div><div class="card"><h3 style="font-size:14px">Knowledge governance</h3>
+  <div class="switchrow"><span>Gắn nguồn cho từng kết luận</span><span class="status ok">Bắt buộc</span></div>
+  <div class="switchrow"><span>Đánh giá độ tin cậy</span><span class="status ok">Bắt buộc</span></div>
+  <div class="switchrow"><span>Quản lý phiên bản tài liệu</span><span class="status info">Thiết kế</span></div>
+  <div class="switchrow"><span>Phân biệt luật / chuẩn / ý kiến</span><span class="status ok">Bắt buộc</span></div>
+  <div class="switchrow"><span>Ghi nhận ngày hiệu lực và phạm vi</span><span class="status ok">Bắt buộc</span></div>
+  <p class="small muted">Nguồn tri thức dự kiến: văn bản pháp luật chính thức, tiêu chuẩn được cấp quyền, giáo trình, tài liệu nội bộ đã phê duyệt và dữ liệu nghiệp vụ.</p>
+ </div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Knowledge Items</h3><input class="search" placeholder="Tìm kiến thức..."></div>
+  <div class="tablewrap"><table><thead><tr><th>Tiêu đề</th><th>Loại</th><th>Nguồn</th><th>Độ tin cậy</th><th>Ngày hiệu lực</th><th>Trạng thái</th></tr></thead><tbody>
+   <tr><td><b>Nghị định 13/2023/NĐ-CP - Bảo vệ dữ liệu cá nhân</b></td><td>Luật</td><td>Chính phủ VN</td><td><span class="status ok">Cao</span></td><td>01/07/2023</td><td><span class="status ok">Hiệu lực</span></td></tr>
+   <tr><td><b>ISO 9001:2015 - Hệ thống quản lý chất lượng</b></td><td>Tiêu chuẩn</td><td>ISO</td><td><span class="status ok">Cao</span></td><td>15/09/2015</td><td><span class="status ok">Hiệu lực</span></td></tr>
+   <tr><td><b>COSO Internal Control Framework</b></td><td>Tiêu chuẩn</td><td>COSO</td><td><span class="status ok">Cao</span></td><td>01/01/2013</td><td><span class="status ok">Hiệu lực</span></td></tr>
+   <tr><td><b>Lean Six Sigma - DMAIC Guide</b></td><td>Phương pháp</td><td>Internal</td><td><span class="status warn">Trung bình</span></td><td>—</td><td><span class="status info">Draft</span></td></tr>
+  </tbody></table></div></div>
+ <div class="card" style="margin-top:16px"><h3 style="font-size:14px">Khung kiến thức quốc tế</h3><div class="chips"><span class="chip">ISO Management Systems</span><span class="chip">COSO Internal Control</span><span class="chip">IFRS</span><span class="chip">OECD Governance</span><span class="chip">ILO Labour Standards</span><span class="chip">Project Management</span><span class="chip">Lean / Six Sigma</span><span class="chip">ESG</span><span class="chip">Data Governance</span><span class="chip">Agile / Scrum</span><span class="chip">ITIL</span><span class="chip">COBIT</span></div></div>
+</section>
+
+<!-- ==================== LEGAL & COMPLIANCE ==================== -->
+<section class="page" id="legal">
+ <div class="pagehead"><div><h1>Legal & Compliance</h1><p>Quản trị nghĩa vụ pháp lý đa quốc gia và theo dõi tuân thủ theo từng pháp nhân.</p></div><button class="btn" onclick="notify('Danh mục văn bản demo — chưa tra cứu luật trực tuyến')">Tra cứu nguồn luật</button></div>
+ <div class="notice">Danh mục dưới đây chỉ là nhóm chủ đề. Chưa tích hợp cơ sở dữ liệu văn bản pháp luật, chưa xác minh hiệu lực tại thời điểm hiện tại. AI pháp lý phải dẫn nguồn, điều khoản, ngày hiệu lực và cảnh báo cần luật sư xác nhận.</div>
+ <div class="grid layout2"><div class="card"><h3 style="font-size:14px">Vietnam compliance domains</h3>
+  <div class="knowledge"><strong>Doanh nghiệp & đầu tư</strong><p>Thành lập, đăng ký, quản trị công ty, đầu tư, giấy phép và nghĩa vụ báo cáo.</p><span class="tag">Entity</span><span class="tag">Investment</span></div>
+  <div class="knowledge"><strong>Lao động & nhân sự</strong><p>Hợp đồng, tiền lương, thời giờ làm việc, nghỉ ngơi, kỷ luật, chấm dứt và tranh chấp.</p><span class="tag">Labour</span><span class="tag">HR</span></div>
+  <div class="knowledge"><strong>BHXH, BHYT, BHTN</strong><p>Đối tượng tham gia, tiền lương đóng, báo tăng giảm, chế độ và đối soát.</p><span class="tag">Social Insurance</span></div>
+  <div class="knowledge"><strong>Thuế & kế toán</strong><p>Thuế thu nhập, VAT, hóa đơn, kê khai, quyết toán và lưu trữ chứng từ.</p><span class="tag">Tax</span><span class="tag">Accounting</span></div>
+  <div class="knowledge"><strong>Dữ liệu & công nghệ</strong><p>Bảo vệ dữ liệu cá nhân, an ninh mạng, lưu trữ và chuyển dữ liệu.</p><span class="tag">Privacy</span><span class="tag">Cybersecurity</span></div>
+ </div><div class="card"><h3 style="font-size:14px">Compliance calendar</h3><div class="calendar" style="margin-top:18px">
+  <div class="calday">T2</div><div class="calday">T3</div><div class="calday">T4</div><div class="calday">T5</div><div class="calday">T6</div><div class="calday">T7</div><div class="calday">CN</div>
+  <div class="calday"></div><div class="calday"></div><div class="calday"></div><div class="calday"></div><div class="calday"></div><div class="calday">1</div><div class="calday">2</div>
+  <div class="calday">3</div><div class="calday">4</div><div class="calday today has">5</div><div class="calday has">6</div><div class="calday">7</div><div class="calday">8</div><div class="calday">9</div>
+  <div class="calday">10</div><div class="calday has">11</div><div class="calday">12</div><div class="calday">13</div><div class="calday">14</div><div class="calday">15</div><div class="calday">16</div>
+  <div class="calday">17</div><div class="calday">18</div><div class="calday">19</div><div class="calday has">20</div><div class="calday">21</div><div class="calday">22</div><div class="calday">23</div>
+  <div class="calday">24</div><div class="calday">25</div><div class="calday">26</div><div class="calday">27</div><div class="calday">28</div><div class="calday">29</div><div class="calday">30</div>
+ </div>
+ <div style="margin-top:12px;font-size:11px">
+  <div style="display:flex;align-items:center;gap:6px;margin:4px 0"><span style="width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block"></span> Ngày có nghĩa vụ tuân thủ</div>
+  <div style="display:flex;align-items:center;gap:6px;margin:4px 0"><span style="width:8px;height:8px;border-radius:50%;background:var(--amber);display:inline-block"></span> Sắp hết hạn</div>
+  <div style="display:flex;align-items:center;gap:6px;margin:4px 0"><span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block"></span> Quá hạn</div>
+ </div>
+ <div class="timeline" style="margin-top:18px"><div class="event"><strong>Ngày 05 — Kiểm tra dữ liệu chấm công</strong><p>HR · Lịch nhắc minh họa</p></div><div class="event"><strong>Ngày 10 — Đối soát nghĩa vụ bảo hiểm</strong><p>HR / Finance · Lịch nhắc minh họa</p></div><div class="event"><strong>Ngày 20 — Rà soát hóa đơn, chứng từ</strong><p>Accounting · Lịch nhắc minh họa</p></div><div class="event"><strong>Cuối kỳ — Báo cáo quản trị</strong><p>Legal / Finance · Lịch nhắc minh họa</p></div></div></div></div>
+ <div class="card" style="margin-top:16px"><div class="cardtitle"><h3>Legal source hierarchy</h3><span class="status ok">Priority model</span></div><div class="barrow"><span>Văn bản chính thức</span><div class="track"><div class="fill" style="width:100%"></div></div><b>Ưu tiên 1</b></div><div class="barrow"><span>Cơ quan quản lý</span><div class="track"><div class="fill" style="width:85%"></div></div><b>Ưu tiên 2</b></div><div class="barrow"><span>Án lệ / hướng dẫn</span><div class="track"><div class="fill" style="width:65%"></div></div><b>Tham khảo</b></div><div class="barrow"><span>Bài viết thứ cấp</span><div class="track"><div class="fill" style="width:35%"></div></div><b>Đối chiếu</b></div></div>
+</section>
+
+<!-- ==================== RISK & INTERNAL CONTROL ==================== -->
+<section class="page" id="risk">
+ <div class="pagehead"><div><h1>Risk & Internal Control</h1><p>Nhận diện, đánh giá, kiểm soát và giám sát rủi ro toàn doanh nghiệp.</p></div><button class="btn primary" onclick="notify('Đã tạo risk item demo')">＋ Ghi nhận rủi ro</button></div>
+ <div class="grid kpis"><div class="card"><div class="kpi-label">RỦI RO CAO</div><div class="kpi-value">04</div><span class="status bad">Cần xử lý</span></div><div class="card"><div class="kpi-label">RỦI RO TRUNG BÌNH</div><div class="kpi-value">08</div><span class="status warn">Theo dõi</span></div><div class="card"><div class="kpi-label">KIỂM SOÁT HIỆU QUẢ</div><div class="kpi-value">86%</div><span class="status ok">Mục tiêu đạt</span></div><div class="card"><div class="kpi-label">KẾ HOẠCH KHẮC PHỤC QUÁ HẠN</div><div class="kpi-value">02</div><span class="status bad">Quá hạn</span></div></div>
+ <div class="tabs">
+  <div class="tab active" onclick="switchTab('risk','register')">Risk Register</div>
+  <div class="tab" onclick="switchTab('risk','assessment')">Đánh giá</div>
+  <div class="tab" onclick="switchTab('risk','incidents')">Sự cố</div>
+  <div class="tab" onclick="switchTab('risk','continuity')">BCP / Khẩn cấp</div>
+ </div>
+ <div class="tabcontent active" id="risk-register">
+  <div class="card"><div class="cardtitle"><h3>Risk register — minh họa</h3><span class="small muted">Likelihood × Impact</span></div><div class="tablewrap"><table><thead><tr><th>Rủi ro</th><th>Nhóm</th><th>Khả năng</th><th>Tác động</th><th>Mức độ</th><th>Chủ sở hữu</th><th>Phản ứng</th></tr></thead><tbody>
+   <tr><td>Thiếu hụt dòng tiền ngắn hạn</td><td>Tài chính</td><td>Cao</td><td>Cao</td><td><span class="status bad">Critical</span></td><td>CFO</td><td>Lập forecast 13 tuần</td></tr>
+   <tr><td>Rò rỉ dữ liệu khách hàng</td><td>Công nghệ</td><td>Trung bình</td><td>Rất cao</td><td><span class="status bad">High</span></td><td>CISO</td><td>Kiểm tra quyền truy cập</td></tr>
+   <tr><td>Hồ sơ lao động chưa đầy đủ</td><td>Tuân thủ</td><td>Trung bình</td><td>Cao</td><td><span class="status warn">Medium</span></td><td>CHRO</td><td>Rà soát hồ sơ</td></tr>
+   <tr><td>Gián đoạn nhà cung cấp</td><td>Chuỗi cung ứng</td><td>Thấp</td><td>Cao</td><td><span class="status warn">Medium</span></td><td>COO</td><td>Nhà cung cấp dự phòng</td></tr>
+  </tbody></table></div></div>
+  <div class="grid layout3" style="margin-top:16px"><div class="card"><b>Preventive controls</b><p class="small muted">Ngăn ngừa sự cố trước khi xảy ra.</p></div><div class="card"><b>Detective controls</b><p class="small muted">Phát hiện bất thường và vi phạm.</p></div><div class="card"><b>Corrective controls</b><p class="small muted">Khắc phục nguyên nhân và ngăn tái diễn.</p></div></div>
+ </div>
+ <div class="tabcontent" id="risk-assessment">
+  <div class="card"><div class="cardtitle"><h3>Đánh giá rủi ro gần đây</h3><button class="btn" onclick="notify('Thêm đánh giá')">＋ Đánh giá</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Rủi ro</th><th>Ngày đánh giá</th><th>L</th><th>I</th><th>Score</th><th>Người đánh giá</th><th>Ghi chú</th></tr></thead><tbody>
+    <tr><td>Thiếu hụt dòng tiền ngắn hạn</td><td>01/11/2026</td><td>4</td><td>5</td><td><span class="status bad">20</span></td><td>CFO</td><td>Cần tăng hạn mức tín dụng</td></tr>
+    <tr><td>Rò rỉ dữ liệu khách hàng</td><td>15/10/2026</td><td>3</td><td>5</td><td><span class="status bad">15</span></td><td>CISO</td><td>Đã cập nhật firewall rules</td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="risk-incidents">
+  <div class="card"><div class="cardtitle"><h3>Sự cố</h3><button class="btn" onclick="notify('Ghi nhận sự cố')">＋ Sự cố</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Mã</th><th>Tên</th><th>Mức độ</th><td>Phát hiện</td><th>Nguyên nhân</th><th>Trạng thái</th></tr></thead><tbody>
+    <tr><td>INC-202611-001</td><td><b>Lỗi đăng nhập hàng loạt</b></td><td><span class="status warn">Medium</span></td><td>03/11 09:15</td><td>Brute force từ IP nước ngoài</td><td><span class="status ok">Resolved</span></td></tr>
+    <tr><td>INC-202611-002</td><td><b>Chậm hệ thống ERP</b></td><td><span class="status info">Low</span></td><td>04/11 14:30</td><td>Query không tối ưu</td><td><span class="status warn">Investigating</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+ <div class="tabcontent" id="risk-continuity">
+  <div class="card"><div class="cardtitle"><h3>Kế hoạch liên tục kinh doanh (BCP)</h3><button class="btn" onclick="notify('Thêm BCP')">＋ BCP</button></div>
+   <div class="tablewrap"><table><thead><tr><th>Quy trình trọng yếu</th><th>RTO</th><th>RPO</th><th>Chiến lược</th><th>Đã kiểm tra</th></tr></thead><tbody>
+    <tr><td><b>Hệ thống thanh toán</b></td><td>4 giờ</td><td>1 giờ</td><td>Failover sang DC dự phòng</td><td><span class="status ok">Có</span></td></tr>
+    <tr><td><b>Hệ thống sản xuất</b></td><td>8 giờ</td><td>2 giờ</td><td>Backup generator + cloud SCADA</td><td><span class="status ok">Có</span></td></tr>
+    <tr><td><b>Hệ thống CRM</b></td><td>24 giờ</td><td>4 giờ</td><td>Cloud backup restore</td><td><span class="status warn">Chưa</span></td></tr>
+   </tbody></table></div></div>
+ </div>
+</section>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
